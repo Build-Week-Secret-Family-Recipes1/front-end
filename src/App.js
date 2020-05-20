@@ -1,25 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Link, NavLink, Switch } from "react-router-dom";
 
-function App() {
+import Login from "./components/Login";
+import Logout from "./components/Logout";
+import PrivateRoute from "./components/PrivateRoute";
+import "./styles.scss";
+
+function App(props) {
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(()=>{
+    if (localStorage.getItem("token")) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  },[])
+
+  const login = () => {
+    setLoggedIn(true);
+  };
+
+  const logout = () => {
+    setLoggedIn(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Switch>
+          {/* <PrivateRoute exact path="/recipes" component={} /> */}
+          <Route path="/login" render={(props)=> <Login {...props} func={login} />}/>
+          <Route path="/logout" render={(props)=> <Logout {...props} history={props.history} func={logout} />}/>
+          {/* {!loggedIn?<Route render={(props)=> <Login {...props} func={login} />}/>:<PrivateRoute component={} />} */}
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
