@@ -41,6 +41,7 @@ function RecipeForm() {
         });
         console.log(newIngredient)
         console.log("Hello, from the end of addIngredient")
+        //could create an ingredient array, add newIngredient to it, and use that array to set recipeState and render a list of ingredients to page
     }
 
     //title input = string - text
