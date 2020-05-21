@@ -4,43 +4,68 @@ function RecipeForm() {
     const [recipeState, setRecipeState] = useState({
         title: '',
         source: '',
+        /* amount: [],
+        unit: [], */
         ingredients: [],
         steps: [],
         tags: []
     });
 
-    const [ingredientState, setIngredientState] = useState({
+    /* const [ingredientState, setIngredientState] = useState({
         amount: '',
         unit: '',
         ingredient: ''
-    })
+    }) */
 
     //state for ingredients?
     //state for steps?
     //state for tags?
+    let ingredientArray = [];
 
     const inputChange = e => {
+        const newIngredient = e.target.name === 'ingredients' ? e.target.value : null;
         setRecipeState({ ...recipeState, [e.target.name]: e.target.value });
+        ingredientArray.push(newIngredient);
         console.log(recipeState);
-        console.log(ingredientState);
+        console.log(newIngredient);
+        console.log(ingredientArray);
     };
 
-    const inputIngredientChange = e => {
+    /* const inputIngredientChange = e => {
         setIngredientState({ ...ingredientState, [e.target.name]: e.target.value });
-    };
+    }; */
+
+    
 
     const addIngredient = e => {
         e.preventDefault();
-        console.log('Ingredient added!');
-        const newIngredient = `${ingredientState.amount} ${ingredientState.unit} ${ingredientState.ingredient}`;
-        setRecipeState([...recipeState.ingredients, newIngredient]);
-        setIngredientState({
-            amount: '',
-            unit: '',
-            ingredient: ''
-        });
-        console.log(newIngredient)
+
+        /* console.log('ingredientState',ingredientState);
+        
         console.log("Hello, from the end of addIngredient")
+
+        let newIngredient = `${ingredientState.amount} ${ingredientState.unit} ${ingredientState.ingredient}`;
+
+        console.log('newIngredient:',newIngredient); */
+
+        ingredientArray.push(newIngredient);
+
+        console.log('ingredientArray:',ingredientArray);
+
+        /* setRecipeState({...recipeState, ingredients: }); */
+
+        console.log('recipeState:', recipeState);
+
+        /* let ingredientArray = recipeState.ingredient.map((ingredient, i) => {
+            const newIngredient = `${recipeState.amount(i)} ${recipeState.unit(i)} ${ingredient}}`;
+            console.log(newIngredient);
+            return (
+                <p>{newIngredient}</p>
+            )
+        });
+
+        console.log(ingredientArray); */
+        
         //could create an ingredient array, add newIngredient to it, and use that array to set recipeState and render a list of ingredients to page
     }
 
@@ -63,7 +88,7 @@ function RecipeForm() {
                     onChange={inputChange}
                 />
             </label>
-            <label htmlFor="amount">
+            {/* <label htmlFor="amount">
                 Amount
                 <input
                     type="text"
@@ -82,16 +107,16 @@ function RecipeForm() {
                     value={ingredientState.unit}
                     onChange={inputIngredientChange}
                 />
-            </label>
-            <label htmlFor="ingredient">
+            </label> */}
+            <label htmlFor="ingredients">
                 Ingredient
                 <input
                     type="text"
-                    name="ingredient"
-                    id="ingredient"
+                    name="ingredients"
+                    id="ingredients"
                     placeholder="What do you need for your recipe?"
-                    value={ingredientState.ingredient}
-                    onChange={inputIngredientChange}
+                    value={recipeState.ingredients}
+                    onChange={inputChange}
                 />
             </label>
             <button onClick={addIngredient}>Add Ingredient</button>
