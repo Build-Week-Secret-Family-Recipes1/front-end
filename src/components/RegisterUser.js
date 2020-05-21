@@ -52,7 +52,7 @@ class RegisterUser extends React.Component {
     return (
       <div className="loginForm">
         <form onSubmit={this.register}>
-          <h2>Please Log In</h2>
+          <h2>Register</h2>
           <label htmlFor="username">Username: </label>
           <input
             type="text"
