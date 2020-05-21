@@ -34,7 +34,46 @@ export const testRecipe1 = {
     'Peel back corn husks and remove silk. Place 1 tablespoon butter, salt and pepper on each piece of corn. Close husks.',
     'Wrap each ear of corn tightly in aluminum foil. Place on the prepared grill. Cook approximately 30 minutes, turning occasionally, until corn is tender.'
   ],
-  tags: ['grill', 'summer', 'vegetarian']
+  tags: ['grill', 'summer', 'vegetarian', 'side dish']
 };
 
-export const testList = [testRecipe0, testRecipe1];
+export const testRecipe2 = {
+  id: 2,
+  title: 'Lasagna',
+  source: 'Aunt Kim',
+  ingredients: [
+    '1 lb Italian sausage',
+    '1 lb ground beef',
+    '1 c chopped onion',
+    '4 cloves garlic',
+    '16 oz tomato sauce',
+    '14 oz crushed tomatoes',
+    '14 oz Italian-style chrushed tomatoes',
+    '12 oz tomato paste',
+    '3 tbsp chopped fresh basil',
+    '2 tbsp chopped fresh parsley',
+    '2 tsp brown sugar',
+    '1 tsp salt',
+    '1 tsp Italian seasoning',
+    '1/4 tsp black pepper',
+    '1/2 tsp fennel seeds',
+    '1/2 c grated parmesan cheese',
+    '12 lasagna noodles',
+    '1 egg',
+    '15 oz ricotta cheese',
+    '1/2 tsp salt',
+    '16 oz shredded mozzarella cheese',
+    '3/4 c grated parmesan cheese'
+  ],
+  steps: [
+    'Brown sausage and ground beef with onion and garlic in a large Dutch oven or heavy pot over medium heat, cooking and stirring until meat is cooked through, 10 to 15 minutes. Drain and discard grease. Stir tomato sauce, crushed tomatoes, Italian-style crushed tomatoes, tomato paste, basil, 2 tablespoons parsley, brown sugar, salt, Italian seasoning, black pepper, fennel seeds, and 1/2 cup Parmesan cheese into meat mixture. Bring to a boil, reduce heat to low, and simmer sauce for at least 1 hour (up to 6 for best flavor). Stir occasionally.',
+    'Place lasagna noodles into a deep bowl and cover with very hot tap water; let soak for 30 minutes.',
+    'Beat egg in a bowl and stir ricotta cheese, 2 tablespoons parsley, 1/2 teaspoon salt, and nutmeg into egg until thoroughly combined.',
+    'Preheat oven to 375 degrees F (190 degrees C).',
+    'Cover bottom of a 9x13-inch baking dish with 1 cup sauce. Layer 4 soaked lasagna noodles, 1/3 of the ricotta cheese mixture, 1/3 of the shredded mozzarella cheese, and 1/4 cup Parmesan cheese in the dish. Repeat layers twice more, ending with mozzarella and Parmesan cheeses. Cover dish with aluminum foil.',
+    'Bake until lasagna noodles are tender and casserole is bubbling, about 50 minutes. Remove foil and bake until cheese topping is lightly browned, 15 to 20 more minutes. Let stand 15 minutes before serving.'
+  ],
+  tags: ['pasta','Italian']
+}
+
+export const testList = [testRecipe0, testRecipe1, testRecipe2];
