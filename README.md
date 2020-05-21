@@ -1,68 +1,58 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Secret Family Recipes Front-End
 
-## Available Scripts
+## Proposal
 
-In the project directory, you can run:
+* What problem does your app solve?
+    * Losing recipes
+    * Keeping "secret family recipes" a secret
+* Be as specific as possible; how does your app solve the problem?
+    * Allows users to store recipes securely in a digital format so they can access them from any device and choose with whom they share them.
+* What is the mission statement?
+    * Keep your family recipes in the family, but keep them always at hand.
 
-### `yarn start`
+## Features
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* What features are required for your minimum viable product?
+    * [ ] New user creation
+    * [ ] save recipes
+    * [ ] search own recipes by tag or title
+    * [ ] view, edit, and delete own recipes
+    * [ ] viewable on different devices
+* What features may you wish to put in a future release?
+    * upload photo of finished dish
+* What do the top 3 similar apps do for their users?
+    * Save favorite recipes into virtual binder
+    * Put recipes in manually or import from Internet
+    * Hands-free so you can cook at the same time
+    * Search by meal type and ingredient
+    * Add ingredients to shopping list from recipe
+    * Meal planner - schedule meals for certain days
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Frameworks - Libraries
 
-### `yarn test`
+* What 3rd party frameworks/libraries are you considering using?
+    * React
+    * React Router
+    * Redux
+    * Axios
+    * Reactstrap
+    * Styled components
+* Do the APIs you need require you to contact them to gain access?
+    * We are not planning to use external APIs
+* Are you required to pay to use said API(s)?
+    * N/A
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Target Audience
 
-### `yarn build`
+* Who is your target audience? Be specific.
+    * People who cook at home, primarily from 20+.
+    * People who value their family's recipes and want to keep them rather than getting recipes off the internet or out of cookbooks.
+* What feedback have you gotten from potential users?
+* Have you validated this problem and your solution with a target audience? Describe how,
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Prototype Key Feature(s)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* How long do you think it will take to implement these features?
+    * 8 days
+* Do you anticipate working on stretch functionality after completion of a Minimal Viable Product?
+    * We will consider the options for stretch at the beginning of the second week.
