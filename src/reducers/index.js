@@ -9,7 +9,7 @@ import {
 
 const initialState = {
   recipe_id: null,
-  recipe: {title: '', ingredients: [], steps: [], tags: []},
+  recipe: {title: '', source: '', ingredients: [], steps: [], tags: []},
   isFetching: false,
   error: "",
   list: [],
