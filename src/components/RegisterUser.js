@@ -57,6 +57,7 @@ class RegisterUser extends React.Component {
           <input
             type="text"
             name="username"
+            id="username"
             value={this.state.credentials.username}
             onChange={this.handleChange}
             placeholder="Username"
@@ -65,6 +66,7 @@ class RegisterUser extends React.Component {
           <input
             type="password"
             name="password"
+            id="password"
             value={this.state.credentials.password}
             onChange={this.handleChange}
             placeholder="Password"
@@ -73,6 +75,7 @@ class RegisterUser extends React.Component {
           <input
             type="password"
             name="passwordConfirm"
+            id="passwordConfirm"
             value={this.state.credentials.passwordConfirm}
             onChange={this.handleChange}
             placeholder="Confirm Password"
