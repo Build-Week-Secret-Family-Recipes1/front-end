@@ -61,17 +61,16 @@ function RecipeForm() {
                 />
             </label>
             <button onClick={addIngredient}>Add Ingredient</button>
-            {/* 
-                --above, add inputs for number, unit, and ingredient (ex - 2.5 tsp curry powder)
-                    --number input could be text or number type - text allows for fractions more easily
-                    --unit input could be text or dropdown - dropdown must allow for no unit
-                <button>Add Ingredient</button>   on click, it will the input to ingredient state (array)
+            <div>
+                <h5>Ingredients</h5>
                 <ul>
-                    will map over ingredient state and add a new li element for each item in array
-                    will render each ingredient to the page underneath the ingredient input form
-                    <li></li>
+                    {recipeState.ingredients.map((ingredient) => {
+                        return (
+                            <li>{ingredient}</li>
+                        )
+                    })}
                 </ul>
-            */}
+            </div>
             <label htmlFor="newStep">
                 Steps
                 <input
@@ -84,6 +83,16 @@ function RecipeForm() {
                 />
             </label>
             <button onClick={addStep}>Add Step</button>
+            <div>
+                <h5>Steps</h5>
+                <ol>
+                    {recipeState.steps.map((step) => {
+                        return (
+                            <li>{step}</li>
+                        )
+                    })}
+                </ol>
+            </div>
             <label htmlFor="newTag">
                 Categories
                 <input
@@ -96,6 +105,16 @@ function RecipeForm() {
                 />
             </label>
             <button onClick={addTag}>Add Category</button>
+            <div>
+                <h5>Categories</h5>
+                <ul>
+                    {recipeState.tags.map((tag) => {
+                        return (
+                            <li>{tag}</li>
+                        )
+                    })}
+                </ul>
+            </div>
             <label htmlFor="source">
                 Source
                 <input
