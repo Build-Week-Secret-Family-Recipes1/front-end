@@ -21,7 +21,7 @@ export const getRecipe = (recipeId) => async dispatch => {
   dispatch({ type: FETCHING_RECIPE_START, payload: recipeId });
   console.log(`Fetching ${recipeId}`);
   // implement the code calling actions for .then and .catch
-  axiosWithAuth
+  axiosWithAuth()
     .get(`/recipes/${recipeId}`)
     .then(res => {
       console.log(res);
@@ -41,12 +41,18 @@ export const getRecipe = (recipeId) => async dispatch => {
 export const getList = () => async dispatch => {
   dispatch({ type: FETCHING_LIST_START });
   console.log(`Fetching list`);
-  axiosWithAuth
+  axiosWithAuth()
     .get(`/recipes`)
     .then(res => {
       console.log(res);
-
-      dispatch({ type: FETCHING_LIST_SUCCESS, payload: res.data });
+      const modifiedList = res.data.map(r=>{
+        return({id: r.id, title: r.title, source: r.source,
+          ingredients: r.ingredients.split(', '),
+          steps: r.instructions.split(', '),
+          tags: [r.category]
+        });
+      })
+      dispatch({ type: FETCHING_LIST_SUCCESS, payload: modifiedList });
     })
     .catch(err => {
       console.log(err);
@@ -61,7 +67,7 @@ export const getList = () => async dispatch => {
 export const postRecipe = (recipe) => async dispatch => {
   dispatch({ type: POSTING_RECIPE_START, payload: recipe });
 
-  axiosWithAuth
+  axiosWithAuth()
     .post(`/recipes`, recipe)
     .then(res => {
       console.log(res);
@@ -82,7 +88,7 @@ export const postRecipe = (recipe) => async dispatch => {
 export const updateRecipe = (recipe) => async dispatch => {
   dispatch({ type: UPDATING_RECIPE_START, payload: recipe });
 
-  axios
+  axiosWithAuth()
     .put(`recipes/${recipe.id}`, recipe)
     .then(res => {
       console.log(res);
@@ -103,7 +109,7 @@ export const updateRecipe = (recipe) => async dispatch => {
 export const deleteRecipe = (recipe) => async dispatch => {
   dispatch({ type: DELETING_RECIPE_START, payload: recipe });
 
-  axios
+  axiosWithAuth()
     .delete(`recipes/${recipe.id}`)
     .then(res => {
       console.log(res);

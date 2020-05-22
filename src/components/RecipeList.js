@@ -7,6 +7,10 @@ function RecipeList({ getList, isFetching, error, list}) {
     getList();
   },[getList]);
 
+  useEffect(()=>{
+    console.log(list);
+  },[list]);
+
     return (
         <div className="recipe-list-wrapper">
             {/*
