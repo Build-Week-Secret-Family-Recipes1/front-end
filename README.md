@@ -56,3 +56,16 @@
     * 8 days
 * Do you anticipate working on stretch functionality after completion of a Minimal Viable Product?
     * We will consider the options for stretch at the beginning of the second week.
+
+## Recipe Object
+
+```
+recipe: {
+  id: number,
+	title: string,
+	source: string,
+	ingredients: Array<string>,
+	steps: Array<string>,
+	tags: Array<string>
+}
+```
