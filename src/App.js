@@ -7,6 +7,8 @@ import RegisterUser from "./components/RegisterUser";
 import PrivateRoute from "./components/PrivateRoute";
 import "./styles.scss";
 
+import RecipeForm from './components/RecipeForm'
+
 function App(props) {
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -36,6 +38,7 @@ function App(props) {
           <Route path="/register" render={(props)=> <RegisterUser {...props} func={login} />}/>
           {/* {!loggedIn?<Route render={(props)=> <Login {...props} func={login} />}/>:<PrivateRoute component={} />} */}
         </Switch>
+        <RecipeForm/>
       </div>
     </Router>
   );
