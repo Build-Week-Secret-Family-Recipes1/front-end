@@ -1,4 +1,17 @@
 import React, { useState } from 'react';
+import * as yup from 'yup';
+
+const formSchema = yup.object().shape({
+    id: yup.number(),
+    title: yup.string().required("Please give your recipe a title"),
+    source: yup.string(),
+    newIngredient: yup.string(),
+    ingredients: yup.array().min(1).required("A recipe must have at least one ingredient"),
+    newStep: yup.string(),
+    steps: yup.array().min(1).required("A recipe must have at least one step"),
+    newTag: yup.string(),
+    tags: yup.array()
+})
 
 function RecipeForm() {
     const [recipeState, setRecipeState] = useState({
@@ -13,7 +26,21 @@ function RecipeForm() {
         tags: []
     });
 
+    const [errorState, setErrorState] = useState({
+        id: '',
+        title: '',
+        source: '',
+        newIngredient: '',
+        ingredients: '',
+        newStep: '',
+        steps: '',
+        newTag: '',
+        tags: ''
+    });
+
     const inputChange = e => {
+        e.persist();
+        validate(e);
         setRecipeState({ ...recipeState, [e.target.name]: e.target.value });
         console.log(recipeState);  
     };
@@ -36,6 +63,18 @@ function RecipeForm() {
         console.log('recipeState:', recipeState);
     }
 
+    const validate = e => {
+        yup
+            .reach(formSchema, e.target.name)
+            .validate(e.target.value)
+            .then(valid => {
+                setErrorState({...errorState, [e.target.name]: ""});
+            })
+            .catch(err => {
+                setErrorState({...errorState, [e.target.name]: err.errors[0]});
+            })
+    }
+
     return (
         <form>
             <label htmlFor="title">
@@ -49,6 +88,7 @@ function RecipeForm() {
                     onChange={inputChange}
                 />
             </label>
+            {errorState.title.length > 0 ? (<p>{errorState.title}</p>) : null}
             <label htmlFor="newIngredient">
                 Ingredient
                 <input
@@ -61,6 +101,8 @@ function RecipeForm() {
                 />
             </label>
             <button onClick={addIngredient}>Add Ingredient</button>
+            {/* Need to figure out how to get this ingredients error to show */}
+            {errorState.ingredients.length > 0 ? (<p>{errorState.ingredients}</p>) : null}
             <div>
                 <h5>Ingredients</h5>
                 <ul>
