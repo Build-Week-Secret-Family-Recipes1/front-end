@@ -2,51 +2,39 @@ import React, { useState } from 'react';
 
 function RecipeForm() {
     const [recipeState, setRecipeState] = useState({
+        id: null,
         title: '',
         source: '',
-        ingredients: '',
+        newIngredient: '',
+        ingredients: [],
+        newStep: '',
         steps: [],
+        newTag: '',
         tags: []
     });
 
-    
-
-    //state for ingredients?
-    //state for steps?
-    //state for tags?
-    
-
     const inputChange = e => {
-        
         setRecipeState({ ...recipeState, [e.target.name]: e.target.value });
-        
-        console.log(recipeState);
-        
+        console.log(recipeState);  
     };
-
-    let ingredientArray = [];
-    
 
     const addIngredient = e => {
         e.preventDefault();
-
+        setRecipeState({...recipeState, ingredients: recipeState.ingredients.concat(recipeState.newIngredient), newIngredient: ''});
         console.log('recipeState:', recipeState);
-
-        let newIngredient = recipeState.ingredient;
-        
-        ingredientArray.push(newIngredient);
-        console.log(newIngredient);
-        console.log(ingredientArray)
-        
-        
-        //could create an ingredient array, add newIngredient to it, and use that array to set recipeState and render a list of ingredients to page
     }
 
-    //title input = string - text
-    //ingredients input = arr
-    //steps input = arr or string
-    //tags input = checkbox?
-    //source input = string - text
+    const addStep = e => {
+        e.preventDefault();
+        setRecipeState({...recipeState, steps: recipeState.steps.concat(recipeState.newStep), newStep: ''});
+        console.log('recipeState:', recipeState);
+    }
+
+    const addTag = e => {
+        e.preventDefault();
+        setRecipeState({...recipeState, tags: recipeState.tags.concat(recipeState.newTag), newTag: ''});
+        console.log('recipeState:', recipeState);
+    }
 
     return (
         <form>
@@ -61,34 +49,14 @@ function RecipeForm() {
                     onChange={inputChange}
                 />
             </label>
-            <label htmlFor="amount">
-                Amount
-                <input
-                    type="text"
-                    name="amount"
-                    id="amount"
-                    value={ingredientState.amount}
-                    onChange={inputIngredientChange}
-                />
-            </label>
-            <label htmlFor="unit">
-                Unit
-                <input
-                    type="text"
-                    name="unit"
-                    id="unit"
-                    value={ingredientState.unit}
-                    onChange={inputIngredientChange}
-                />
-            </label>
-            <label htmlFor="ingredients">
+            <label htmlFor="newIngredient">
                 Ingredient
                 <input
                     type="text"
-                    name="ingredients"
-                    id="ingredients"
+                    name="newIngredient"
+                    id="newIngredient"
                     placeholder="What do you need for your recipe?"
-                    value={recipeState.ingredients}
+                    value={recipeState.newIngredient}
                     onChange={inputChange}
                 />
             </label>
@@ -104,30 +72,30 @@ function RecipeForm() {
                     <li></li>
                 </ul>
             */}
-            <label htmlFor="steps">
+            <label htmlFor="newStep">
                 Steps
                 <input
                     type="text"
-                    name="steps"
-                    id="steps"
+                    name="newStep"
+                    id="newStep"
                     placeholder="How do you make the recipe?"
-                    value={recipeState.steps}
+                    value={recipeState.newStep}
                     onChange={inputChange}
                 />
             </label>
-            <button>Add Step {/* on click, will add another text input for another step*/}</button>
-            <label>
+            <button onClick={addStep}>Add Step</button>
+            <label htmlFor="newTag">
                 Categories
                 <input
                     type="text"
-                    name="tags"
-                    id="tags"
+                    name="newTag"
+                    id="newTag"
                     placeholder="ex) chicken, vegetarian, etc..."
-                    value={recipeState.tags}
+                    value={recipeState.newTag}
                     onChange={inputChange}
                 />
             </label>
-            <button>Add Category {/* on click, will add another text input for another category*/}</button>
+            <button onClick={addTag}>Add Category</button>
             <label htmlFor="source">
                 Source
                 <input
