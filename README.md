@@ -69,3 +69,14 @@ recipe: {
 	tags: Array<string>
 }
 ```
+
+## Planned Routes
+
+* `/` -- Home or Login
+* `/recipes` -- RecipeList (PrivateRoute)
+* `/recipes/0` -- Recipe 0 (PrivateRoute)
+* `/edit/0` -- RecipeForm - Edit Recipe 0 (PrivateRoute)
+* `/new` -- RecipeForm - Add New Recipe (PrivateRoute)
+* `/register` -- RegisterUser
+* `/login` -- Login
+* `/logout` -- Logout
