@@ -101,14 +101,14 @@ function RecipeForm() {
                 />
             </label>
             <button onClick={addIngredient}>Add Ingredient</button>
-            {/* Need to figure out how to get this ingredients error to show */}
+            {/* Need to figure out how to get this error and the steps error to show */}
             {errorState.ingredients.length > 0 ? (<p>{errorState.ingredients}</p>) : null}
             <div>
                 <h5>Ingredients</h5>
                 <ul>
-                    {recipeState.ingredients.map((ingredient) => {
+                    {recipeState.ingredients.map((ingredient, index) => {
                         return (
-                            <li>{ingredient}</li>
+                            <li key={index}>{ingredient}</li>
                         )
                     })}
                 </ul>
@@ -125,12 +125,13 @@ function RecipeForm() {
                 />
             </label>
             <button onClick={addStep}>Add Step</button>
+            {errorState.steps.length > 0 ? (<p>{errorState.steps}</p>) : null}
             <div>
                 <h5>Steps</h5>
                 <ol>
-                    {recipeState.steps.map((step) => {
+                    {recipeState.steps.map((step, index) => {
                         return (
-                            <li>{step}</li>
+                            <li key={index}>{step}</li>
                         )
                     })}
                 </ol>
@@ -150,9 +151,9 @@ function RecipeForm() {
             <div>
                 <h5>Categories</h5>
                 <ul>
-                    {recipeState.tags.map((tag) => {
+                    {recipeState.tags.map((tag, index) => {
                         return (
-                            <li>{tag}</li>
+                            <li key={index}>{tag}</li>
                         )
                     })}
                 </ul>
