@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 
@@ -27,17 +28,18 @@ class RegisterUser extends React.Component {
 
     if (this.state.credentials.password === this.state.credentials.passwordConfirm){
         axiosWithAuth()
-        .post("/user", this.state.credentials)
+        .post("auth/register", {username: this.state.credentials.username, password: this.state.credentials.password})
         .then(res => {
+          console.log(res);
           localStorage.setItem("token", res.data.payload);
           this.props.func();
-          this.props.history.push("/");
+          this.props.history.push("/login");
         })
         .catch(err => {
-          console.log("Err is: ", err);
+          console.log(err);
           this.setState({
             ...this.state,
-            error: err
+            error: err.message
           })
         });
       } else {

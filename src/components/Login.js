@@ -22,11 +22,12 @@ class Login extends React.Component {
   login = e => {
     e.preventDefault();
     axiosWithAuth()
-      .post("/login", this.state.credentials)
+      .post("auth/login", this.state.credentials)
       .then(res => {
+        console.log(res);
         localStorage.setItem("token", res.data.payload);
         this.props.func();
-        this.props.history.push("/");
+        this.props.history.push("/home");
       })
       .catch(err => {
         console.log("Err is: ", err);
