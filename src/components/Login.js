@@ -25,7 +25,7 @@ class Login extends React.Component {
       .post("auth/login", this.state.credentials)
       .then(res => {
         console.log(res);
-        localStorage.setItem("token", res.data.payload);
+        localStorage.setItem("token", res.data.message);
         this.props.func();
         this.props.history.push("/home");
       })
