@@ -45,7 +45,6 @@ function App(props) {
           {/* {!loggedIn?<Route render={(props)=> <Login {...props} func={login} />}/>:<PrivateRoute component={Home} />} */}
           <Route component={Home} />
         </Switch>
-        <RecipeForm/>
       </div>
     </Router>
   );

@@ -10,8 +10,8 @@ function Home() {
         <div>
             <h1>Secret Family Recipes</h1>
             <div>
-                <RecipeForm setRecipes={setRecipes}/>
                 <RecipeList recipes={recipes}/>
+                <RecipeForm setRecipes={setRecipes}/>
                 {/*
                 will show a list of recipes
                 will have button to add a new recipe (will link to RecipeForm)

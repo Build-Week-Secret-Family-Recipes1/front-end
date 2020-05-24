@@ -13,7 +13,7 @@ const formSchema = yup.object().shape({
     tags: yup.array()
 })
 
-function RecipeForm() {
+function RecipeForm(props) {
     const [recipeState, setRecipeState] = useState({
         id: null,
         title: '',
@@ -75,8 +75,14 @@ function RecipeForm() {
             })
     }
 
+    const submitForm = e => {
+        e.preventDefault();
+        props.setRecipes(recipeState);
+        console.log("Submitted!")
+    }
+
     return (
-        <form>
+        <form onSubmit={submitForm}>
             <label htmlFor="title">
                 Title
                 <input 
