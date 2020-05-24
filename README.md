@@ -56,3 +56,27 @@
     * 8 days
 * Do you anticipate working on stretch functionality after completion of a Minimal Viable Product?
     * We will consider the options for stretch at the beginning of the second week.
+
+## Recipe Object
+
+```
+recipe: {
+  id: number,
+	title: string,
+	source: string,
+	ingredients: Array<string>,
+	steps: Array<string>,
+	tags: Array<string>
+}
+```
+
+## Planned Routes
+
+* `/` -- Home or Login
+* `/recipes` -- RecipeList (PrivateRoute)
+* `/recipes/0` -- Recipe 0 (PrivateRoute)
+* `/edit/0` -- RecipeForm - Edit Recipe 0 (PrivateRoute)
+* `/new` -- RecipeForm - Add New Recipe (PrivateRoute)
+* `/register` -- RegisterUser
+* `/login` -- Login
+* `/logout` -- Logout
