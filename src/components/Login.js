@@ -1,51 +1,50 @@
-import React from "react";
-import axios from "axios";
-import { axiosWithAuth } from "../utils/axiosWithAuth";
+import React, {useEffect, useState} from 'react';
+import { connect } from "react-redux";
+import {loginUser} from "../actions";
+import {  Redirect } from 'react-router-dom';
 
-class Login extends React.Component {
-  state = {
-    credentials: {
-      username: "",
-      password: ""
-    }
-  };
 
-  handleChange = e => {
-    this.setState({
-      credentials: {
-        ...this.state.credentials,
+function Login (props) {
+  const [credentials, setCredentials] = useState({username: '', password: ''});
+  const [error, setError] = useState(null);
+  const [redirect, setRedirect] = useState(null);
+
+  const handleChange = e => {
+    setCredentials({...credentials,
         [e.target.name]: e.target.value
-      }
     });
   };
 
-  login = e => {
+  const login = e => {
     e.preventDefault();
-    axiosWithAuth()
-      .post("auth/login", this.state.credentials)
-      .then(res => {
-        console.log(res);
-        localStorage.setItem("token", res.data.message);
-        this.props.func();
-        this.props.history.push("/home");
-      })
-      .catch(err => {
-        console.log("Err is: ", err);
-      });
-  };
+    loginUser(credentials);
+    props.func(credentials.username);
+    setRedirect('/');
+  }
 
-  render() {
+  useEffect(()=>{
+    setError(props.error);
+  },[props.error]);
+
+
+  if (redirect !== null) {
+    return (
+      <Redirect to={redirect} />
+    );
+  } else if (props.isFetching) {
+    return (<p>Logging In...</p>);
+  } else {
     return (
       <div className="loginForm">
-        <form onSubmit={this.login}>
+        <form onSubmit={login}>
           <h2>Please Log In</h2>
           <label htmlFor="username">Username: </label>
           <input
             type="text"
             name="username"
             id="username"
-            value={this.state.credentials.username}
-            onChange={this.handleChange}
+            value={credentials.username}
+            onChange={handleChange}
             placeholder="Username"
           /><br />
           <label htmlFor="password">Password: </label>
@@ -53,10 +52,11 @@ class Login extends React.Component {
             type="password"
             name="password"
             id="password"
-            value={this.state.credentials.password}
-            onChange={this.handleChange}
+            value={credentials.password}
+            onChange={handleChange}
             placeholder="Password"
           /><br />
+          {error?<p>{error}</p>:<></>}
           <button className="loginBtn">Log in</button>
         </form>
       </div>
@@ -64,4 +64,16 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+// hook up the connect to our store
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    isFetching: state.isFetching,
+    error: state.error,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login);

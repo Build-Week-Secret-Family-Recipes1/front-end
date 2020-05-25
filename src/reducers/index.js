@@ -14,12 +14,23 @@ import {
   DELETING_RECIPE_START,
   DELETING_RECIPE_SUCCESS,
   DELETING_RECIPE_FAILURE,
+  LOGIN_START,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  REGISTER_START,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
+  LOGOUT_START,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILURE
 } from "../actions";
 
 const initialState = {
+  user: null,
   recipe_id: null,
   recipe: {title: '', source: '', ingredients: [], steps: [], tags: []},
   isFetching: false,
+  isPosting: false,
   error: "",
   list: [],
 };
@@ -118,6 +129,60 @@ export const reducer = (state = initialState, action) => {
         isPosting: false,
         error: action.payload
         };
+    case LOGIN_START:
+      return {
+        ...state,
+        isFetching: true,
+        user: action.payload
+      }
+    case LOGIN_SUCCESS:
+        return {
+          ...state,
+          isFetching: false,
+          user: action.payload
+        }
+    case LOGIN_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        error: action.payload
+      }
+      case REGISTER_START:
+        return {
+          ...state,
+          isPosting: true,
+          user: action.payload
+        }
+      case REGISTER_SUCCESS:
+          return {
+            ...state,
+            isPosting: false,
+            user: action.payload
+          }
+      case REGISTER_FAILURE:
+        return {
+          ...state,
+          isPosting: false,
+          error: action.payload
+        }
+        case LOGOUT_START:
+          return {
+            ...state,
+            isFetching: true,
+            user: action.payload
+          }
+        case LOGOUT_SUCCESS:
+            return {
+              ...state,
+              isFetching: false,
+              user: action.payload
+            }
+        case LOGOUT_FAILURE:
+          return {
+            ...state,
+            isFetching: false,
+            error: action.payload
+          }
     default:
       return state;
   }

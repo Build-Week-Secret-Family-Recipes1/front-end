@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import * as yup from 'yup';
+import { postRecipe } from "../actions";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 const formSchema = yup.object().shape({
     id: yup.number(),
@@ -14,6 +17,8 @@ const formSchema = yup.object().shape({
 })
 
 function RecipeForm(props) {
+    const [redirect, setRedirect] = useState(null);
+
     const [recipeState, setRecipeState] = useState({
         id: null,
         title: '',
@@ -42,7 +47,7 @@ function RecipeForm(props) {
         e.persist();
         validate(e);
         setRecipeState({ ...recipeState, [e.target.name]: e.target.value });
-        console.log(recipeState);  
+        console.log(recipeState);
     };
 
     const addIngredient = e => {
@@ -78,105 +83,126 @@ function RecipeForm(props) {
     const submitForm = e => {
         e.preventDefault();
         props.setRecipes(recipeState);
+        props.postRecipe(recipeState);
         console.log("Submitted!")
+        setRedirect('/');
     }
 
-    return (
-        <form onSubmit={submitForm}>
-            <label htmlFor="title">
-                Title
-                <input 
-                    type="text" 
-                    name="title" 
-                    id="title"
-                    placeholder="What's your recipe called?"
-                    value={recipeState.title}
-                    onChange={inputChange}
-                />
-            </label>
-            {errorState.title.length > 0 ? (<p>{errorState.title}</p>) : null}
-            <label htmlFor="newIngredient">
-                Ingredient
-                <input
-                    type="text"
-                    name="newIngredient"
-                    id="newIngredient"
-                    placeholder="What do you need for your recipe?"
-                    value={recipeState.newIngredient}
-                    onChange={inputChange}
-                />
-            </label>
-            <button onClick={addIngredient}>Add Ingredient</button>
-            {/* Need to figure out how to get this ingredients error to show */}
-            {errorState.ingredients.length > 0 ? (<p>{errorState.ingredients}</p>) : null}
-            <div>
-                <h5>Ingredients</h5>
-                <ul>
-                    {recipeState.ingredients.map((ingredient) => {
-                        return (
-                            <li>{ingredient}</li>
-                        )
-                    })}
-                </ul>
-            </div>
-            <label htmlFor="newStep">
-                Steps
-                <input
-                    type="text"
-                    name="newStep"
-                    id="newStep"
-                    placeholder="How do you make the recipe?"
-                    value={recipeState.newStep}
-                    onChange={inputChange}
-                />
-            </label>
-            <button onClick={addStep}>Add Step</button>
-            <div>
-                <h5>Steps</h5>
-                <ol>
-                    {recipeState.steps.map((step) => {
-                        return (
-                            <li>{step}</li>
-                        )
-                    })}
-                </ol>
-            </div>
-            <label htmlFor="newTag">
-                Categories
-                <input
-                    type="text"
-                    name="newTag"
-                    id="newTag"
-                    placeholder="ex) chicken, vegetarian, etc..."
-                    value={recipeState.newTag}
-                    onChange={inputChange}
-                />
-            </label>
-            <button onClick={addTag}>Add Category</button>
-            <div>
-                <h5>Categories</h5>
-                <ul>
-                    {recipeState.tags.map((tag) => {
-                        return (
-                            <li>{tag}</li>
-                        )
-                    })}
-                </ul>
-            </div>
-            <label htmlFor="source">
-                Source
-                <input
-                    type="text"
-                    name="source"
-                    id="source"
-                    placeholder="Where did you get your recipe?"
-                    value={recipeState.source}
-                    onChange={inputChange}
-                />
-            </label>
-            <button>Add Recipe</button>
-        </form>
-    )
+    if (redirect !== null) {
+      return (<Redirect to={redirect} />);
+    } else if (props.isPosting) {
+      return (<p>Please wait...</p>);
+    } else {
+      return (
+          <form onSubmit={submitForm}>
+              <label htmlFor="title">
+                  Title
+                  <input
+                      type="text"
+                      name="title"
+                      id="title"
+                      placeholder="What's your recipe called?"
+                      value={recipeState.title}
+                      onChange={inputChange}
+                  />
+              </label>
+              {errorState.title.length > 0 ? (<p>{errorState.title}</p>) : null}
+              <label htmlFor="newIngredient">
+                  Ingredient
+                  <input
+                      type="text"
+                      name="newIngredient"
+                      id="newIngredient"
+                      placeholder="What do you need for your recipe?"
+                      value={recipeState.newIngredient}
+                      onChange={inputChange}
+                  />
+              </label>
+              <button onClick={addIngredient}>Add Ingredient</button>
+              {/* Need to figure out how to get this ingredients error to show */}
+              {errorState.ingredients.length > 0 ? (<p>{errorState.ingredients}</p>) : null}
+              <div>
+                  <h5>Ingredients</h5>
+                  <ul>
+                      {recipeState.ingredients.map((ingredient) => {
+                          return (
+                              <li>{ingredient}</li>
+                          )
+                      })}
+                  </ul>
+              </div>
+              <label htmlFor="newStep">
+                  Steps
+                  <input
+                      type="text"
+                      name="newStep"
+                      id="newStep"
+                      placeholder="How do you make the recipe?"
+                      value={recipeState.newStep}
+                      onChange={inputChange}
+                  />
+              </label>
+              <button onClick={addStep}>Add Step</button>
+              <div>
+                  <h5>Steps</h5>
+                  <ol>
+                      {recipeState.steps.map((step) => {
+                          return (
+                              <li>{step}</li>
+                          )
+                      })}
+                  </ol>
+              </div>
+              <label htmlFor="newTag">
+                  Categories
+                  <input
+                      type="text"
+                      name="newTag"
+                      id="newTag"
+                      placeholder="ex) chicken, vegetarian, etc..."
+                      value={recipeState.newTag}
+                      onChange={inputChange}
+                  />
+              </label>
+              <button onClick={addTag}>Add Category</button>
+              <div>
+                  <h5>Categories</h5>
+                  <ul>
+                      {recipeState.tags.map((tag) => {
+                          return (
+                              <li>{tag}</li>
+                          )
+                      })}
+                  </ul>
+              </div>
+              <label htmlFor="source">
+                  Source
+                  <input
+                      type="text"
+                      name="source"
+                      id="source"
+                      placeholder="Where did you get your recipe?"
+                      value={recipeState.source}
+                      onChange={inputChange}
+                  />
+              </label>
+              <button>Add Recipe</button>
+              {props.error?<p>{props.error}</p>:<></>}
+          </form>
+      )
+    }
 }
 
-export default RecipeForm;
+// hook up the connect to our store
+const mapStateToProps = state => {
+  return {
+    recipe: state.recipe,
+    isPosting: state.isPosting,
+    error: state.error,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { postRecipe }
+)(RecipeForm);

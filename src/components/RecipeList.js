@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-import {axiosWithAuth} from '../utils/axiosWithAuth';
 import { getList} from "../actions";
 import { connect } from "react-redux";
 
@@ -37,7 +35,7 @@ const mapStateToProps = state => {
   return {
     list: state.list,
     isFetching: state.isFetching,
-    error: state.error
+    error: state.error,
   };
 };
 
