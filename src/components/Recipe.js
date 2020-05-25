@@ -1,6 +1,7 @@
 import React from 'react';
 
 function Recipe(props) {
+
     return (
         <div>
             <h3>Title of Recipe</h3>
