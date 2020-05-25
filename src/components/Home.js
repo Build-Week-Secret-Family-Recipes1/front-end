@@ -1,9 +1,14 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 
 function Home() {
     return (
         <div>
-            <h1>Secret Family Recipes</h1>
+            <div>
+               <h1>Secret Family Recipes</h1>
+               <Link to='/new' value='Add Recipe' />
+            </div>
+            
             <div>
                 {
                   recipes.map( recipe => (
