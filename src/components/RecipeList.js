@@ -1,8 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
+import {axiosWithAuth} from '../utils/axiosWithAuth';
 import { getList} from "../actions";
 import { connect } from "react-redux";
 
 function RecipeList({ getList, isFetching, error, list}) {
+
   useEffect(()=>{
     getList();
   },[getList]);
@@ -11,15 +14,22 @@ function RecipeList({ getList, isFetching, error, list}) {
     console.log(list);
   },[list]);
 
-    return (
-        <div className="recipe-list-wrapper">
-            {/*
-                will map over data and add a recipe card for each recipe
-                each recipe card will show the title, source, and tags
-                will link to full recipe
-            */}
-        </div>
-    )
+    if (isFetching) {
+      return (<p>Fetching your Recipes</p>);
+    } else {
+      return (
+          <div className="recipe-list-wrapper">
+            {list.map(recipe=>{
+              return <p>{recipe.title}</p>
+            })}
+              {/*
+                  will map over data and add a recipe card for each recipe
+                  each recipe card will show the title, source, and tags
+                  will link to full recipe
+              */}
+          </div>
+      )
+    }
 }
 
 // hook up the connect to our store
