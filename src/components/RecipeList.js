@@ -3,9 +3,10 @@ import axios from 'axios';
 import {axiosWithAuth} from '../utils/axiosWithAuth';
 import { getList} from "../actions";
 import { connect } from "react-redux";
+import { testList } from '../tests/TestData';
+import Recipe from './Recipe';
 
-function RecipeList({ getList, isFetching, error, list}) {
-
+function RecipeList({ getList, isFetching, error, list, recipes}) {
   useEffect(()=>{
     getList();
   },[getList]);
@@ -13,14 +14,23 @@ function RecipeList({ getList, isFetching, error, list}) {
   useEffect(()=>{
     console.log(list);
   },[list]);
-
+  
     if (isFetching) {
       return (<p>Fetching your Recipes</p>);
     } else {
       return (
           <div className="recipe-list-wrapper">
-            {list.map(recipe=>{
-              return <p>{recipe.title}</p>
+            {testList.map((object) => {
+              return (
+                <Recipe 
+                  id={object.id}
+                  title={object.title}
+                  source={object.source}
+                  ingredients={object.ingredients}
+                  steps={object.steps}
+                  tags={object.tags}
+                />
+              )
             })}
               {/*
                   will map over data and add a recipe card for each recipe
@@ -29,6 +39,7 @@ function RecipeList({ getList, isFetching, error, list}) {
               */}
           </div>
       )
+
     }
 }
 
