@@ -22,7 +22,7 @@ export const getRecipe = (recipeId) => async dispatch => {
   console.log(`Fetching ${recipeId}`);
   // implement the code calling actions for .then and .catch
   axiosWithAuth()
-    .get(`/recipes/${recipeId}`)
+    .get(`api/recipes/${recipeId}`)
     .then(res => {
       console.log(res);
 
@@ -42,15 +42,23 @@ export const getList = () => async dispatch => {
   dispatch({ type: FETCHING_LIST_START });
   console.log(`Fetching list`);
   axiosWithAuth()
-    .get(`/recipes`)
+    .get(`api/recipes`)
     .then(res => {
       console.log(res);
       const modifiedList = res.data.map(r=>{
+        if (r.id>1) {
+          return({id: r.id, title: r.title, source: r.source,
+            ingredients: r.ingredients.split(';'),
+            steps: r.instructions.split(';'),
+            tags: r.category.split(';')
+          });
+        } else {
         return({id: r.id, title: r.title, source: r.source,
           ingredients: r.ingredients.split(', '),
           steps: r.instructions.split(', '),
           tags: [r.category]
         });
+      }
       })
       dispatch({ type: FETCHING_LIST_SUCCESS, payload: modifiedList });
     })
@@ -66,9 +74,11 @@ export const getList = () => async dispatch => {
 
 export const postRecipe = (recipe) => async dispatch => {
   dispatch({ type: POSTING_RECIPE_START, payload: recipe });
-
+  const modifiedRecipe = {title: recipe.title, source: recipe.source,
+    ingredients: recipe.ingredients.join(';'), instructions: recipe.steps.join(';'),
+    category: recipe.tags.join(';')}
   axiosWithAuth()
-    .post(`/recipes`, recipe)
+    .post(`api/recipes`, recipe)
     .then(res => {
       console.log(res);
 
@@ -89,7 +99,7 @@ export const updateRecipe = (recipe) => async dispatch => {
   dispatch({ type: UPDATING_RECIPE_START, payload: recipe });
 
   axiosWithAuth()
-    .put(`recipes/${recipe.id}`, recipe)
+    .put(`api/recipes/${recipe.id}`, recipe)
     .then(res => {
       console.log(res);
 
@@ -110,7 +120,7 @@ export const deleteRecipe = (recipe) => async dispatch => {
   dispatch({ type: DELETING_RECIPE_START, payload: recipe });
 
   axiosWithAuth()
-    .delete(`recipes/${recipe.id}`)
+    .delete(`api/recipes/${recipe.id}`)
     .then(res => {
       console.log(res);
 
