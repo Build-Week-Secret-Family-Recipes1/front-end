@@ -41,7 +41,7 @@ export const getRecipe = (recipeId) => async dispatch => {
 export const getList = () => async dispatch => {
   dispatch({ type: FETCHING_LIST_START });
   console.log(`Fetching list`);
-  axiosWithAuh()
+  axiosWithAuth()
     .get(`api/recipes`)
     .then(res => {
       console.log(res);
