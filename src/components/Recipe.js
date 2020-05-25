@@ -1,8 +1,17 @@
 import React from 'react';
 
+import styled from 'styled-components';
+
+const RecipeCard = styled.div`
+    border: 1px solid purple;
+
+    width: 40vw;
+    margin: 10px;
+`
+
 function Recipe(props) {
     return (
-        <div>
+        <RecipeCard>
             <h3>Title of Recipe</h3>
             <h5>Source of Recipe</h5>
             <p>Categories:</p>
@@ -14,7 +23,7 @@ function Recipe(props) {
             <ol>
                 <li>steps</li>
             </ol>
-        </div>
+        </RecipeCard>
     )
 }
 

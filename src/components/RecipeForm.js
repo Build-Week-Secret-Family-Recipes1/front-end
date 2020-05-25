@@ -1,5 +1,20 @@
 import React, { useState } from 'react';
 import * as yup from 'yup';
+import styled from 'styled-components';
+
+const StyledForm = styled.form`
+    border: 1px solid goldenrod;
+    
+    width: 50vw;
+`
+
+const Button = styled.button`
+    display: inline-block;
+    padding: 5px;
+    width: 11rem;
+    border-radius: 3px;
+    background-color: white;
+`
 
 const formSchema = yup.object().shape({
     id: yup.number(),
@@ -82,7 +97,7 @@ function RecipeForm(props) {
     }
 
     return (
-        <form onSubmit={submitForm}>
+        <StyledForm onSubmit={submitForm}>
             <label htmlFor="title">
                 Title
                 <input 
@@ -106,7 +121,7 @@ function RecipeForm(props) {
                     onChange={inputChange}
                 />
             </label>
-            <button onClick={addIngredient}>Add Ingredient</button>
+            <Button onClick={addIngredient}>Add Ingredient</Button>
             {/* Need to figure out how to get this ingredients error to show */}
             {errorState.ingredients.length > 0 ? (<p>{errorState.ingredients}</p>) : null}
             <div>
@@ -130,7 +145,7 @@ function RecipeForm(props) {
                     onChange={inputChange}
                 />
             </label>
-            <button onClick={addStep}>Add Step</button>
+            <Button onClick={addStep}>Add Step</Button>
             <div>
                 <h5>Steps</h5>
                 <ol>
@@ -152,7 +167,7 @@ function RecipeForm(props) {
                     onChange={inputChange}
                 />
             </label>
-            <button onClick={addTag}>Add Category</button>
+            <Button onClick={addTag}>Add Category</Button>
             <div>
                 <h5>Categories</h5>
                 <ul>
@@ -174,8 +189,8 @@ function RecipeForm(props) {
                     onChange={inputChange}
                 />
             </label>
-            <button>Add Recipe</button>
-        </form>
+            <Button>Add Recipe</Button>
+        </StyledForm>
     )
 }
 
