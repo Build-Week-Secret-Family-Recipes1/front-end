@@ -2,6 +2,9 @@ import React, {useEffect} from 'react';
 import { getList} from "../actions";
 import { connect } from "react-redux";
 
+import { testList } from '../tests/TestData';
+import Recipe from './Recipe';
+
 function RecipeList({ getList, isFetching, error, list, recipes}) {
   useEffect(()=>{
     getList();
@@ -13,6 +16,18 @@ function RecipeList({ getList, isFetching, error, list, recipes}) {
 
     return (
         <div className="recipe-list-wrapper">
+          {testList.map((object) => {
+            return (
+              <Recipe 
+                id={object.id}
+                title={object.title}
+                source={object.source}
+                ingredients={object.ingredients}
+                steps={object.steps}
+                tags={object.tags}
+              />
+            )
+          })}
             {/*
                 will map over data and add a recipe card for each recipe
                 each recipe card will show the title, source, and tags
