@@ -9,11 +9,22 @@ const RecipeCard = styled.div`
     margin: 10px;
 `
 
+const StyledH3 = styled.h3`
+    font-size: 2rem;
+`
+
+const StyledH5 = styled.h5`
+    font-size: 1.1rem;
+    
+`
+
+
+
 function Recipe(props) {
     return (
         <RecipeCard>
-            <h3>Title of Recipe</h3>
-            <h5>Source of Recipe</h5>
+            <StyledH3>Title of Recipe</StyledH3>
+            <StyledH5>Source of Recipe</StyledH5>
             <p>Categories:</p>
             <p>Ingredients</p>
             <ul>
