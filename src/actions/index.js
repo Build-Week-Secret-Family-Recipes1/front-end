@@ -42,7 +42,7 @@ export const getList = () => async dispatch => {
   dispatch({ type: FETCHING_LIST_START });
   console.log(`Fetching list`);
   axios
-    .get(`https://secretrecipesbuild.herokuapp.com/api/recipes`)
+    .get(`/api/recipes`)
     .then(res => {
       console.log(res);
       const modifiedList = res.data.map(r=>{
