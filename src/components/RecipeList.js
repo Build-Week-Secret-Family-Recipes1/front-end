@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import { getList} from "../actions";
 import { connect } from "react-redux";
 
-function RecipeList({ getList, isFetching, error, list}) {
+function RecipeList({ getList, isFetching, error, list, recipes}) {
   useEffect(()=>{
     getList();
   },[getList]);
