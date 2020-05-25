@@ -42,7 +42,7 @@ export const getList = () => async dispatch => {
   dispatch({ type: FETCHING_LIST_START });
   console.log(`Fetching list`);
   axios
-    .get(`/api/recipes`)
+    .get(`/api/recipes`, {withCredentials: true})
     .then(res => {
       console.log(res);
       const modifiedList = res.data.map(r=>{
