@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 function Home(props) {
 
-    const recipes = [{title: '', ingredients: ''}]
+    const recipes = [{title: '', ingredients: ''}] // temporary, in place of actual data to be used
 
     return (
         <div>
