@@ -1,15 +1,22 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 
-function Home() {
+function Home(props) {
+
+    const recipes = [{title: '', ingredients: ''}]
+
     return (
         <div>
-            <h1>Secret Family Recipes</h1>
+            <div className='header-wrapper'>
+                <h1>Secret Family Recipes</h1>
+                <Link to='/new'>New Recipe</Link>
+            </div>
             <div>
                 {
                   recipes.map( recipe => (
                       <div>
-                          <h3 className="recipe" >{recipe}</h3>
-                          <p className="recipe-intro">Ingredients</p>
+                          <h3 className="recipe" >{recipe.title}</h3>
+                          <p className="recipe-intro">{recipe.ingredients}</p>
                       </div>
                   ))
                 }
