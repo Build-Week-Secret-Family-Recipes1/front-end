@@ -21,7 +21,7 @@ function Login (props) {
     e.preventDefault();
     setSubmitted(true);
     axiosWithAuth()
-      .post("auth/login", {username: this.state.credentials.username, password: this.state.credentials.password})
+      .post("auth/login", {username: credentials.username, password: credentials.password})
       .then(res => {
         console.log(res);
         props.func(this.state.credentials.username);
