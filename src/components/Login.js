@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import {loginUser} from "../actions";
 import {  Redirect } from 'react-router-dom';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 
 function Login (props) {
@@ -16,12 +17,21 @@ function Login (props) {
     });
   };
 
-  const login = e => {
+  const login = (e) => {
     e.preventDefault();
-    loginUser(credentials);
-    props.func(credentials.username);
     setSubmitted(true);
-  }
+    axiosWithAuth()
+      .post("auth/login", {username: this.state.credentials.username, password: this.state.credentials.password})
+      .then(res => {
+        console.log(res);
+        props.func(this.state.credentials.username);
+        props.history.push("/home");
+      })
+      .catch(err => {
+        console.log("Err is: ", err.message);
+        setError(err.message);
+      });
+  };
 
   useEffect(()=>{
     if (submitted && props.resStatus!==null && props.error==='') {
