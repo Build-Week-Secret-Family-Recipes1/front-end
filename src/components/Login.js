@@ -24,7 +24,7 @@ function Login (props) {
       .post("auth/login", {username: credentials.username, password: credentials.password})
       .then(res => {
         console.log(res);
-        props.func(this.state.credentials.username);
+        props.func(credentials.username);
         props.history.push("/home");
       })
       .catch(err => {
