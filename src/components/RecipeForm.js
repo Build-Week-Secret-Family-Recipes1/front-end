@@ -3,17 +3,57 @@ import * as yup from 'yup';
 import styled from 'styled-components';
 
 const StyledForm = styled.form`
-    border: 1px solid goldenrod;
-    
-    width: 50vw;
+    width: 45vw;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: teal;
 `
 
 const Button = styled.button`
     display: inline-block;
-    padding: 5px;
-    width: 11rem;
+    padding: 10px;
+    margin: 20px;
+    width: 9rem;
     border-radius: 3px;
-    background-color: white;
+    border: 2px solid teal;
+    background-color: rgba(64, 224, 208, 0.5);
+    font-size: 0.9rem;
+    font-family: Gill Sans;
+`
+
+const Label = styled.label`
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    width: 100%;
+`
+
+const Input = styled.input`
+    width: 30rem;
+`
+
+const H2 = styled.h2`
+    font-size: 2.5rem;
+`
+
+const H5 = styled.h5`
+    padding: ${props => props.primary ? '20px' : '5px'};
+    font-size: 1.1rem;
+    margin: 0;
+`
+
+const Ul = styled.ul`
+    text-align: left;
+    width: 80%;
+    margin: auto;
+`
+
+const Ol = styled.ol`
+    text-align: left;
+    width: 80%;
+    margin: auto;
 `
 
 const formSchema = yup.object().shape({
@@ -98,9 +138,10 @@ function RecipeForm(props) {
 
     return (
         <StyledForm onSubmit={submitForm}>
-            <label htmlFor="title">
-                Title
-                <input 
+            <H2>Add Recipe</H2>
+            <Label htmlFor="title">
+                <H5>Title</H5>
+                <Input 
                     type="text" 
                     name="title" 
                     id="title"
@@ -108,11 +149,11 @@ function RecipeForm(props) {
                     value={recipeState.title}
                     onChange={inputChange}
                 />
-            </label>
+            </Label>
             {errorState.title.length > 0 ? (<p>{errorState.title}</p>) : null}
-            <label htmlFor="newIngredient">
-                Ingredient
-                <input
+            <Label htmlFor="newIngredient">
+                <H5>Ingredient</H5>
+                <Input
                     type="text"
                     name="newIngredient"
                     id="newIngredient"
@@ -120,23 +161,23 @@ function RecipeForm(props) {
                     value={recipeState.newIngredient}
                     onChange={inputChange}
                 />
-            </label>
+            </Label>
             <Button onClick={addIngredient}>Add Ingredient</Button>
             {/* Need to figure out how to get this ingredients error to show */}
             {errorState.ingredients.length > 0 ? (<p>{errorState.ingredients}</p>) : null}
             <div>
-                <h5>Ingredients</h5>
-                <ul>
+                <H5 primary>Ingredients:</H5>
+                <Ul>
                     {recipeState.ingredients.map((ingredient) => {
                         return (
                             <li>{ingredient}</li>
                         )
                     })}
-                </ul>
+                </Ul>
             </div>
-            <label htmlFor="newStep">
-                Steps
-                <input
+            <Label htmlFor="newStep">
+                <H5>Steps</H5>
+                <Input
                     type="text"
                     name="newStep"
                     id="newStep"
@@ -144,21 +185,21 @@ function RecipeForm(props) {
                     value={recipeState.newStep}
                     onChange={inputChange}
                 />
-            </label>
+            </Label>
             <Button onClick={addStep}>Add Step</Button>
             <div>
-                <h5>Steps</h5>
-                <ol>
+                <H5 primary>Steps:</H5>
+                <Ol>
                     {recipeState.steps.map((step) => {
                         return (
                             <li>{step}</li>
                         )
                     })}
-                </ol>
+                </Ol>
             </div>
-            <label htmlFor="newTag">
-                Categories
-                <input
+            <Label htmlFor="newTag">
+                <H5>Categories</H5>
+                <Input
                     type="text"
                     name="newTag"
                     id="newTag"
@@ -166,21 +207,21 @@ function RecipeForm(props) {
                     value={recipeState.newTag}
                     onChange={inputChange}
                 />
-            </label>
+            </Label>
             <Button onClick={addTag}>Add Category</Button>
             <div>
-                <h5>Categories</h5>
-                <ul>
+                <H5 primary>Categories:</H5>
+                <Ul>
                     {recipeState.tags.map((tag) => {
                         return (
                             <li>{tag}</li>
                         )
                     })}
-                </ul>
+                </Ul>
             </div>
-            <label htmlFor="source">
-                Source
-                <input
+            <Label htmlFor="source">
+                <H5>Source</H5>
+                <Input
                     type="text"
                     name="source"
                     id="source"
@@ -188,7 +229,7 @@ function RecipeForm(props) {
                     value={recipeState.source}
                     onChange={inputChange}
                 />
-            </label>
+            </Label>
             <Button>Add Recipe</Button>
         </StyledForm>
     )

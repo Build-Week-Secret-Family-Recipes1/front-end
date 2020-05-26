@@ -12,11 +12,11 @@ const RecipeCard = styled.div`
     text-align: left;
 `
 
-const StyledH3 = styled.h3`
+const H3 = styled.h3`
     font-size: 2rem;
 `
 
-const StyledH5 = styled.h5`
+const H5 = styled.h5`
     font-size: 1.1rem;
     font-style: italic;
 `
@@ -28,8 +28,8 @@ const Step = styled.li`
 function Recipe(props) {
     return (
         <RecipeCard>
-            <StyledH3>Title of Recipe</StyledH3>
-            <StyledH5>Source of Recipe</StyledH5>
+            <H3>Title of Recipe</H3>
+            <H5>Source of Recipe</H5>
             <p>Categories:</p>
             <p>Ingredients</p>
             <ul>
