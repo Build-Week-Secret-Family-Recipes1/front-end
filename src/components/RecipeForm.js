@@ -32,6 +32,7 @@ const Label = styled.label`
 
 const Input = styled.input`
     width: 30rem;
+    font-size: 1rem;
 `
 
 const H2 = styled.h2`
