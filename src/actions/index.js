@@ -1,4 +1,5 @@
 import {axiosWithAuth} from "../utils/axiosWithAuth";
+import axios from "axios";
 
 export const FETCHING_RECIPE_START = "FETCHING_RECIPE_START";
 export const FETCHING_RECIPE_SUCCESS = "FETCHING_RECIPE_SUCCESS";
@@ -63,8 +64,8 @@ export const getRecipe = (recipeId) => async dispatch => {
 export const getList = () => async dispatch => {
   dispatch({ type: FETCHING_LIST_START });
   console.log(`Fetching list`);
-  axiosWithAuth()
-    .get(`api/recipes`)
+  axios
+    .get(`/api/recipes`, { withCredentials: true })
     .then(res => {
       const modifiedList = res.data.map(r=>modifyRecipe(r));
       dispatch({ type: FETCHING_LIST_SUCCESS, payload: {resStatus: res.status, list: modifiedList }});
@@ -136,8 +137,8 @@ export const deleteRecipe = (recipe) => async dispatch => {
 
 export const loginUser = (credentials) => async dispatch => {
   dispatch({ type: LOGIN_START, payload: credentials.username });
-  axiosWithAuth()
-    .post("auth/login", credentials)
+  axios
+    .post("/auth/login", credentials, {withCredentials: true})
     .then(res => {
       dispatch({ type: LOGIN_SUCCESS, payload: {resStatus: res.status, user: credentials.username }});
       localStorage.addItem("user", credentials.username);
