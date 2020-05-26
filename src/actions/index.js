@@ -65,7 +65,7 @@ export const getList = () => async dispatch => {
   dispatch({ type: FETCHING_LIST_START });
   console.log(`Fetching list`);
   axios
-    .get(`/api/recipes`, { withCredentials: true })
+    .get(`/api/recipes`)
     .then(res => {
       const modifiedList = res.data.map(r=>modifyRecipe(r));
       dispatch({ type: FETCHING_LIST_SUCCESS, payload: {resStatus: res.status, list: modifiedList }});
@@ -138,7 +138,7 @@ export const deleteRecipe = (recipe) => async dispatch => {
 export const loginUser = (credentials) => async dispatch => {
   dispatch({ type: LOGIN_START, payload: credentials.username });
   axios
-    .post("/auth/login", credentials, {withCredentials: true})
+    .post("/auth/login", credentials)
     .then(res => {
       dispatch({ type: LOGIN_SUCCESS, payload: {resStatus: res.status, user: credentials.username }});
       localStorage.addItem("user", credentials.username);
