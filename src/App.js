@@ -33,14 +33,15 @@ function App(props) {
     <Router history={props.history}>
       <div className="App">
         <Switch>
-          <PrivateRoute exact path="/recipes" component={RecipeList} />
-          <PrivateRoute path="/recipes/:id" component={Recipe} />
-          <PrivateRoute path="/edit/:id" component={RecipeForm} />
-          <PrivateRoute path="/new" component={RecipeForm} />
+          <Route exact path="/recipes" component={RecipeList} />
+          <Route exact path="/home" component={Home} />
+          <Route path="/recipes/:id" component={Recipe} />
+          <Route path="/edit/:id" component={RecipeForm} />
+          <Route path="/new" component={RecipeForm} />
           <Route path="/login" render={(props)=> <Login {...props} func={setUser} />}/>
           <Route path="/logout" render={(props)=> <Logout {...props} history={props.history} func={logout} />}/>
           <Route path="/register" render={(props)=> <RegisterUser {...props} func={setUser} />}/>
-          {!loggedIn?<Route render={(props)=> <Login {...props} func={setUser} />}/>:<PrivateRoute component={Home} />}
+          {!loggedIn?<Route render={(props)=> <Login {...props} func={setUser} />}/>:<Route component={Home} />}
         </Switch>
       </div>
     </Router>
