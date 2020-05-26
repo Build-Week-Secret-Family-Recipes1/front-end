@@ -44,6 +44,8 @@ function EditRecipe(props) {
         tags: ''
     });
 
+    
+
     const inputChange = e => {
         e.persist();
         validate(e);
@@ -112,7 +114,7 @@ function EditRecipe(props) {
                       name="title"
                       id="title"
                       placeholder="What's your recipe called?"
-                      value={recipeState.title}
+                      value={props.recipeToEdit.title}
                       onChange={inputChange}
                   />
               </label>
@@ -134,7 +136,7 @@ function EditRecipe(props) {
               <div>
                   <h5>Ingredients</h5>
                   <ul>
-                      {recipeState.ingredients.map((ingredient) => {
+                      {props.recipeToEdit.ingredients.map((ingredient) => {
                           return (
                               <li>{ingredient}</li>
                           )
@@ -156,7 +158,7 @@ function EditRecipe(props) {
               <div>
                   <h5>Steps</h5>
                   <ol>
-                      {recipeState.steps.map((step) => {
+                      {props.recipeToEdit.steps.map((step) => {
                           return (
                               <li>{step}</li>
                           )
@@ -178,7 +180,7 @@ function EditRecipe(props) {
               <div>
                   <h5>Categories</h5>
                   <ul>
-                      {recipeState.tags.map((tag) => {
+                      {props.recipeToEdit.tags.map((tag) => {
                           return (
                               <li>{tag}</li>
                           )
@@ -192,7 +194,7 @@ function EditRecipe(props) {
                       name="source"
                       id="source"
                       placeholder="Where did you get your recipe?"
-                      value={recipeState.source}
+                      value={props.recipeToEdit.source}
                       onChange={inputChange}
                   />
               </label>

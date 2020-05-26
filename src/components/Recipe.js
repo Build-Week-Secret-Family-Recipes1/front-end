@@ -14,6 +14,18 @@ function Recipe(props) {
             })
     }
 
+    const getRecipe = props => {
+        const recipe = {
+            id: props.id,
+            title: props.title,
+            source: props.source,
+            ingredients: props.ingredients,
+            steps: props.steps,
+            tags: props.tags
+        };
+        props.setRecipeToEdit(recipe);
+    }
+
     return (
         <div>
             <h3>{props.title}</h3>
@@ -36,7 +48,7 @@ function Recipe(props) {
                     )
                 })}
             </ol>
-            <button >Edit</button>
+            <button onClick={getRecipe}>Edit</button>
             <button onClick={deleteRecipe}>Delete</button>
         </div>
     )

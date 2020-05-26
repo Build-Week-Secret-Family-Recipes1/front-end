@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { testList } from '../tests/TestData';
 import Recipe from './Recipe';
 
-function RecipeList({ getList, isFetching, error, list, recipes}) {
+function RecipeList({ getList, isFetching, error, list, recipes, setRecipeToEdit}) {
   useEffect(()=>{
     getList();
   },[getList]);
@@ -21,6 +21,7 @@ function RecipeList({ getList, isFetching, error, list, recipes}) {
             {testList.map((object) => {
               return (
                 <Recipe
+                  setRecipeToEdit={setRecipeToEdit}
                   id={object.id}
                   title={object.title}
                   source={object.source}
