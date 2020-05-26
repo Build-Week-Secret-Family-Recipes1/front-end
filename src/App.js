@@ -17,13 +17,15 @@ function App(props) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useLocalStorage("user",null);
 
-  const login = (username) => {
-    setLoggedIn(true);
-    setUser(username);
-  };
+  useEffect(()=>{
+    if (user!==null) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  },[user])
 
   const logout = (username) => {
-    setLoggedIn(false);
     setUser(null);
   };
 
@@ -35,10 +37,10 @@ function App(props) {
           <PrivateRoute path="/recipes/:id" component={Recipe} />
           <PrivateRoute path="/edit/:id" component={RecipeForm} />
           <PrivateRoute path="/new" component={RecipeForm} />
-          <Route path="/login" render={(props)=> <Login {...props} func={login} />}/>
+          <Route path="/login" render={(props)=> <Login {...props} func={setUser} />}/>
           <Route path="/logout" render={(props)=> <Logout {...props} history={props.history} func={logout} />}/>
-          <Route path="/register" render={(props)=> <RegisterUser {...props} func={login} />}/>
-          {!loggedIn?<Route render={(props)=> <Login {...props} func={login} />}/>:<PrivateRoute component={Home} />}
+          <Route path="/register" render={(props)=> <RegisterUser {...props} func={setUser} />}/>
+          {!loggedIn?<Route render={(props)=> <Login {...props} func={setUser} />}/>:<PrivateRoute component={Home} />}
         </Switch>
       </div>
     </Router>

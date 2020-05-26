@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import { postRecipe } from "../actions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { getRecipe } from "../actions";
 
 const formSchema = yup.object().shape({
     id: yup.number(),
@@ -44,7 +45,7 @@ function EditRecipe(props) {
         tags: ''
     });
 
-    
+
 
     const inputChange = e => {
         e.persist();
@@ -217,5 +218,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { postRecipe }
+  { postRecipe, getRecipe }
 )(EditRecipe);
