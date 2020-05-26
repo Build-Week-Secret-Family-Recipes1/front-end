@@ -1,6 +1,19 @@
 import React from 'react';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
+import axios from 'axios';
 
 function Recipe(props) {
+    const deleteRecipe = props => {
+        const recipeId = props.id;
+        axios.delete(`api-url/${recipeId}`)
+            .then(response => {
+                console.log('Deleted!')
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     return (
         <div>
             <h3>{props.title}</h3>
@@ -23,6 +36,8 @@ function Recipe(props) {
                     )
                 })}
             </ol>
+            <button >Edit</button>
+            <button onClick={deleteRecipe}>Delete</button>
         </div>
     )
 }
