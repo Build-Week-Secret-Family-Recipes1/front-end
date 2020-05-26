@@ -8,6 +8,7 @@ function Login (props) {
   const [credentials, setCredentials] = useState({username: '', password: ''});
   const [error, setError] = useState(null);
   const [redirect, setRedirect] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = e => {
     setCredentials({...credentials,
@@ -19,11 +20,20 @@ function Login (props) {
     e.preventDefault();
     loginUser(credentials);
     props.func(credentials.username);
-    setRedirect('/');
+    setSubmitted(true);
   }
 
   useEffect(()=>{
+    if (submitted && props.resStatus!==null && props.error==='') {
+      console.log(props.resStatus);
+      props.func(credentials.username);
+      setRedirect('/');
+    }
+  },[submitted, props.resStatus, props.error]);
+
+  useEffect(()=>{
     setError(props.error);
+    setSubmitted(false);
   },[props.error]);
 
 
@@ -70,6 +80,7 @@ const mapStateToProps = state => {
     user: state.user,
     isFetching: state.isFetching,
     error: state.error,
+    resStatus: state.resStatus
   };
 };
 

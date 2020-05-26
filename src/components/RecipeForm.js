@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
 import { postRecipe } from "../actions";
 import { connect } from "react-redux";
@@ -18,6 +18,7 @@ const formSchema = yup.object().shape({
 
 function RecipeForm(props) {
     const [redirect, setRedirect] = useState(null);
+    const [submitted, setSubmitted] = useState(false);
 
     const [recipeState, setRecipeState] = useState({
         id: null,
@@ -85,8 +86,17 @@ function RecipeForm(props) {
         props.setRecipes(recipeState);
         props.postRecipe(recipeState);
         console.log("Submitted!")
+        setSubmitted(true);
         setRedirect('/');
     }
+
+    useEffect(()=>{
+      if (submitted && props.resStatus!==null && props.error==='') {
+        console.log(props.resStatus);
+        setRedirect('/');
+      }
+    },[submitted, props.resStatus, props.error]);
+
 
     if (redirect !== null) {
       return (<Redirect to={redirect} />);
@@ -187,7 +197,7 @@ function RecipeForm(props) {
                   />
               </label>
               <button>Add Recipe</button>
-              {props.error?<p>{props.error}</p>:<></>}
+              {props.error!==''?<p>{props.error}</p>:<></>}
           </form>
       )
     }
@@ -199,6 +209,7 @@ const mapStateToProps = state => {
     recipe: state.recipe,
     isPosting: state.isPosting,
     error: state.error,
+    resStatus: state.resStatus
   };
 };
 

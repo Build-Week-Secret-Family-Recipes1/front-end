@@ -49,11 +49,10 @@ export const getRecipe = (recipeId) => async dispatch => {
     .get(`api/recipes`)
     .then(res => {
       const selectedRecipe = modifyRecipe(res.data.filter(r=>r.id===recipeId));
-      dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: selectedRecipe });
+      dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: res.status, recipe: selectedRecipe }});
     })
     .catch(err => {
       console.log(err);
-
       dispatch({
         type: FETCHING_RECIPE_FAILURE,
         payload: `${err.statusText} with response code ${err.status}`
@@ -68,7 +67,7 @@ export const getList = () => async dispatch => {
     .get(`api/recipes`)
     .then(res => {
       const modifiedList = res.data.map(r=>modifyRecipe(r));
-      dispatch({ type: FETCHING_LIST_SUCCESS, payload: modifiedList });
+      dispatch({ type: FETCHING_LIST_SUCCESS, payload: {resStatus: res.status, list: modifiedList }});
     })
     .catch(err => {
       dispatch({
@@ -87,7 +86,7 @@ export const postRecipe = (recipe) => async dispatch => {
     .post(`/api/recipes`, modifiedRecipe)
     .then(res => {
       console.log(res);
-      dispatch({ type: POSTING_RECIPE_SUCCESS, payload: res.data });
+      dispatch({ type: POSTING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data }});
     })
     .catch(err => {
       console.log(err);
@@ -108,7 +107,7 @@ export const updateRecipe = (recipe) => async dispatch => {
     .put(`api/recipes/${recipe.id}`, modifiedRecipe)
     .then(res => {
       console.log(res);
-      dispatch({ type: UPDATING_RECIPE_SUCCESS, payload: res.data });
+      dispatch({ type: UPDATING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data }});
     })
     .catch(err => {
       dispatch({
@@ -124,7 +123,7 @@ export const deleteRecipe = (recipe) => async dispatch => {
     .delete(`api/recipes/${recipe.id}`)
     .then(res => {
       console.log(res);
-      dispatch({ type: DELETING_RECIPE_SUCCESS, payload: res.data });
+      dispatch({ type: DELETING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data} });
     })
     .catch(err => {
 
@@ -140,7 +139,7 @@ export const loginUser = (credentials) => async dispatch => {
   axiosWithAuth()
     .post("auth/login", credentials)
     .then(res => {
-      dispatch({ type: LOGIN_SUCCESS, payload: credentials.username });
+      dispatch({ type: LOGIN_SUCCESS, payload: {resStatus: res.status, user: credentials.username }});
       localStorage.addItem("user", credentials.username);
     })
   .catch(err => {
@@ -156,7 +155,7 @@ export const registerUser = (credentials) => async dispatch => {
   axiosWithAuth()
     .post("auth/register", credentials)
     .then(res => {
-      dispatch({ type: REGISTER_SUCCESS, payload: credentials.username });
+      dispatch({ type: REGISTER_SUCCESS, payload: {resStatus: res.status, user: credentials.username }});
       loginUser(credentials);
     })
   .catch(err => {
@@ -172,7 +171,7 @@ export const logoutUser = (username) => async dispatch => {
   axiosWithAuth()
     .post("auth/logout")
     .then(res => {
-      dispatch({ type: LOGOUT_SUCCESS, payload: username });
+      dispatch({ type: LOGOUT_SUCCESS, payload: {resStatus: res.status, user: username }});
       localStorage.removeItem("user");
     })
   .catch(err => {

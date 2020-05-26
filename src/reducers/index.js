@@ -33,6 +33,7 @@ const initialState = {
   isPosting: false,
   error: "",
   list: [],
+  resStatus: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -41,14 +42,17 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         recipe: action.payload,
-        isPosting: true
+        isPosting: true,
+        resStatus: null,
+        error: '',
       };
     case POSTING_RECIPE_SUCCESS:
       return {
         ...state,
         isPosting: false,
         error: "",
-        recipe: action.payload
+        recipe: action.payload.data,
+        resStatus: action.payload.resStatus,
       };
     case POSTING_RECIPE_FAILURE:
       return {
@@ -60,13 +64,16 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         recipe_id: action.payload,
-        isFetching: true
+        isFetching: true,
+        resStatus: null,
+        error: ''
       };
     case FETCHING_RECIPE_SUCCESS:
       return {
         ...state,
         isFetching: false,
-        recipe: action.payload
+        recipe: action.payload.recipe,
+        resStatus: action.payload.resStatus,
       };
     case FETCHING_RECIPE_FAILURE:
       return {
@@ -78,12 +85,15 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
+        resStatus: null,
+        error: ''
       };
     case FETCHING_LIST_SUCCESS:
       return {
         ...state,
         isFetching: false,
-        list: action.payload
+        list: action.payload.list,
+        resStatus: action.payload.resStatus,
       };
     case FETCHING_LIST_FAILURE:
       return {
@@ -95,14 +105,17 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         isPosting: true,
-        recipe: action.payload
+        recipe: action.payload,
+        resStatus: null,
+        error: ''
       };
     case UPDATING_RECIPE_SUCCESS:
       return {
         ...state,
         isPosting: false,
         error: "",
-        list: action.payload
+        list: action.payload.data,
+        resStatus: action.payload.resStatus,
       };
     case UPDATING_RECIPE_FAILURE:
       return {
@@ -114,14 +127,16 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         recipe: action.payload,
-        isPosting: true
+        isPosting: true,
+        error: ''
       };
     case DELETING_RECIPE_SUCCESS:
       return {
         ...state,
         isPosting: false,
         error: "",
-        list: action.payload
+        list: action.payload.data,
+        resStatus: action.payload.resStatus,
       };
     case DELETING_RECIPE_FAILURE:
       return {
@@ -133,13 +148,16 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
-        user: action.payload
+        user: action.payload,
+        resStatus: null,
+        error: ''
       }
     case LOGIN_SUCCESS:
         return {
           ...state,
           isFetching: false,
-          user: action.payload
+          user: action.payload.user,
+          resStatus: action.payload.resStatus,
         }
     case LOGIN_FAILURE:
       return {
@@ -151,13 +169,16 @@ export const reducer = (state = initialState, action) => {
         return {
           ...state,
           isPosting: true,
-          user: action.payload
+          user: action.payload,
+          resStatus: null,
+          error: ''
         }
       case REGISTER_SUCCESS:
           return {
             ...state,
             isPosting: false,
-            user: action.payload
+            user: action.payload.user,
+            resStatus: action.payload.resStatus,
           }
       case REGISTER_FAILURE:
         return {
@@ -169,13 +190,16 @@ export const reducer = (state = initialState, action) => {
           return {
             ...state,
             isFetching: true,
-            user: action.payload
+            user: action.payload,
+            resStatus: null,
+            error: ''
           }
         case LOGOUT_SUCCESS:
             return {
               ...state,
               isFetching: false,
-              user: action.payload
+              user: action.payload.user,
+              resStatus: action.payload.resStatus,
             }
         case LOGOUT_FAILURE:
           return {
