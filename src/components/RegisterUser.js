@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import { isDev } from "../utils/isDev";
+import { registerUser } from "../actions";
 
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 
@@ -27,19 +29,25 @@ class RegisterUser extends React.Component {
     e.preventDefault();
 
     if (this.state.credentials.password === this.state.credentials.passwordConfirm){
-        axiosWithAuth()
-        .post("auth/register", {username: this.state.credentials.username, password: this.state.credentials.password}, {withCredentials: true})
-        .then(res => {
-          console.log(res);
-          this.login();
-        })
-        .catch(err => {
-          console.log(err);
-          this.setState({
-            ...this.state,
-            error: err.message
-          })
-        });
+          if (isDev()) {
+            registerUser(this.state.credentials);
+            this.props.func(this.state.credentials.username);
+            this.props.history.push("/home");
+          } else {
+            axiosWithAuth()
+            .post("auth/register", {username: this.state.credentials.username, password: this.state.credentials.password}, {withCredentials: true})
+            .then(res => {
+              console.log(res);
+              this.login();
+            })
+            .catch(err => {
+              console.log(err);
+              this.setState({
+                ...this.state,
+                error: err.message
+              })
+            });
+          }
       } else {
         this.setState({
           ...this.state,

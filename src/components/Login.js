@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import {loginUser} from "../actions";
-import {  Redirect } from 'react-router-dom';
+import {  Redirect, Link } from 'react-router-dom';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
+import { isDev } from "../utils/isDev";
 
 
 function Login (props) {
@@ -20,24 +21,30 @@ function Login (props) {
   const login = (e) => {
     e.preventDefault();
     setSubmitted(true);
-    axiosWithAuth()
-      .post("auth/login", {username: credentials.username, password: credentials.password})
-      .then(res => {
-        console.log(res);
-        props.func(credentials.username);
-        props.history.push("/home");
-      })
-      .catch(err => {
-        console.log("Err is: ", err.message);
-        setError(err.message);
-      });
+    if (isDev()) {
+      loginUser(credentials);
+      props.func(credentials.username);
+      props.history.push("/home");
+    } else {
+        axiosWithAuth()
+          .post("auth/login", {username: credentials.username, password: credentials.password})
+          .then(res => {
+            console.log(res);
+            props.func(credentials.username);
+            props.history.push("/home");
+          })
+          .catch(err => {
+            console.log("Err is: ", err.message);
+            setError(err.message);
+          });
+      }
   };
 
   useEffect(()=>{
     if (submitted && props.resStatus!==null && props.error==='') {
       console.log(props.resStatus);
       props.func(credentials.username);
-      setRedirect('/');
+      setRedirect('/home');
     }
   },[submitted, props.resStatus, props.error]);
 
@@ -78,6 +85,8 @@ function Login (props) {
           /><br />
           {error?<p>{error}</p>:<></>}
           <button className="loginBtn">Log in</button>
+
+          <p>Not a member yet? <Link to={'/register'}>Sign Up Here!</Link></p>
         </form>
       </div>
     );

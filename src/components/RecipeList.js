@@ -25,7 +25,8 @@ function RecipeList(props) {
     } else {
       return (
           <Wrapper className="recipe-list-wrapper">
-            {testList.map((object) => {
+           
+            {props.list.map((object) => {
               console.log('setRecipeToEdit from RecipeList', props.editRecipe)
               return (
                 <Recipe
