@@ -1,6 +1,34 @@
 import React from 'react';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
+import axios from 'axios';
 
 function Recipe(props) {
+    const deleteRecipe = () => {
+        const recipeId = props.id;
+        axios.delete(`api-url/${recipeId}`)
+            .then(response => {
+                console.log('Deleted!')
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+    const getRecipe = () => {
+        const recipe = {
+            id: props.id,
+            title: props.title,
+            source: props.source,
+            ingredients: props.ingredients,
+            steps: props.steps,
+            tags: props.tags
+        };
+        console.log('setRecipeToEdit from Recipe', props.editRecipe);
+        console.log('Recipe props', props);
+        console.log(recipe)
+        props.editRecipe(recipe);
+    }
+
     return (
         <div>
             <h3>{props.title}</h3>
@@ -23,6 +51,8 @@ function Recipe(props) {
                     )
                 })}
             </ol>
+            <button onClick={getRecipe}>Edit</button>
+            <button onClick={deleteRecipe}>Delete</button>
         </div>
     )
 }

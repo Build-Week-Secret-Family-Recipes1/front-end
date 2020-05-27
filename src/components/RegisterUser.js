@@ -28,7 +28,7 @@ class RegisterUser extends React.Component {
 
     if (this.state.credentials.password === this.state.credentials.passwordConfirm){
         axiosWithAuth()
-        .post("auth/register", {username: this.state.credentials.username, password: this.state.credentials.password})
+        .post("auth/register", {username: this.state.credentials.username, password: this.state.credentials.password}, {withCredentials: true})
         .then(res => {
           console.log(res);
           this.login();
@@ -50,7 +50,7 @@ class RegisterUser extends React.Component {
 
   login = () => {
     axiosWithAuth()
-      .post("auth/login", {username: this.state.credentials.username, password: this.state.credentials.password})
+      .post("auth/login", {username: this.state.credentials.username, password: this.state.credentials.password}, {withCredentials: true})
       .then(res => {
         console.log(res);
         this.props.func(this.state.credentials.username);
