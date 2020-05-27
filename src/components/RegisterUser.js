@@ -31,9 +31,7 @@ class RegisterUser extends React.Component {
         .post("auth/register", {username: this.state.credentials.username, password: this.state.credentials.password})
         .then(res => {
           console.log(res);
-          localStorage.setItem("token", res.data.payload);
-          this.props.func();
-          this.props.history.push("/login");
+          this.login();
         })
         .catch(err => {
           console.log(err);
@@ -48,6 +46,20 @@ class RegisterUser extends React.Component {
           error: "Passwords do not match."
         })
       }
+  };
+
+  login = () => {
+    axiosWithAuth()
+      .post("auth/login", {username: this.state.credentials.username, password: this.state.credentials.password})
+      .then(res => {
+        console.log(res);
+        this.props.func(this.state.credentials.username);
+        this.props.history.push("/home");
+      })
+      .catch(err => {
+        console.log("Err is: ", err.message);
+        this.setState({...this.state, error: err.message});
+      });
   };
 
   render() {

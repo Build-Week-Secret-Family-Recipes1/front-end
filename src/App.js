@@ -9,30 +9,26 @@ import RecipeForm from "./components/RecipeForm";
 import Recipe from "./components/Recipe";
 import Home from "./components/Home";
 import PrivateRoute from "./components/PrivateRoute";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 import "./styles.scss";
 
 
 function App(props) {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useLocalStorage("user",null);
 
-  useEffect(()=>{
-    if (localStorage.getItem("token")) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-  },[])
-
-  const login = () => {
+  const login = (username) => {
     setLoggedIn(true);
+    setUser(username);
   };
 
-  const logout = () => {
+  const logout = (username) => {
     setLoggedIn(false);
+    setUser(null);
   };
 
   return (
-    <Router>
+    <Router history={props.history}>
       <div className="App">
         <Switch>
           <PrivateRoute exact path="/recipes" component={RecipeList} />

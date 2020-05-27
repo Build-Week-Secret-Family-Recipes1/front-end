@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-import {axiosWithAuth} from '../utils/axiosWithAuth';
 import { getList} from "../actions";
 import { connect } from "react-redux";
 import { testList } from '../tests/TestData';
@@ -14,7 +12,7 @@ function RecipeList({ getList, isFetching, error, list, recipes}) {
   useEffect(()=>{
     console.log(list);
   },[list]);
-  
+
     if (isFetching) {
       return (<p>Fetching your Recipes</p>);
     } else {
@@ -22,7 +20,7 @@ function RecipeList({ getList, isFetching, error, list, recipes}) {
           <div className="recipe-list-wrapper">
             {testList.map((object) => {
               return (
-                <Recipe 
+                <Recipe
                   id={object.id}
                   title={object.title}
                   source={object.source}
@@ -37,6 +35,20 @@ function RecipeList({ getList, isFetching, error, list, recipes}) {
                   each recipe card will show the title, source, and tags
                   will link to full recipe
               */}
+             <hr />
+             {list.map((object) => {
+               return (
+                 <Recipe
+                   id={object.id}
+                   title={object.title}
+                   source={object.source}
+                   ingredients={object.ingredients}
+                   steps={object.steps}
+                   tags={object.tags}
+                 />
+               )
+             })}
+             {error!==''?<p>{error}</p>:<></>}
           </div>
       )
 
@@ -48,7 +60,8 @@ const mapStateToProps = state => {
   return {
     list: state.list,
     isFetching: state.isFetching,
-    error: state.error
+    error: state.error,
+    resStatus: state.resStatus,
   };
 };
 
