@@ -22,8 +22,8 @@ function EditRecipe(props) {
     const [submitted, setSubmitted] = useState(false);
 
     const [recipeState, setRecipeState] = useState({
-        id: props.recipeToEdit.id || null,
-        title: props.recipeToEdit.title || '',
+        id: null,
+        title: '',
         source: '',
         newIngredient: '',
         ingredients: [],
@@ -49,8 +49,9 @@ function EditRecipe(props) {
     const inputChange = e => {
         e.persist();
         validate(e);
-        setRecipeState({ ...recipeState, [e.target.name]: e.target.value });
+        setRecipeState({ [e.target.name]: e.target.value });
         console.log(recipeState);
+        console.log('Hello from inputChange')
     };
 
     const addIngredient = e => {
@@ -108,7 +109,7 @@ function EditRecipe(props) {
       return (
           <form onSubmit={submitForm}>
               <label htmlFor="title">
-                  Title
+                  New Title
                   <input
                       type="text"
                       name="title"
@@ -118,9 +119,10 @@ function EditRecipe(props) {
                       onChange={inputChange}
                   />
               </label>
+              <p>Previous Title: {props.recipeToEdit.title}</p>
               {errorState.title.length > 0 ? (<p>{errorState.title}</p>) : null}
               <label htmlFor="newIngredient">
-                  Ingredient
+                  New Ingredient
                   <input
                       type="text"
                       name="newIngredient"
@@ -144,7 +146,7 @@ function EditRecipe(props) {
                   </ul>
               </div>
               <label htmlFor="newStep">
-                  Steps
+                  New Steps
                   <input
                       type="text"
                       name="newStep"
@@ -166,7 +168,7 @@ function EditRecipe(props) {
                   </ol>
               </div>
               <label htmlFor="newTag">
-                  Categories
+                  New Category
                   <input
                       type="text"
                       name="newTag"
@@ -188,16 +190,17 @@ function EditRecipe(props) {
                   </ul>
               </div>
               <label htmlFor="source">
-                  Source
+                  New Source
                   <input
                       type="text"
                       name="source"
                       id="source"
                       placeholder="Where did you get your recipe?"
-                      value={props.recipeToEdit.source}
+                      value={recipeState.source}
                       onChange={inputChange}
                   />
               </label>
+              <p>Previous Source: {props.recipeToEdit.source}</p>
               <button>Add Recipe</button>
               {props.error!==''?<p>{props.error}</p>:<></>}
           </form>
