@@ -38,7 +38,7 @@ function App(props) {
           <Route path="/login" render={(props)=> <Login {...props} func={login} />}/>
           <Route path="/logout" render={(props)=> <Logout {...props} history={props.history} func={logout} />}/>
           <Route path="/register" render={(props)=> <RegisterUser {...props} func={login} />}/>
-          {!loggedIn?<Route render={(props)=> <Login {...props} func={login} />}/>:<PrivateRoute component={Home} />}
+          {!loggedIn?<Route render={(props)=> <Login {...props} func={login} />}/>:<PrivateRoute path='/home' component={Home} />}
         </Switch>
       </div>
     </Router>
