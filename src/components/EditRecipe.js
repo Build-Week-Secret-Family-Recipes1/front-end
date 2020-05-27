@@ -22,15 +22,15 @@ function EditRecipe(props) {
     const [submitted, setSubmitted] = useState(false);
 
     const [recipeState, setRecipeState] = useState({
-        id: null,
-        title: '',
-        source: '',
+        id: props.recipeToEdit.id || null,
+        title: props.recipeToEdit.title || '',
+        source: props.recipeToEdit.source || '',
         newIngredient: '',
-        ingredients: [],
+        ingredients: props.recipeToEdit.ingredients || [],
         newStep: '',
-        steps: [],
+        steps: props.recipeToEdit.steps || [],
         newTag: '',
-        tags: []
+        tags: props.recipeToEdit.tags || []
     });
 
     const [errorState, setErrorState] = useState({
@@ -115,7 +115,7 @@ function EditRecipe(props) {
                       name="title"
                       id="title"
                       placeholder="What's your recipe called?"
-                      value={props.recipeToEdit.title}
+                      value={recipeState.title}
                       onChange={inputChange}
                   />
               </label>
@@ -137,7 +137,7 @@ function EditRecipe(props) {
               <div>
                   <h5>Ingredients</h5>
                   <ul>
-                      {props.recipeToEdit.ingredients.map((ingredient) => {
+                      {recipeState.ingredients.map((ingredient) => {
                           return (
                               <li>{ingredient}</li>
                           )
@@ -159,7 +159,7 @@ function EditRecipe(props) {
               <div>
                   <h5>Steps</h5>
                   <ol>
-                      {props.recipeToEdit.steps.map((step) => {
+                      {recipeState.steps.map((step) => {
                           return (
                               <li>{step}</li>
                           )
@@ -181,7 +181,7 @@ function EditRecipe(props) {
               <div>
                   <h5>Categories</h5>
                   <ul>
-                      {props.recipeToEdit.tags.map((tag) => {
+                      {recipeState.tags.map((tag) => {
                           return (
                               <li>{tag}</li>
                           )
@@ -195,7 +195,7 @@ function EditRecipe(props) {
                       name="source"
                       id="source"
                       placeholder="Where did you get your recipe?"
-                      value={props.recipeToEdit.source}
+                      value={recipeState.source}
                       onChange={inputChange}
                   />
               </label>

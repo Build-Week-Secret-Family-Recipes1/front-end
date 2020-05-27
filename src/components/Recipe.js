@@ -23,6 +23,9 @@ function Recipe(props) {
             steps: props.steps,
             tags: props.tags
         };
+        console.log('setRecipeToEdit from Recipe', props.setRecipeToEdit);
+        console.log('Recipe props', props);
+        console.log(recipe)
         props.setRecipeToEdit(recipe);
     }
 

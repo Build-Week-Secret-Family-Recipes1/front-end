@@ -7,7 +7,14 @@ import EditRecipe from './EditRecipe';
 function Home() {
     const [recipes, setRecipes] = useState([]);
 
-    const [recipeToEdit, setRecipeToEdit] = useState({});
+    const [recipeToEdit, setRecipeToEdit] = useState({
+        id: null,
+        title: '',
+        source: '',
+        ingredients: [],
+        steps: [],
+        tags: []
+    });
 
     return (
         <div>
