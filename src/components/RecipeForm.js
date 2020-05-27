@@ -3,6 +3,71 @@ import * as yup from 'yup';
 import { postRecipe } from "../actions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import styled from 'styled-components';
+
+const StyledForm = styled.form`
+    width: 45vw;
+    padding: 20px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #5e4c5a;
+    background-color: rgba(255, 226, 209, 0.3);
+
+    border: 2px solid #5e4c5a;
+    border-radius: 3px;
+`
+
+const Button = styled.button`
+    display: inline-block;
+    padding: 10px;
+    margin: 20px;
+    width: 9rem;
+    border-radius: 3px;
+    border: 2px solid #55917F;
+    background-color: rgba(64, 224, 208, 0.5);
+    font-size: 0.9rem;
+    font-family: Gill Sans;
+`
+
+const Label = styled.label`
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    width: 100%;
+`
+
+const Input = styled.input`
+    width: 30rem;
+    padding: 5px;
+    font-size: 1rem;
+    border: 2px solid #6bab90;
+    border-radius: 3px;
+    color: #5e4c5a;
+`
+
+const H2 = styled.h2`
+    font-size: 2.5rem;
+`
+
+const H5 = styled.h5`
+    padding: ${props => props.primary ? '20px' : '5px'};
+    font-size: 1.1rem;
+    margin: 0;
+`
+
+const Ul = styled.ul`
+    text-align: left;
+    width: 80%;
+    margin: auto;
+`
+
+const Ol = styled.ol`
+    text-align: left;
+    width: 80%;
+    margin: auto;
+`
 
 const formSchema = yup.object().shape({
     id: yup.number(),
@@ -104,10 +169,10 @@ function RecipeForm(props) {
       return (<p>Please wait...</p>);
     } else {
       return (
-          <form onSubmit={submitForm}>
-              <label htmlFor="title">
-                  Title
-                  <input
+          <StyledForm onSubmit={submitForm}>
+              <Label htmlFor="title">
+                  <H5>Title</H5>
+                  <Input
                       type="text"
                       name="title"
                       id="title"
@@ -115,11 +180,11 @@ function RecipeForm(props) {
                       value={recipeState.title}
                       onChange={inputChange}
                   />
-              </label>
+              </Label>
               {errorState.title.length > 0 ? (<p>{errorState.title}</p>) : null}
-              <label htmlFor="newIngredient">
-                  Ingredient
-                  <input
+              <Label htmlFor="newIngredient">
+                  <H5>Ingredient</H5>
+                  <Input
                       type="text"
                       name="newIngredient"
                       id="newIngredient"
@@ -127,23 +192,23 @@ function RecipeForm(props) {
                       value={recipeState.newIngredient}
                       onChange={inputChange}
                   />
-              </label>
+              </Label>
               <button onClick={addIngredient}>Add Ingredient</button>
               {/* Need to figure out how to get this ingredients error to show */}
               {errorState.ingredients.length > 0 ? (<p>{errorState.ingredients}</p>) : null}
               <div>
-                  <h5>Ingredients</h5>
-                  <ul>
+                  <H5 primary>Ingredients:</H5>
+                  <Ul>
                       {recipeState.ingredients.map((ingredient) => {
                           return (
                               <li>{ingredient}</li>
                           )
                       })}
-                  </ul>
+                  </Ul>
               </div>
-              <label htmlFor="newStep">
-                  Steps
-                  <input
+              <Label htmlFor="newStep">
+                  <H5>Steps</H5>
+                  <Input
                       type="text"
                       name="newStep"
                       id="newStep"
@@ -151,21 +216,21 @@ function RecipeForm(props) {
                       value={recipeState.newStep}
                       onChange={inputChange}
                   />
-              </label>
+              </Label>
               <button onClick={addStep}>Add Step</button>
               <div>
-                  <h5>Steps</h5>
-                  <ol>
+                  <H5 primary>Steps:</H5>
+                  <Ol>
                       {recipeState.steps.map((step) => {
                           return (
                               <li>{step}</li>
                           )
                       })}
-                  </ol>
+                  </Ol>
               </div>
-              <label htmlFor="newTag">
-                  Categories
-                  <input
+              <Label htmlFor="newTag">
+                  <H5>Categories</H5>
+                  <Input
                       type="text"
                       name="newTag"
                       id="newTag"
@@ -173,21 +238,21 @@ function RecipeForm(props) {
                       value={recipeState.newTag}
                       onChange={inputChange}
                   />
-              </label>
+              </Label>
               <button onClick={addTag}>Add Category</button>
               <div>
-                  <h5>Categories</h5>
-                  <ul>
+                  <H5 primary>Categories:</H5>
+                  <Ul>
                       {recipeState.tags.map((tag) => {
                           return (
                               <li>{tag}</li>
                           )
                       })}
-                  </ul>
+                  </Ul>
               </div>
-              <label htmlFor="source">
-                  Source
-                  <input
+              <Label htmlFor="source">
+                  <H5>Source</H5>
+                  <Input
                       type="text"
                       name="source"
                       id="source"
@@ -195,10 +260,10 @@ function RecipeForm(props) {
                       value={recipeState.source}
                       onChange={inputChange}
                   />
-              </label>
-              <button>Add Recipe</button>
+              </Label>
+              <Button>Add Recipe</Button>
               {props.error!==''?<p>{props.error}</p>:<></>}
-          </form>
+          </StyledForm>
       )
     }
 }

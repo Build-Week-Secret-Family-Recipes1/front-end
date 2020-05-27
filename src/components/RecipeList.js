@@ -3,6 +3,13 @@ import { getList} from "../actions";
 import { connect } from "react-redux";
 import { testList } from '../tests/TestData';
 import Recipe from './Recipe';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`
 
 function RecipeList(props) {
   useEffect(()=>{
@@ -17,7 +24,8 @@ function RecipeList(props) {
       return (<p>Fetching your Recipes</p>);
     } else {
       return (
-          <div className="recipe-list-wrapper">
+          <Wrapper className="recipe-list-wrapper">
+           
             {props.list.map((object) => {
               console.log('setRecipeToEdit from RecipeList', props.editRecipe)
               return (
@@ -38,7 +46,8 @@ function RecipeList(props) {
                   each recipe card will show the title, source, and tags
                   will link to full recipe
               */}
-             <hr />
+         
+          </Wrapper>
 
              {props.error!==''?<p>{props.error}</p>:<></>}
           </div>
