@@ -4,11 +4,16 @@ import styled from 'styled-components';
 
 const StyledForm = styled.form`
     width: 45vw;
+    padding: 20px;
     margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: teal;
+    color: #5e4c5a;
+    background-color: rgba(255, 226, 209, 0.3);
+
+    border: 2px solid #5e4c5a;
+    border-radius: 3px;
 `
 
 const Button = styled.button`
@@ -17,7 +22,7 @@ const Button = styled.button`
     margin: 20px;
     width: 9rem;
     border-radius: 3px;
-    border: 2px solid teal;
+    border: 2px solid #55917F;
     background-color: rgba(64, 224, 208, 0.5);
     font-size: 0.9rem;
     font-family: Gill Sans;
@@ -32,7 +37,11 @@ const Label = styled.label`
 
 const Input = styled.input`
     width: 30rem;
+    padding: 5px;
     font-size: 1rem;
+    border: 2px solid #6bab90;
+    border-radius: 3px;
+    color: #5e4c5a;
 `
 
 const H2 = styled.h2`

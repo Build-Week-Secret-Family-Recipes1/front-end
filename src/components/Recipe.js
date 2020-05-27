@@ -3,7 +3,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 const RecipeCard = styled.div`
-    border: 1px solid purple;
+    background-color: rgba(255, 226, 209, 0.3);
+
+    border: 2px solid #55917F;
+    border-radius: 3px;
+
+    color: #5e4c5a;
 
     box-sizing: border-box;
     width: 40vw;
