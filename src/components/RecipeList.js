@@ -25,7 +25,7 @@ function RecipeList(props) {
     } else {
       return (
           <Wrapper className="recipe-list-wrapper">
-           
+
             {props.list.map((object) => {
               console.log('setRecipeToEdit from RecipeList', props.editRecipe)
               return (
@@ -47,10 +47,9 @@ function RecipeList(props) {
                   will link to full recipe
               */}
          
-          </Wrapper>
 
              {props.error!==''?<p>{props.error}</p>:<></>}
-          </div>
+            </Wrapper>
       )
 
     }
