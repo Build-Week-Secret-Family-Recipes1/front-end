@@ -1,6 +1,7 @@
 import {axiosWithAuth} from "../utils/axiosWithAuth";
 import axios from "axios";
 import { testList } from "../tests/TestData";
+import { isDev } from "../utils/isDev";
 
 export const FETCHING_RECIPE_START = "FETCHING_RECIPE_START";
 export const FETCHING_RECIPE_SUCCESS = "FETCHING_RECIPE_SUCCESS";
@@ -47,140 +48,174 @@ export const getRecipe = (recipeId) => async dispatch => {
   dispatch({ type: FETCHING_RECIPE_START, payload: recipeId });
   console.log(`Fetching ${recipeId}`);
   // implement the code calling actions for .then and .catch
-  dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: '200', recipe: testList.filter(r=>r.id===recipeId)}}) 
-  // axios
-  //   .get(`api/recipes`)
-  //   .then(res => {
-  //     const selectedRecipe = modifyRecipe(res.data.filter(r=>r.id===recipeId));
-  //     dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: res.status, recipe: selectedRecipe }});
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //     dispatch({
-  //       type: FETCHING_RECIPE_FAILURE,
-  //       payload: `${err.statusText} with response code ${err.status}`
-  //     });
-  //   });
+  if (isDev()) {
+    dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: '200', recipe: testList.filter(r=>r.id===recipeId)}})
+  } else {
+    axiosWithAuth()
+      .get(`api/recipes`)
+      .then(res => {
+        const selectedRecipe = modifyRecipe(res.data.filter(r=>r.id===recipeId));
+        dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: res.status, recipe: selectedRecipe }});
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({
+          type: FETCHING_RECIPE_FAILURE,
+          payload: `${err.statusText} with response code ${err.status}`
+        });
+      });
+  }
 };
 
 export const getList = () => async dispatch => {
   dispatch({ type: FETCHING_LIST_START });
   console.log(`Fetching list`);
-  axios
-    .get(`/api/recipes`)
-    .then(res => {
-      const modifiedList = res.data.map(r=>modifyRecipe(r));
-      dispatch({ type: FETCHING_LIST_SUCCESS, payload: {resStatus: res.status, list: modifiedList }});
-    })
-    .catch(err => {
-      dispatch({
-        type: FETCHING_LIST_FAILURE,
-        payload: `${err.statusText} with response code ${err.status}`
+  if (isDev()) {
+    dispatch({ type: FETCHING_LIST_SUCCESS, payload: {resStatus: '200', list: testList }});
+  } else {
+    axiosWithAuth()
+      .get(`api/recipes`)
+      .then(res => {
+        const modifiedList = res.data.map(r=>modifyRecipe(r));
+        dispatch({ type: FETCHING_LIST_SUCCESS, payload: {resStatus: res.status, list: modifiedList }});
+      })
+      .catch(err => {
+        dispatch({
+          type: FETCHING_LIST_FAILURE,
+          payload: `${err.statusText} with response code ${err.status}`
+        });
       });
-    });
+  }
 };
 
 export const postRecipe = (recipe) => async dispatch => {
   dispatch({ type: POSTING_RECIPE_START, payload: recipe });
-  const modifiedRecipe = {title: recipe.title, source: recipe.source,
-    ingredients: recipe.ingredients.join(';'), instructions: recipe.steps.join(';'),
-    category: recipe.tags.join(';')}
-  axiosWithAuth()
-    .post(`/api/recipes`, modifiedRecipe)
-    .then(res => {
-      console.log(res);
-      dispatch({ type: POSTING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data }});
-    })
-    .catch(err => {
-      console.log(err);
-      console.log(err.json);
-      dispatch({
-        type: POSTING_RECIPE_FAILURE,
-        payload: `${err.statusText} with response code ${err.status}, ${err}`
+  if (isDev()) {
+    dispatch({ type: POSTING_RECIPE_SUCCESS, payload: {resStatus: '201', data: {message: 'New Recipe Added.', id: 4} }})
+  } else {
+    const modifiedRecipe = {title: recipe.title, source: recipe.source,
+      ingredients: recipe.ingredients.join(';'), instructions: recipe.steps.join(';'),
+      category: recipe.tags.join(';')}
+    axiosWithAuth()
+      .post(`/api/recipes`, modifiedRecipe)
+      .then(res => {
+        console.log(res);
+        dispatch({ type: POSTING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data }});
+      })
+      .catch(err => {
+        console.log(err);
+        console.log(err.json);
+        dispatch({
+          type: POSTING_RECIPE_FAILURE,
+          payload: `${err.statusText} with response code ${err.status}, ${err}`
+        });
       });
-    });
+    }
 };
 
 export const updateRecipe = (recipe) => async dispatch => {
   dispatch({ type: UPDATING_RECIPE_START, payload: recipe });
-  const modifiedRecipe = {title: recipe.title, source: recipe.source,
-    ingredients: recipe.ingredients.join(';'), instructions: recipe.steps.join(';'),
-    category: recipe.tags.join(';')}
-  axiosWithAuth()
-    .put(`api/recipes/${recipe.id}`, modifiedRecipe)
-    .then(res => {
-      console.log(res);
-      dispatch({ type: UPDATING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data }});
-    })
-    .catch(err => {
-      dispatch({
-        type: UPDATING_RECIPE_FAILURE,
-        payload: `${err.statusText} with response code ${err.status}, ${err}`
+  if (isDev()) {
+    dispatch({ type: UPDATING_RECIPE_SUCCESS, payload: {resStatus: '200', data: {message: 'updated', id: recipe.id} }});
+  } else {
+    const modifiedRecipe = {title: recipe.title, source: recipe.source,
+      ingredients: recipe.ingredients.join(';'), instructions: recipe.steps.join(';'),
+      category: recipe.tags.join(';')}
+    axiosWithAuth()
+      .put(`api/recipes/${recipe.id}`, modifiedRecipe)
+      .then(res => {
+        console.log(res);
+        dispatch({ type: UPDATING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data }});
+      })
+      .catch(err => {
+        dispatch({
+          type: UPDATING_RECIPE_FAILURE,
+          payload: `${err.statusText} with response code ${err.status}, ${err}`
+        });
       });
-    });
+    }
 }
 
 export const deleteRecipe = (recipe) => async dispatch => {
   dispatch({ type: DELETING_RECIPE_START, payload: recipe });
-  axiosWithAuth()
-    .delete(`api/recipes/${recipe.id}`)
-    .then(res => {
-      console.log(res);
-      dispatch({ type: DELETING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data} });
-    })
-    .catch(err => {
+  if (isDev()) {
+    dispatch({ type: DELETING_RECIPE_SUCCESS, payload: {resStatus: '200', data: {message: 'deleted', id: recipe.id}} });
+  } else {
+    axiosWithAuth()
+      .delete(`api/recipes/${recipe.id}`)
+      .then(res => {
+        console.log(res);
+        dispatch({ type: DELETING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data} });
+      })
+      .catch(err => {
 
-      dispatch({
-        type: DELETING_RECIPE_FAILURE,
-        payload: `${err.statusText} with response code ${err.status}, ${err}`
+        dispatch({
+          type: DELETING_RECIPE_FAILURE,
+          payload: `${err.statusText} with response code ${err.status}, ${err}`
+        });
       });
-    });
+    }
 }
 
 export const loginUser = (credentials) => async dispatch => {
   dispatch({ type: LOGIN_START, payload: credentials.username });
-  axiosWithAuth()
-    .post("/auth/login", credentials)
-    .then(res => {
-      dispatch({ type: LOGIN_SUCCESS, payload: {resStatus: res.status, user: credentials.username }});
-      localStorage.addItem("user", credentials.username);
-    })
-  .catch(err => {
-    dispatch({
-      type: LOGIN_FAILURE,
-      payload: `${err.statusText} with response code ${err.status}, ${err}`
+  if (isDev()) {
+    dispatch({ type: LOGIN_SUCCESS, payload: {resStatus: '200', user: credentials.username }});
+    localStorage.addItem("user", credentials.username);
+  } else {
+    axiosWithAuth()
+      .post("/auth/login", credentials)
+      .then(res => {
+        dispatch({ type: LOGIN_SUCCESS, payload: {resStatus: res.status, user: credentials.username }});
+        localStorage.addItem("user", credentials.username);
+      })
+    .catch(err => {
+      dispatch({
+        type: LOGIN_FAILURE,
+        payload: `${err.statusText} with response code ${err.status}, ${err}`
+      });
     });
-  });
+  }
 }
 
 export const registerUser = (credentials) => async dispatch => {
   dispatch({ type: REGISTER_START, payload: credentials.username });
-  axiosWithAuth()
-    .post("auth/register", credentials)
-    .then(res => {
-      dispatch({ type: REGISTER_SUCCESS, payload: {resStatus: res.status, user: credentials.username }});
-      loginUser(credentials);
-    })
-  .catch(err => {
-    dispatch({
-      type: REGISTER_FAILURE,
-      payload: `${err.statusText} with response code ${err.status}, ${err}`
+  if (isDev()) {
+    dispatch({ type: REGISTER_SUCCESS, payload: {resStatus: '200', user: credentials.username }});
+    loginUser(credentials);
+  } else {
+    axiosWithAuth()
+      .post("auth/register", credentials)
+      .then(res => {
+        dispatch({ type: REGISTER_SUCCESS, payload: {resStatus: res.status, user: credentials.username }});
+        loginUser(credentials);
+      })
+    .catch(err => {
+      dispatch({
+        type: REGISTER_FAILURE,
+        payload: `${err.statusText} with response code ${err.status}, ${err}`
+      });
     });
-  });
+  }
 }
 
 export const logoutUser = (username) => async dispatch => {
   dispatch({ type: LOGOUT_START, payload: username });
-  axiosWithAuth()
-    .post("auth/logout")
-    .then(res => {
-      dispatch({ type: LOGOUT_SUCCESS, payload: {resStatus: res.status, user: username }});
-      localStorage.removeItem("user");
-    })
-  .catch(err => {
-    dispatch({
-      type: LOGOUT_FAILURE,
-      payload: `${err.statusText} with response code ${err.status}, ${err}`
+  if (isDev()) {
+    dispatch({ type: LOGOUT_SUCCESS, payload: {resStatus: '200', user: username }});
+    localStorage.removeItem("user");
+  } else {
+    axiosWithAuth()
+      .post("auth/logout")
+      .then(res => {
+        dispatch({ type: LOGOUT_SUCCESS, payload: {resStatus: res.status, user: username }});
+        localStorage.removeItem("user");
+      })
+    .catch(err => {
+      dispatch({
+        type: LOGOUT_FAILURE,
+        payload: `${err.statusText} with response code ${err.status}, ${err}`
+      });
     });
-  });
+  }
 }
