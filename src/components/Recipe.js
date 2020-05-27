@@ -33,34 +33,24 @@ const Step = styled.li`
 function Recipe(props) {
     return (
         <RecipeCard>
-            <H3>Title of Recipe</H3>
-            <H5>Source of Recipe</H5>
+            <H3>{props.title}</H3>
+            <H5>{props.source}</H5>
             <p>Categories:</p>
             <p>Ingredients</p>
             <ul>
-                {/* Map over ingredients from props */}
-                <li>ingredients</li>
-                <li>ingredients</li>
-                <li>ingredients</li>
-                <li>ingredients</li>
-                <li>ingredients</li>
-                <li>ingredients</li>
-                <li>ingredients</li>
-                <li>ingredients</li>
-                <li>ingredients</li>
-                <li>ingredients</li>
-                <li>ingredients</li>
+                {props.ingredients.map(ingredient => {
+                    return (
+                        <li>{ingredient}</li>
+                    )
+                })}
             </ul>
             <p>Instructions</p>
             <ol>
-                {/* Map over steps from props */}
-                <Step>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique euismod est, eget suscipit est venenatis sed. Pellentesque sit amet ante eget tortor tincidunt vehicula nec nec nisi.</Step>
-                <Step>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu enim in sem congue iaculis. Pellentesque tristique euismod est, eget suscipit est venenatis sed.</Step>
-                <Step>Consectetur adipiscing elit. Aenean eu enim in sem congue iaculis. Pellentesque tristique euismod est, eget suscipit est venenatis sed. Pellentesque sit amet ante eget tortor tincidunt vehicula nec nec nisi.</Step>
-                <Step>Aenean eu enim in sem congue iaculis. Pellentesque sit amet ante eget tortor tincidunt vehicula nec nec nisi.</Step>
-                <Step>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tristique euismod est, eget suscipit est venenatis sed. Pellentesque sit amet ante eget tortor tincidunt vehicula nec nec nisi.</Step>
-                <Step>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu enim in sem congue iaculis. Pellentesque tristique euismod est, eget suscipit est venenatis sed. Pellentesque sit amet ante eget tortor tincidunt vehicula nec nec nisi.</Step>
-                <Step>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Step>
+                {props.steps.map(step => {
+                    return (
+                        <Step>{step}</Step>
+                    )
+                })}
             </ol>
         </RecipeCard>
     )

@@ -1,0 +1,3 @@
+/api/* https://secretrecipesbuild.herokuapp.com/api/:splat  200
+/auth/* https://secretrecipesbuild.herokuapp.com/auth/:splat 200
+/* /index.html 200

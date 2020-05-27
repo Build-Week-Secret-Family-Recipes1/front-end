@@ -1,50 +1,70 @@
-import React from "react";
+import React, {useEffect, useState} from 'react';
+import { connect } from "react-redux";
+import {loginUser} from "../actions";
+import {  Redirect } from 'react-router-dom';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
-import { axiosWithAuth } from "../utils/axiosWithAuth";
 
-class Login extends React.Component {
-  state = {
-    credentials: {
-      username: "",
-      password: ""
-    }
-  };
+function Login (props) {
+  const [credentials, setCredentials] = useState({username: '', password: ''});
+  const [error, setError] = useState(null);
+  const [redirect, setRedirect] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
 
-  handleChange = e => {
-    this.setState({
-      credentials: {
-        ...this.state.credentials,
+  const handleChange = e => {
+    setCredentials({...credentials,
         [e.target.name]: e.target.value
-      }
     });
   };
 
-  login = e => {
+  const login = (e) => {
     e.preventDefault();
+    setSubmitted(true);
     axiosWithAuth()
-      .post("/login", this.state.credentials)
+      .post("auth/login", {username: credentials.username, password: credentials.password})
       .then(res => {
-        localStorage.setItem("token", res.data.payload);
-        this.props.func();
-        this.props.history.push("/");
+        console.log(res);
+        props.func(credentials.username);
+        props.history.push("/home");
       })
       .catch(err => {
-        console.log("Err is: ", err);
+        console.log("Err is: ", err.message);
+        setError(err.message);
       });
   };
 
-  render() {
+  useEffect(()=>{
+    if (submitted && props.resStatus!==null && props.error==='') {
+      console.log(props.resStatus);
+      props.func(credentials.username);
+      setRedirect('/');
+    }
+  },[submitted, props.resStatus, props.error]);
+
+  useEffect(()=>{
+    setError(props.error);
+    setSubmitted(false);
+  },[props.error]);
+
+
+  if (redirect !== null) {
+    return (
+      <Redirect to={redirect} />
+    );
+  } else if (props.isFetching) {
+    return (<p>Logging In...</p>);
+  } else {
     return (
       <div className="loginForm">
-        <form onSubmit={this.login}>
+        <form onSubmit={login}>
           <h2>Please Log In</h2>
           <label htmlFor="username">Username: </label>
           <input
             type="text"
             name="username"
             id="username"
-            value={this.state.credentials.username}
-            onChange={this.handleChange}
+            value={credentials.username}
+            onChange={handleChange}
             placeholder="Username"
           /><br />
           <label htmlFor="password">Password: </label>
@@ -52,10 +72,11 @@ class Login extends React.Component {
             type="password"
             name="password"
             id="password"
-            value={this.state.credentials.password}
-            onChange={this.handleChange}
+            value={credentials.password}
+            onChange={handleChange}
             placeholder="Password"
           /><br />
+          {error?<p>{error}</p>:<></>}
           <button className="loginBtn">Log in</button>
         </form>
       </div>
@@ -63,4 +84,17 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+// hook up the connect to our store
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    isFetching: state.isFetching,
+    error: state.error,
+    resStatus: state.resStatus
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login);
