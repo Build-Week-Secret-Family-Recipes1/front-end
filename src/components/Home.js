@@ -2,16 +2,31 @@ import React, { useState } from 'react';
 
 import RecipeForm from './RecipeForm';
 import RecipeList from './RecipeList';
+import EditRecipe from './EditRecipe';
 
-function Home() {
+function Home(props) {
     const [recipes, setRecipes] = useState([]);
+
+    const [recipeToEdit, setRecipeToEdit] = useState({
+        id: null,
+        title: '',
+        source: '',
+        ingredients: [],
+        steps: [],
+        tags: []
+    });
+
+    const editRecipe = r => {
+      setRecipeToEdit(r);
+    }
 
     return (
         <div>
             <h1>Secret Family Recipes</h1>
             <div>
-                <RecipeList recipes={recipes}/>
+                <RecipeList {...props} recipes={recipes} editRecipe={editRecipe}/>
                 <RecipeForm setRecipes={setRecipes}/>
+                <EditRecipe setRecipes={setRecipes} recipeToEdit={recipeToEdit}/>
                 {/*
                 will show a list of recipes
                 will have button to add a new recipe (will link to RecipeForm)

@@ -11,23 +11,26 @@ const Wrapper = styled.div`
   justify-content: center;
 `
 
-function RecipeList({ getList, isFetching, error, list, recipes}) {
+function RecipeList(props) {
   useEffect(()=>{
-    getList();
-  },[getList]);
+    props.getList();
+  },[props.getList]);
 
   useEffect(()=>{
-    console.log(list);
-  },[list]);
+    console.log(props.list);
+  },[props.list]);
 
-    if (isFetching) {
+    if (props.isFetching) {
       return (<p>Fetching your Recipes</p>);
     } else {
       return (
           <Wrapper className="recipe-list-wrapper">
             {testList.map((object) => {
+              console.log('setRecipeToEdit from RecipeList', props.editRecipe)
               return (
                 <Recipe
+                  {...props}
+                  editRecipe={props.editRecipe}
                   id={object.id}
                   title={object.title}
                   source={object.source}
@@ -42,21 +45,11 @@ function RecipeList({ getList, isFetching, error, list, recipes}) {
                   each recipe card will show the title, source, and tags
                   will link to full recipe
               */}
-             <hr />
-             {list.map((object) => {
-               return (
-                 <Recipe
-                   id={object.id}
-                   title={object.title}
-                   source={object.source}
-                   ingredients={object.ingredients}
-                   steps={object.steps}
-                   tags={object.tags}
-                 />
-               )
-             })}
-             {error!==''?<p>{error}</p>:<></>}
+         
           </Wrapper>
+
+             {props.error!==''?<p>{props.error}</p>:<></>}
+          </div>
       )
 
     }

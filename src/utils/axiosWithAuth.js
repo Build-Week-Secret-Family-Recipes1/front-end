@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const axiosWithAuth = () => {
   return axios.create({
-    baseURL: "/",
+    baseURL: "https://secretfamilyrecipesapi.heroku.com/",
     headers: {
       withCredentials: true
     }

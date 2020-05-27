@@ -1,5 +1,6 @@
 import {axiosWithAuth} from "../utils/axiosWithAuth";
 import axios from "axios";
+import { testList } from "../tests/TestData";
 
 export const FETCHING_RECIPE_START = "FETCHING_RECIPE_START";
 export const FETCHING_RECIPE_SUCCESS = "FETCHING_RECIPE_SUCCESS";
@@ -46,19 +47,20 @@ export const getRecipe = (recipeId) => async dispatch => {
   dispatch({ type: FETCHING_RECIPE_START, payload: recipeId });
   console.log(`Fetching ${recipeId}`);
   // implement the code calling actions for .then and .catch
-  axiosWithAuth()
-    .get(`api/recipes`)
-    .then(res => {
-      const selectedRecipe = modifyRecipe(res.data.filter(r=>r.id===recipeId));
-      dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: res.status, recipe: selectedRecipe }});
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch({
-        type: FETCHING_RECIPE_FAILURE,
-        payload: `${err.statusText} with response code ${err.status}`
-      });
-    });
+  dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: '200', recipe: testList.filter(r=>r.id===recipeId)}}) 
+  // axios
+  //   .get(`api/recipes`)
+  //   .then(res => {
+  //     const selectedRecipe = modifyRecipe(res.data.filter(r=>r.id===recipeId));
+  //     dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: res.status, recipe: selectedRecipe }});
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //     dispatch({
+  //       type: FETCHING_RECIPE_FAILURE,
+  //       payload: `${err.statusText} with response code ${err.status}`
+  //     });
+  //   });
 };
 
 export const getList = () => async dispatch => {
@@ -137,7 +139,7 @@ export const deleteRecipe = (recipe) => async dispatch => {
 
 export const loginUser = (credentials) => async dispatch => {
   dispatch({ type: LOGIN_START, payload: credentials.username });
-  axios
+  axiosWithAuth()
     .post("/auth/login", credentials)
     .then(res => {
       dispatch({ type: LOGIN_SUCCESS, payload: {resStatus: res.status, user: credentials.username }});
