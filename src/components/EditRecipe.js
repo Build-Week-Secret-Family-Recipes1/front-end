@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useParams } from 'react';
 import * as yup from 'yup';
 import { postRecipe } from "../actions";
 import { connect } from "react-redux";
@@ -24,13 +24,13 @@ function EditRecipe(props) {
     const [recipeState, setRecipeState] = useState({
         id: props.recipeToEdit.id || null,
         title: props.recipeToEdit.title || '',
-        source: props.recipeToEdit.source || '',
+        source: '',
         newIngredient: '',
-        ingredients: props.recipeToEdit.ingredients || [],
+        ingredients: [],
         newStep: '',
-        steps: props.recipeToEdit.steps || [],
+        steps: [],
         newTag: '',
-        tags: props.recipeToEdit.tags || []
+        tags: []
     });
 
     const [errorState, setErrorState] = useState({
@@ -44,7 +44,6 @@ function EditRecipe(props) {
         newTag: '',
         tags: ''
     });
-
 
 
     const inputChange = e => {
@@ -137,7 +136,7 @@ function EditRecipe(props) {
               <div>
                   <h5>Ingredients</h5>
                   <ul>
-                      {recipeState.ingredients.map((ingredient) => {
+                      {props.recipeToEdit.ingredients.map((ingredient) => {
                           return (
                               <li>{ingredient}</li>
                           )
@@ -159,7 +158,7 @@ function EditRecipe(props) {
               <div>
                   <h5>Steps</h5>
                   <ol>
-                      {recipeState.steps.map((step) => {
+                      {props.recipeToEdit.steps.map((step) => {
                           return (
                               <li>{step}</li>
                           )
@@ -181,7 +180,7 @@ function EditRecipe(props) {
               <div>
                   <h5>Categories</h5>
                   <ul>
-                      {recipeState.tags.map((tag) => {
+                      {props.recipeToEdit.tags.map((tag) => {
                           return (
                               <li>{tag}</li>
                           )
@@ -195,7 +194,7 @@ function EditRecipe(props) {
                       name="source"
                       id="source"
                       placeholder="Where did you get your recipe?"
-                      value={recipeState.source}
+                      value={props.recipeToEdit.source}
                       onChange={inputChange}
                   />
               </label>

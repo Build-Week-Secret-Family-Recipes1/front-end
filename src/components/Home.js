@@ -4,7 +4,7 @@ import RecipeForm from './RecipeForm';
 import RecipeList from './RecipeList';
 import EditRecipe from './EditRecipe';
 
-function Home() {
+function Home(props) {
     const [recipes, setRecipes] = useState([]);
 
     const [recipeToEdit, setRecipeToEdit] = useState({
@@ -16,11 +16,15 @@ function Home() {
         tags: []
     });
 
+    const editRecipe = r => {
+      setRecipeToEdit(r);
+    }
+
     return (
         <div>
             <h1>Secret Family Recipes</h1>
             <div>
-                <RecipeList recipes={recipes} setRecipeToEdit={setRecipeToEdit}/>
+                <RecipeList {...props} recipes={recipes} editRecipe={editRecipe}/>
                 <RecipeForm setRecipes={setRecipes}/>
                 <EditRecipe recipeToEdit={recipeToEdit}/>
                 {/*

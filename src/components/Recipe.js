@@ -3,7 +3,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 import axios from 'axios';
 
 function Recipe(props) {
-    const deleteRecipe = props => {
+    const deleteRecipe = () => {
         const recipeId = props.id;
         axios.delete(`api-url/${recipeId}`)
             .then(response => {
@@ -14,7 +14,7 @@ function Recipe(props) {
             })
     }
 
-    const getRecipe = props => {
+    const getRecipe = () => {
         const recipe = {
             id: props.id,
             title: props.title,
@@ -23,10 +23,10 @@ function Recipe(props) {
             steps: props.steps,
             tags: props.tags
         };
-        console.log('setRecipeToEdit from Recipe', props.setRecipeToEdit);
+        console.log('setRecipeToEdit from Recipe', props.editRecipe);
         console.log('Recipe props', props);
         console.log(recipe)
-        props.setRecipeToEdit(recipe);
+        props.editRecipe(recipe);
     }
 
     return (
