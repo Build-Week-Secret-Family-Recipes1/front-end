@@ -25,10 +25,15 @@ const Button = styled.button`
     margin: 20px;
     width: 9rem;
     border-radius: 3px;
-    border: 2px solid #55917F;
-    background-color: rgba(64, 224, 208, 0.5);
-    font-size: 0.9rem;
+    border: ${props => props.secondary ? '2px solid firebrick' : '2px solid #55917F'};
+    background-color: ${props => props.secondary ? 'lightcoral' : 'rgba(64, 224, 208, 0.5)'};
+    font-size: 1.1rem;
     font-family: Gill Sans;
+`
+
+const SubmitButton = styled(Button)`
+    border: 2px solid #5e4c5a;
+    background-color: plum;
 `
 
 const Label = styled.label`
@@ -170,6 +175,7 @@ function RecipeForm(props) {
     } else {
       return (
           <StyledForm onSubmit={submitForm}>
+              <H2>Add a Recipe</H2>
               <Label htmlFor="title">
                   <H5>Title</H5>
                   <Input
@@ -193,7 +199,7 @@ function RecipeForm(props) {
                       onChange={inputChange}
                   />
               </Label>
-              <button onClick={addIngredient}>Add Ingredient</button>
+              <Button onClick={addIngredient}>Add Ingredient</Button>
               {/* Need to figure out how to get this ingredients error to show */}
               {errorState.ingredients.length > 0 ? (<p>{errorState.ingredients}</p>) : null}
               <div>
@@ -217,7 +223,7 @@ function RecipeForm(props) {
                       onChange={inputChange}
                   />
               </Label>
-              <button onClick={addStep}>Add Step</button>
+              <Button onClick={addStep}>Add Step</Button>
               <div>
                   <H5 primary>Steps:</H5>
                   <Ol>
@@ -239,7 +245,7 @@ function RecipeForm(props) {
                       onChange={inputChange}
                   />
               </Label>
-              <button onClick={addTag}>Add Category</button>
+              <Button onClick={addTag}>Add Category</Button>
               <div>
                   <H5 primary>Categories:</H5>
                   <Ul>
@@ -261,7 +267,7 @@ function RecipeForm(props) {
                       onChange={inputChange}
                   />
               </Label>
-              <Button>Add Recipe</Button>
+              <SubmitButton>Add Recipe</SubmitButton>
               {props.error!==''?<p>{props.error}</p>:<></>}
           </StyledForm>
       )
