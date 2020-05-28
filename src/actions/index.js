@@ -49,12 +49,12 @@ export const getRecipe = (recipeId) => async dispatch => {
   console.log(`Fetching ${recipeId}`);
   // implement the code calling actions for .then and .catch
   if (isDev()) {
-    dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: '200', recipe: testList.filter(r=>r.id===recipeId)}})
+    dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: '200', recipe: testList.filter(r=>r.id===recipeId)[0]}})
   } else {
     axiosWithAuth()
       .get(`api/recipes`)
       .then(res => {
-        const selectedRecipe = modifyRecipe(res.data.filter(r=>r.id===recipeId));
+        const selectedRecipe = modifyRecipe(res.data.filter(r=>r.id===recipeId)[0]);
         dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: res.status, recipe: selectedRecipe }});
       })
       .catch(err => {

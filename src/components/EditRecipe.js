@@ -40,19 +40,19 @@ function EditRecipe({getRecipe, recipe, ...props}) {
         console.log('id', id);
 
         getRecipe(parseInt(id));
-        console.log('getRecipe(id)', getRecipe(id));
-    }, []);
+        
+    }, [params.id]);
 
     useEffect(() => {
         console.log(recipe);
         console.log('recipeState', recipeState);
-        if (recipe.title !== '') {
+        if (recipe!==undefined && recipe.title !== '') {
             setRecipeState(recipe);
         }
-        
+
     }, [recipe])
 
-    
+
 
     const [errorState, setErrorState] = useState({
         id: '',
