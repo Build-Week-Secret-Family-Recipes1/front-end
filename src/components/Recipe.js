@@ -1,6 +1,7 @@
 import React from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 
@@ -58,21 +59,6 @@ function Recipe(props) {
             })
     }
 
-    const getRecipe = () => {
-        const recipe = {
-            id: props.id,
-            title: props.title,
-            source: props.source,
-            ingredients: props.ingredients,
-            steps: props.steps,
-            tags: props.tags
-        };
-        console.log('setRecipeToEdit from Recipe', props.editRecipe);
-        console.log('Recipe props', props);
-        console.log(recipe)
-        props.editRecipe(recipe);
-    }
-
     return (
         <RecipeCard>
             <H3>{props.title}</H3>
@@ -94,10 +80,10 @@ function Recipe(props) {
                     )
                 })}
             </ol>
-            <ButtonContainer>
-                <Button onClick={getRecipe}>Edit</Button>
-                <Button secondary onClick={deleteRecipe}>Delete</Button>
-            </ButtonContainer>
+            <Link to={`/edit/${props.id}`}>
+                <button>Edit</button>
+            </Link>
+            <button onClick={deleteRecipe}>Delete</button>
         </RecipeCard>
     )
 }

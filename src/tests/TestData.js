@@ -1,5 +1,6 @@
 export const testRecipe0 = {
   id: 0,
+  user_id: 0,
   title: 'Chocolate Chip Cookies',
   source: 'Grandma Ann',
   ingredients: [
@@ -26,6 +27,7 @@ export const testRecipe0 = {
 
 export const testRecipe1 = {
   id: 1,
+  user_id: 0,
   title: 'Grilled Corn on the Cob',
   source: 'Uncle Joe',
   ingredients: ['6 ears corn', '6 tbsp butter', 'salt and pepper to taste'],
@@ -39,6 +41,7 @@ export const testRecipe1 = {
 
 export const testRecipe2 = {
   id: 2,
+  user_id: 0,
   title: 'Lasagna',
   source: 'Aunt Kim',
   ingredients: [

@@ -1,87 +1,57 @@
-import React from "react";
-import axios from "axios";
-import { isDev } from "../utils/isDev";
-import { registerUser } from "../actions";
+import React, {useEffect, useState} from 'react';
+import { connect } from "react-redux";
+import {registerUser} from "../actions";
+import { Redirect, Link } from 'react-router-dom';
 
-import { axiosWithAuth } from "../utils/axiosWithAuth";
+function RegisterUser (props) {
+  const [error, setError] = useState('');
+  const [credentials, setCredentials] = useState({username: '', password: '', passwordConfirm: ''});
+  const [submitted, setSubmitted] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
-class RegisterUser extends React.Component {
-  state = {
-    error: "",
-    credentials: {
-      username: "",
-      password: "",
-      passwordConfirm: ""
-    }
-  };
-
-  handleChange = e => {
-    this.setState({
-      ...this.state,
-      credentials: {
-        ...this.state.credentials,
+  const handleChange = e => {
+    setCredentials({
+        ...credentials,
         [e.target.name]: e.target.value
-      }
     });
   };
 
-  register = e => {
+  const register = e => {
     e.preventDefault();
 
-    if (this.state.credentials.password === this.state.credentials.passwordConfirm){
-          if (isDev()) {
-            registerUser(this.state.credentials);
-            this.props.func(this.state.credentials.username);
-            this.props.history.push("/home");
-          } else {
-            axiosWithAuth()
-            .post("auth/register", {username: this.state.credentials.username, password: this.state.credentials.password}, {withCredentials: true})
-            .then(res => {
-              console.log(res);
-              this.login();
-            })
-            .catch(err => {
-              console.log(err);
-              this.setState({
-                ...this.state,
-                error: err.message
-              })
-            });
-          }
-      } else {
-        this.setState({
-          ...this.state,
-          error: "Passwords do not match."
-        })
-      }
+    if (credentials.password === credentials.passwordConfirm){
+      setSubmitted(true);
+      registerUser(credentials);
+    }
   };
 
-  login = () => {
-    axiosWithAuth()
-      .post("auth/login", {username: this.state.credentials.username, password: this.state.credentials.password}, {withCredentials: true})
-      .then(res => {
-        console.log(res);
-        this.props.func(this.state.credentials.username);
-        this.props.history.push("/home");
-      })
-      .catch(err => {
-        console.log("Err is: ", err.message);
-        this.setState({...this.state, error: err.message});
-      });
-  };
+   useEffect(()=>{
+     if (submitted && !props.isPosting && !props.isFetching && props.resStatus!==null) {
+       props.func(credentials.username);
+       setRedirect("/home");
+     }
+   },[submitted, props.isPosting, props.resStatus, props.isFetching])
 
-  render() {
+   useEffect(()=>{
+     setError(props.error);
+   },[props.error])
+
+   if (redirect) {
+     return (<Redirect to={redirect} />);
+   } else if (props.isPosting || props.isFetching) {
+     return (<p>Please wait...</p>);
+   } else {
     return (
       <div className="loginForm">
-        <form onSubmit={this.register}>
+        <form onSubmit={register}>
           <h2>Register</h2>
           <label htmlFor="username">Username: </label>
           <input
             type="text"
             name="username"
             id="username"
-            value={this.state.credentials.username}
-            onChange={this.handleChange}
+            value={credentials.username}
+            onChange={handleChange}
             placeholder="Username"
           /><br />
           <label htmlFor="password">Password: </label>
@@ -89,8 +59,8 @@ class RegisterUser extends React.Component {
             type="password"
             name="password"
             id="password"
-            value={this.state.credentials.password}
-            onChange={this.handleChange}
+            value={credentials.password}
+            onChange={handleChange}
             placeholder="Password"
           /><br />
           <label htmlFor="passwordConfirm">Confirm Password: </label>
@@ -98,16 +68,31 @@ class RegisterUser extends React.Component {
             type="password"
             name="passwordConfirm"
             id="passwordConfirm"
-            value={this.state.credentials.passwordConfirm}
-            onChange={this.handleChange}
+            value={credentials.passwordConfirm}
+            onChange={handleChange}
             placeholder="Confirm Password"
           /><br />
-          {this.state.error !== ''?<div><p>{this.state.error}</p><br /></div>:<></>}
+          {error !== ''?<div><p>{error}</p><br /></div>:<></>}
           <button className="loginBtn">Register</button>
+          <p>Already registered? <Link to="/login">Log In Here!</Link></p>
         </form>
       </div>
     );
   }
 }
 
-export default RegisterUser;
+// hook up the connect to our store
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    isFetching: state.isFetching,
+    isPosting: state.isPosting,
+    error: state.error,
+    resStatus: state.resStatus
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(RegisterUser);
