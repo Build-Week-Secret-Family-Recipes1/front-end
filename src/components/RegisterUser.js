@@ -1,74 +1,34 @@
-import React from "react";
+import React, {useEffect, useState} from 'react';
+import { connect } from "react-redux";
+import {loginUser, registerUser} from "../actions";
+import {  Redirect, Link } from 'react-router-dom';
+import { axiosWithAuth, isDev } from '../utils';
 import axios from "axios";
-import { isDev } from "../utils/isDev";
-import { registerUser } from "../actions";
 
-import { axiosWithAuth } from "../utils/axiosWithAuth";
+function RegisterUser (props) {
+  const [error, setError] = useState('');
+  const [credentials, setCredentials] = useState({username: '', password: '', passwordConfirm: ''});
 
-class RegisterUser extends React.Component {
-  state = {
-    error: "",
-    credentials: {
-      username: "",
-      password: "",
-      passwordConfirm: ""
-    }
-  };
-
-  handleChange = e => {
-    this.setState({
-      ...this.state,
-      credentials: {
-        ...this.state.credentials,
+  const handleChange = e => {
+    setCredentials({
+        ...credentials,
         [e.target.name]: e.target.value
-      }
     });
   };
 
-  register = e => {
+  const register = e => {
     e.preventDefault();
 
-    if (this.state.credentials.password === this.state.credentials.passwordConfirm){
-          if (isDev()) {
-            registerUser(this.state.credentials);
-            this.props.func(this.state.credentials.username);
-            this.props.history.push("/home");
-          } else {
-            axiosWithAuth()
-            .post("auth/register", {username: this.state.credentials.username, password: this.state.credentials.password}, {withCredentials: true})
-            .then(res => {
-              console.log(res);
-              this.login();
-            })
-            .catch(err => {
-              console.log(err);
-              this.setState({
-                ...this.state,
-                error: err.message
-              })
-            });
-          }
-      } else {
-        this.setState({
-          ...this.state,
-          error: "Passwords do not match."
-        })
-      }
+    if (credentials.password === credentials.passwordConfirm){
+      registerUser(credentials);
+      props.func(this.state.credentials.username);
+      props.history.push("/home");
+    }
   };
 
-  login = () => {
-    axiosWithAuth()
-      .post("auth/login", {username: this.state.credentials.username, password: this.state.credentials.password}, {withCredentials: true})
-      .then(res => {
-        console.log(res);
-        this.props.func(this.state.credentials.username);
-        this.props.history.push("/home");
-      })
-      .catch(err => {
-        console.log("Err is: ", err.message);
-        this.setState({...this.state, error: err.message});
-      });
-  };
+   useEffect(()=>{
+     
+   },[props.isPosting])
 
   render() {
     return (
