@@ -26,7 +26,7 @@ function Home(props) {
             <div>
                 <RecipeList {...props} recipes={recipes} editRecipe={editRecipe}/>
                 <RecipeForm setRecipes={setRecipes}/>
-                <EditRecipe setRecipes={setRecipes} recipeToEdit={recipeToEdit}/>
+                <EditRecipe setRecipes={setRecipes}/*  recipeToEdit={recipeToEdit} *//>
                 {/*
                 will show a list of recipes
                 will have button to add a new recipe (will link to RecipeForm)
