@@ -7,14 +7,11 @@ import styled from 'styled-components';
 
 const RecipeCard = styled.div`
     background-color: rgba(255, 226, 209, 0.3);
-
     border: 2px solid #55917F;
     border-radius: 3px;
-
     color: #5e4c5a;
-
     box-sizing: border-box;
-    width: 40vw;
+    width: 575px;
     margin: 10px;
     padding: 20px;
     text-align: left;
@@ -30,6 +27,23 @@ const H5 = styled.h5`
 `
 const Step = styled.li`
     width: 95%;
+`
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+`
+
+const Button = styled.button`
+    display: inline-block;
+    padding: 10px;
+    margin: 20px;
+    width: 9rem;
+    border-radius: 3px;
+    border: ${props => props.secondary ? '2px solid firebrick' : '2px solid #55917F'};
+    background-color: ${props => props.secondary ? 'lightcoral' : 'rgba(64, 224, 208, 0.5)'};
+    font-size: 1.1rem;
+    font-family: Gill Sans;
 `
 
 
@@ -66,10 +80,12 @@ function Recipe(props) {
                     )
                 })}
             </ol>
-            <Link to={`/edit/${props.id}`}>
-                <button>Edit</button>
-            </Link>
-            <button onClick={deleteRecipe}>Delete</button>
+            <ButtonContainer>
+                <Link to={`/edit/${props.id}`}>
+                    <Button>Edit</Button>
+                </Link>
+                <Button secondary onClick={deleteRecipe}>Delete</Button>
+            </ButtonContainer>
         </RecipeCard>
     )
 }

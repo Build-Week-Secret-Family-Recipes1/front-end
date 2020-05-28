@@ -9,6 +9,7 @@ const SearchForm = styled.form`
     justify-content: space-around;
     align-items: center;
     margin: auto;
+    padding-top: 20px;
     width: 90%;
 `
 
@@ -41,7 +42,7 @@ const Select = styled.select`
 
 const H4 = styled.h4`
     margin: 0;
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     color: #5e4c5a;
 `
 
