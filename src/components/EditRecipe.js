@@ -109,7 +109,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
         e.preventDefault();
         props.setRecipes(recipeState);
         props.postRecipe(recipeState);
-        console.log("Submitted!")
+        console.log("Submitted!");
         setSubmitted(true);
         setRedirect('/');
     }
