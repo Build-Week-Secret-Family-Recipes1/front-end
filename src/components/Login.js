@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import {loginUser} from "../actions";
 import {  Redirect, Link } from 'react-router-dom';
-import { axiosWithAuth, isDev } from '../utils';
 
 
 function Login (props) {
@@ -20,23 +19,7 @@ function Login (props) {
   const login = (e) => {
     e.preventDefault();
     setSubmitted(true);
-    if (isDev()) {
-      loginUser(credentials);
-      props.func(credentials.username);
-      props.history.push("/home");
-    } else {
-        axiosWithAuth()
-          .post("auth/login", {username: credentials.username, password: credentials.password})
-          .then(res => {
-            console.log(res);
-            props.func(credentials.username);
-            props.history.push("/home");
-          })
-          .catch(err => {
-            console.log("Err is: ", err.message);
-            setError(err.message);
-          });
-      }
+    loginUser(credentials);
   };
 
   useEffect(()=>{
@@ -57,7 +40,7 @@ function Login (props) {
     return (
       <Redirect to={redirect} />
     );
-  } else if (props.isFetching) {
+  } else if (submitted && props.isFetching) {
     return (<p>Logging In...</p>);
   } else {
     return (
