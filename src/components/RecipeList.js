@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom'
 import { getList} from "../actions";
 import { connect } from "react-redux";
 import { testList } from '../tests/TestData';
@@ -40,11 +41,7 @@ function RecipeList(props) {
                 />
               )
             })}
-              {/*
-                  will map over data and add a recipe card for each recipe
-                  each recipe card will show the title, source, and tags
-                  will link to full recipe
-              */}
+             <Link to='/new'>New Recipe</Link>
          
 
              {props.error!==''?<p>{props.error}</p>:<></>}
