@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useParams } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
 import { postRecipe } from "../actions";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { getRecipe } from "../actions";
 
 const formSchema = yup.object().shape({
@@ -17,9 +17,11 @@ const formSchema = yup.object().shape({
     tags: yup.array()
 })
 
-function EditRecipe(props) {
+function EditRecipe({getRecipe, recipe, ...props}) {
     const [redirect, setRedirect] = useState(null);
     const [submitted, setSubmitted] = useState(false);
+    const params = useParams();
+    console.log('Params', params)
 
     const [recipeState, setRecipeState] = useState({
         id: null,
@@ -28,10 +30,29 @@ function EditRecipe(props) {
         newIngredient: '',
         ingredients: [],
         newStep: '',
-        steps: [],
+        steps: ['Test step'],
         newTag: '',
         tags: []
     });
+
+    useEffect(() => {
+        const id = params.id;
+        console.log('id', id);
+
+        getRecipe(parseInt(id));
+        
+    }, [params.id]);
+
+    useEffect(() => {
+        console.log(recipe);
+        console.log('recipeState', recipeState);
+        if (recipe!==undefined && recipe.title !== '') {
+            setRecipeState(recipe);
+        }
+
+    }, [recipe])
+
+
 
     const [errorState, setErrorState] = useState({
         id: '',
@@ -49,7 +70,7 @@ function EditRecipe(props) {
     const inputChange = e => {
         e.persist();
         validate(e);
-        setRecipeState({ [e.target.name]: e.target.value });
+        setRecipeState({ ...recipeState, [e.target.name]: e.target.value });
         console.log(recipeState);
         console.log('Hello from inputChange')
     };
@@ -88,7 +109,7 @@ function EditRecipe(props) {
         e.preventDefault();
         props.setRecipes(recipeState);
         props.postRecipe(recipeState);
-        console.log("Submitted!")
+        console.log("Submitted!");
         setSubmitted(true);
         setRedirect('/');
     }
@@ -108,6 +129,7 @@ function EditRecipe(props) {
     } else {
       return (
           <form onSubmit={submitForm}>
+              <h2>Edit this Recipe</h2>
               <label htmlFor="title">
                   New Title
                   <input
@@ -119,7 +141,6 @@ function EditRecipe(props) {
                       onChange={inputChange}
                   />
               </label>
-              <p>Previous Title: {props.recipeToEdit.title}</p>
               {errorState.title.length > 0 ? (<p>{errorState.title}</p>) : null}
               <label htmlFor="newIngredient">
                   New Ingredient
@@ -138,7 +159,7 @@ function EditRecipe(props) {
               <div>
                   <h5>Ingredients</h5>
                   <ul>
-                      {props.recipeToEdit.ingredients.map((ingredient) => {
+                      {recipeState.ingredients.map((ingredient) => {
                           return (
                               <li>{ingredient}</li>
                           )
@@ -160,7 +181,7 @@ function EditRecipe(props) {
               <div>
                   <h5>Steps</h5>
                   <ol>
-                      {props.recipeToEdit.steps.map((step) => {
+                      {recipeState.steps.map((step) => {
                           return (
                               <li>{step}</li>
                           )
@@ -182,7 +203,7 @@ function EditRecipe(props) {
               <div>
                   <h5>Categories</h5>
                   <ul>
-                      {props.recipeToEdit.tags.map((tag) => {
+                      {recipeState.tags.map((tag) => {
                           return (
                               <li>{tag}</li>
                           )
@@ -200,7 +221,6 @@ function EditRecipe(props) {
                       onChange={inputChange}
                   />
               </label>
-              <p>Previous Source: {props.recipeToEdit.source}</p>
               <button>Add Recipe</button>
               {props.error!==''?<p>{props.error}</p>:<></>}
           </form>
