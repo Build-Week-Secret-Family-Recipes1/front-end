@@ -11,7 +11,7 @@ const RecipeCard = styled.div`
     border-radius: 3px;
     color: #5e4c5a;
     box-sizing: border-box;
-    width: 40vw;
+    width: 575px;
     margin: 10px;
     padding: 20px;
     text-align: left;
