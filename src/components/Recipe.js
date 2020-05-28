@@ -80,10 +80,12 @@ function Recipe(props) {
                     )
                 })}
             </ol>
-            <Link to={`/edit/${props.id}`}>
-                <button>Edit</button>
-            </Link>
-            <button onClick={deleteRecipe}>Delete</button>
+            <ButtonContainer>
+                <Link to={`/edit/${props.id}`}>
+                    <Button>Edit</Button>
+                </Link>
+                <Button secondary onClick={deleteRecipe}>Delete</Button>
+            </ButtonContainer>
         </RecipeCard>
     )
 }
