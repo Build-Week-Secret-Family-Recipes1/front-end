@@ -49,13 +49,30 @@ export const getRecipe = (recipeId) => async dispatch => {
   console.log(`Fetching ${recipeId}`);
   // implement the code calling actions for .then and .catch
   if (isDev()) {
-    dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: '200', recipe: testList.filter(r=>r.id===recipeId)}})
+    const filteredList = testList.filter(r=>r.id===recipeId);
+    if (filteredList.length>=1) {
+      const selectedRecipe = filteredList[0];
+      dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: '200', recipe: selectedRecipe}})
+    } else {
+      dispatch({
+        type: FETCHING_RECIPE_FAILURE,
+        payload: `Recipe ${recipeId} not found.`
+      });
+    }
   } else {
     axiosWithAuth()
       .get(`api/recipes`)
       .then(res => {
-        const selectedRecipe = modifyRecipe(res.data.filter(r=>r.id===recipeId));
-        dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: res.status, recipe: selectedRecipe }});
+        const filteredList = res.data.filter(r=>r.id===recipeId);
+        if (filteredList.length>=1) {
+          const selectedRecipe = modifyRecipe(filteredList[0]);
+          dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: res.status, recipe: selectedRecipe }});
+        } else {
+          dispatch({
+            type: FETCHING_RECIPE_FAILURE,
+            payload: `Recipe ${recipeId} not found.`
+          });
+        }
       })
       .catch(err => {
         console.log(err);
