@@ -2,8 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import {loginUser} from "../actions";
 import {  Redirect, Link } from 'react-router-dom';
-import { axiosWithAuth } from '../utils/axiosWithAuth';
-import { isDev } from "../utils/isDev";
+import { axiosWithAuth, isDev } from '../utils';
 
 
 function Login (props) {

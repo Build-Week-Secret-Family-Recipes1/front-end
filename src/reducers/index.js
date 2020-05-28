@@ -27,6 +27,7 @@ import {
 
 const initialState = {
   user: null,
+  user_id: null,
   recipe_id: null,
   recipe: {title: '', source: '', ingredients: [], steps: [], tags: []},
   isFetching: false,
@@ -157,6 +158,7 @@ export const reducer = (state = initialState, action) => {
           ...state,
           isFetching: false,
           user: action.payload.user,
+          user_id: action.payload.userId,
           resStatus: action.payload.resStatus,
         }
     case LOGIN_FAILURE:

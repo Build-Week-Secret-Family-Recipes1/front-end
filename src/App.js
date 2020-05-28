@@ -10,13 +10,13 @@ import Recipe from "./components/Recipe";
 import Home from "./components/Home";
 import EditRecipe from "./components/EditRecipe";
 import PrivateRoute from "./components/PrivateRoute";
-import { useLocalStorage } from "./hooks/useLocalStorage";
+import { useSessionStorage } from "./hooks/useSessionStorage";
 import "./styles.scss";
 
 
 function App(props) {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useLocalStorage("user",null);
+  const [user, setUser] = useSessionStorage("user",null);
 
   useEffect(()=>{
     if (user!==null) {
