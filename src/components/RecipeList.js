@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Route, Link} from 'react-router-dom';
+import {Route, Link, useParams} from 'react-router-dom';
 import { getList} from "../actions";
 import { connect } from "react-redux";
 import { testList } from '../tests/TestData';
@@ -13,6 +13,7 @@ const Wrapper = styled.div`
 `
 
 function RecipeList(props) {
+  let id = useParams();
   useEffect(()=>{
     props.getList();
   },[props.getList]);
@@ -28,19 +29,10 @@ function RecipeList(props) {
           <Wrapper className="recipe-list-wrapper">
 
             {props.list.map((object) => {
-              console.log('setRecipeToEdit from RecipeList', props.editRecipe)
+              console.log('setRecipeToEdit from RecipeList', object.editRecipe)
               return (
                 <Route path='/recipes/:id'>
-                  <Recipe
-                  {...props}
-                  editRecipe={props.editRecipe}
-                  id={object.id}
-                  title={object.title}
-                  source={object.source}
-                  ingredients={object.ingredients}
-                  steps={object.steps}
-                  tags={object.tags}
-                />
+                  <Recipe />
                 </Route>
               )
             })}
