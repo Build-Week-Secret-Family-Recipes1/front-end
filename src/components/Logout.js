@@ -1,26 +1,56 @@
-import React, {useEffect} from 'react';
-import {axiosWithAuth} from '../utils/axiosWithAuth';
-import { isDev } from "../utils/isDev";
+import React, {useEffect, useState} from 'react';
+import { connect } from "react-redux";
+import {  Redirect, Link } from 'react-router-dom';
 import { logoutUser } from "../actions";
 
-export default function Logout({history, func}) {
+function Logout(props) {
+    const [error, setError] = useState(null);
+    const [redirect, setRedirect] = useState(null);
+    const [submitted, setSubmitted] = useState(false);
 
-  useEffect(()=>{
-    const user = localStorage.getItem("user");
-    localStorage.removeItem("user");
-    if (isDev()) {
-      logoutUser(user);
+    useEffect(()=>{
+      if (submitted && props.resStatus!==null && props.error==='') {
+        console.log(props.resStatus);
+        props.func(props.user);
+        setRedirect('/home');
+      }
+    },[submitted, props.resStatus, props.error]);
+
+    useEffect(()=>{
+      setError(props.error);
+      setSubmitted(false);
+    },[props.error]);
+
+    useEffect(()=>{
+      logoutUser(props.user);
+      setSubmitted(true);
+    },[]);
+
+    if (redirect !== null) {
+      return (
+        <Redirect to={redirect} />
+      );
+    } else if (submitted && props.isFetching) {
+      return (<p>Logging Out...</p>);
     } else {
-      axiosWithAuth()
-        .get('logout')
-        .then(res=>console.log(res))
-        .catch(err => console.log(err.message))
+      return (
+        <div>{error!==null?{error}:<></>}</div>
+      );
     }
-    func();
-    history.push("/");
-  },[history, func])
+  }
 
-  return (
-    <div></div>
-  );
+
+// hook up the connect to our store
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    isFetching: state.isFetching,
+    error: state.error,
+    resStatus: state.resStatus
+  };
 };
+
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(Logout);

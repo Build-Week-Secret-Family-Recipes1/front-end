@@ -1,14 +1,5 @@
 import {axiosWithAuth, isDev} from "../utils";
-
-export const LOGIN_START = "LOGIN_START";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAILURE = "LOGIN_FAILURE";
-export const REGISTER_START = "REGISTER_START";
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-export const REGISTER_FAILURE = "REGISTER_FAILURE";
-export const LOGOUT_START = "LOGOUT_START";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
+import * as t from "./types";
 
 export const getUserId = (username) => {
   if (isDev()) {
@@ -17,31 +8,50 @@ export const getUserId = (username) => {
     axiosWithAuth()
       .post("api/users")
       .then(res=>{
-        return res.data.filter(user=>user.username===username).id;
+        const filteredUsers = res.data.filter(user=>user.username===username);
+        if (filteredUsers.length>=1) {
+          return filteredUsers[0].id;
+        } else {
+          return -1;
+        }
       })
       .catch(err=>{return -1});
   }
 }
 
 export const loginUser = (credentials) => async dispatch => {
-  dispatch({ type: LOGIN_START, payload: credentials.username });
+  dispatch({ type: t.LOGIN_START, payload: credentials.username });
   if (isDev()) {
     const userId = getUserId(credentials.username);
-    dispatch({ type: LOGIN_SUCCESS, payload: {resStatus: '200', user: credentials.username, userId: userId }});
-    localStorage.addItem("user", credentials.username);
-    localStorage.addItem("userId", userId);
+    if (userId>=0) {
+      dispatch({ type: t.LOGIN_SUCCESS, payload: {resStatus: '200', user: credentials.username, userId: userId }});
+      sessionStorage.addItem("user", credentials.username);
+      sessionStorage.addItem("userId", userId);
+    } else {
+      dispatch({
+        type: t.LOGIN_FAILURE,
+        payload: `User ${credentials.username} not found`
+      });
+    }
   } else {
     axiosWithAuth()
-      .post("/auth/login", credentials)
+      .post("/auth/login", {username: credentials.username, password: credentials.password})
       .then(res => {
         const userId = getUserId(credentials.username);
-        dispatch({ type: LOGIN_SUCCESS, payload: {resStatus: res.status, user: credentials.username, userId: userId }});
-        localStorage.addItem("user", credentials.username);
-        localStorage.addItem("userId", userId);
+        if (userId>=0) {
+          dispatch({ type: t.LOGIN_SUCCESS, payload: {resStatus: res.status, user: credentials.username, userId: userId }});
+          sessionStorage.addItem("user", credentials.username);
+          sessionStorage.addItem("userId", userId);
+        } else {
+          dispatch({
+            type: t.LOGIN_FAILURE,
+            payload: `User ${credentials.username} not found`
+          });
+        }
       })
     .catch(err => {
       dispatch({
-        type: LOGIN_FAILURE,
+        type: t.LOGIN_FAILURE,
         payload: `${err.statusText} with response code ${err.status}, ${err}`
       });
     });
@@ -49,20 +59,20 @@ export const loginUser = (credentials) => async dispatch => {
 }
 
 export const registerUser = (credentials) => async dispatch => {
-  dispatch({ type: REGISTER_START, payload: credentials.username });
+  dispatch({ type: t.REGISTER_START, payload: credentials.username });
   if (isDev()) {
-    dispatch({ type: REGISTER_SUCCESS, payload: {resStatus: '200', user: credentials.username }});
+    dispatch({ type: t.REGISTER_SUCCESS, payload: {resStatus: '200', user: credentials.username }});
     loginUser(credentials);
   } else {
     axiosWithAuth()
       .post("auth/register", {username: credentials.username, password: credentials.password})
       .then(res => {
-        dispatch({ type: REGISTER_SUCCESS, payload: {resStatus: res.status, user: credentials.username }});
+        dispatch({ type: t.REGISTER_SUCCESS, payload: {resStatus: res.status, user: credentials.username }});
         loginUser(credentials);
       })
     .catch(err => {
       dispatch({
-        type: REGISTER_FAILURE,
+        type: t.REGISTER_FAILURE,
         payload: `${err.statusText} with response code ${err.status}, ${err}`
       });
     });
@@ -70,22 +80,22 @@ export const registerUser = (credentials) => async dispatch => {
 }
 
 export const logoutUser = (username) => async dispatch => {
-  dispatch({ type: LOGOUT_START, payload: username });
+  dispatch({ type: t.LOGOUT_START, payload: username });
   if (isDev()) {
-    dispatch({ type: LOGOUT_SUCCESS, payload: {resStatus: '200', user: username }});
-    localStorage.removeItem("user");
-    localStorage.removeItem("userId");
+    dispatch({ type: t.LOGOUT_SUCCESS, payload: {resStatus: '200', user: username }});
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("userId");
   } else {
     axiosWithAuth()
       .post("auth/logout")
       .then(res => {
-        dispatch({ type: LOGOUT_SUCCESS, payload: {resStatus: res.status, user: username }});
-        localStorage.removeItem("user");
-        localStorage.removeItem("userId");
+        dispatch({ type: t.LOGOUT_SUCCESS, payload: {resStatus: res.status, user: username }});
+        sessionStorage.removeItem("user");
+        sessionStorage.removeItem("userId");
       })
     .catch(err => {
       dispatch({
-        type: LOGOUT_FAILURE,
+        type: t.LOGOUT_FAILURE,
         payload: `${err.statusText} with response code ${err.status}, ${err}`
       });
     });

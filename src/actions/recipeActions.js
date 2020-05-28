@@ -1,56 +1,44 @@
-import {axiosWithAuth, isDev } from "../utils";
+import {axiosWithAuth, isDev, modifyRecipe, filterRecipeListByUserId } from "../utils";
 import axios from "axios";
 import { testList } from "../tests/TestData";
-
-export const FETCHING_RECIPE_START = "FETCHING_RECIPE_START";
-export const FETCHING_RECIPE_SUCCESS = "FETCHING_RECIPE_SUCCESS";
-export const FETCHING_RECIPE_FAILURE = "FETCHING_RECIPE_FAILURE";
-export const FETCHING_LIST_START = "FETCHING_LIST_START";
-export const FETCHING_LIST_SUCCESS = "FETCHING_LIST_SUCCESS";
-export const FETCHING_LIST_FAILURE = "FETCHING_LIST_FAILURE";
-export const POSTING_RECIPE_START = "POSTING_RECIPE_START";
-export const POSTING_RECIPE_SUCCESS = "POSTING_RECIPE_SUCCESS";
-export const POSTING_RECIPE_FAILURE = "POSTING_RECIPE_FAILURE";
-export const UPDATING_RECIPE_START = "UPDATING_RECIPE_START";
-export const UPDATING_RECIPE_SUCCESS = "UPDATING_RECIPE_SUCCESS";
-export const UPDATING_RECIPE_FAILURE = "UPDATING_RECIPE_FAILURE";
-export const DELETING_RECIPE_START = "DELETING_RECIPE_START";
-export const DELETING_RECIPE_SUCCESS = "DELETING_RECIPE_SUCCESS";
-export const DELETING_RECIPE_FAILURE = "DELETING_RECIPE_FAILURE";
-
-const modifyRecipe = (r) => {
-    if (r.id>2) {
-      return({id: r.id, title: r.title, source: r.source,
-        ingredients: r.ingredients.split(';'),
-        steps: r.instructions.split(';'),
-        tags: r.category.split(';')
-      });
-    } else {
-      return({id: r.id, title: r.title, source: r.source,
-        ingredients: r.ingredients.split(', '),
-        steps: r.instructions.split(', '),
-        tags: [r.category]
-      });
-    }
-}
+import * as t from "./types";
 
 export const getRecipe = (recipeId) => async dispatch => {
-  dispatch({ type: FETCHING_RECIPE_START, payload: recipeId });
+  dispatch({ type: t.FETCHING_RECIPE_START, payload: recipeId });
   console.log(`Fetching ${recipeId}`);
   // implement the code calling actions for .then and .catch
   if (isDev()) {
-    dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: '200', recipe: testList.filter(r=>r.id===recipeId)}})
+    const testListF = filterRecipeListByUserId(testList);
+    const filteredList = testListF.filter(r=>r.id===recipeId);
+    if (filteredList.length>=1) {
+      const selectedRecipe = filteredList[0];
+      dispatch({ type: t.FETCHING_RECIPE_SUCCESS, payload: {resStatus: '200', recipe: selectedRecipe}})
+    } else {
+      dispatch({
+        type: t.FETCHING_RECIPE_FAILURE,
+        payload: `Recipe ${recipeId} not found or not accessible for user.`
+      });
+    }
   } else {
     axiosWithAuth()
       .get(`api/recipes`)
       .then(res => {
-        const selectedRecipe = modifyRecipe(res.data.filter(r=>r.id===recipeId));
-        dispatch({ type: FETCHING_RECIPE_SUCCESS, payload: {resStatus: res.status, recipe: selectedRecipe }});
+        const listF = filterRecipeListByUserId(res.data);
+        const filteredList = listF.filter(r=>r.id===recipeId);
+        if (filteredList.length>=1) {
+          const selectedRecipe = modifyRecipe(filteredList[0]);
+          dispatch({ type: t.FETCHING_RECIPE_SUCCESS, payload: {resStatus: res.status, recipe: selectedRecipe }});
+        } else {
+          dispatch({
+            type: t.FETCHING_RECIPE_FAILURE,
+            payload: `Recipe ${recipeId} not found or not accessible for user.`
+          });
+        }
       })
       .catch(err => {
         console.log(err);
         dispatch({
-          type: FETCHING_RECIPE_FAILURE,
+          type: t.FETCHING_RECIPE_FAILURE,
           payload: `${err.statusText} with response code ${err.status}`
         });
       });
@@ -58,20 +46,22 @@ export const getRecipe = (recipeId) => async dispatch => {
 };
 
 export const getList = () => async dispatch => {
-  dispatch({ type: FETCHING_LIST_START });
+  dispatch({ type: t.FETCHING_LIST_START });
   console.log(`Fetching list`);
   if (isDev()) {
-    dispatch({ type: FETCHING_LIST_SUCCESS, payload: {resStatus: '200', list: testList }});
+    const testListF = filterRecipeListByUserId(testList);
+    dispatch({ type: t.FETCHING_LIST_SUCCESS, payload: {resStatus: '200', list: testListF }});
   } else {
     axiosWithAuth()
       .get(`api/recipes`)
       .then(res => {
-        const modifiedList = res.data.map(r=>modifyRecipe(r));
-        dispatch({ type: FETCHING_LIST_SUCCESS, payload: {resStatus: res.status, list: modifiedList }});
+        const listF = filterRecipeListByUserId(res.data);
+        const modifiedList = listF.map(r=>modifyRecipe(r));
+        dispatch({ type: t.FETCHING_LIST_SUCCESS, payload: {resStatus: res.status, list: modifiedList }});
       })
       .catch(err => {
         dispatch({
-          type: FETCHING_LIST_FAILURE,
+          type: t.FETCHING_LIST_FAILURE,
           payload: `${err.statusText} with response code ${err.status}`
         });
       });
@@ -79,68 +69,81 @@ export const getList = () => async dispatch => {
 };
 
 export const postRecipe = (recipe) => async dispatch => {
-  dispatch({ type: POSTING_RECIPE_START, payload: recipe });
+  dispatch({ type: t.POSTING_RECIPE_START, payload: recipe });
   if (isDev()) {
-    dispatch({ type: POSTING_RECIPE_SUCCESS, payload: {resStatus: '201', data: {message: 'New Recipe Added.', id: 4} }})
+    dispatch({ type: t.POSTING_RECIPE_SUCCESS, payload: {resStatus: '201', data: {message: 'New Recipe Added.', id: 4} }})
   } else {
-    const modifiedRecipe = {title: recipe.title, source: recipe.source,
+    const userId = sessionStorage.getItem("userId");
+    const modifiedRecipe = {title: recipe.title, user_id: userId, source: recipe.source,
       ingredients: recipe.ingredients.join(';'), instructions: recipe.steps.join(';'),
       category: recipe.tags.join(';')}
     axiosWithAuth()
       .post(`/api/recipes`, modifiedRecipe)
       .then(res => {
         console.log(res);
-        dispatch({ type: POSTING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data }});
+        dispatch({ type: t.POSTING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data }});
       })
       .catch(err => {
         console.log(err);
         console.log(err.json);
         dispatch({
-          type: POSTING_RECIPE_FAILURE,
+          type: t.POSTING_RECIPE_FAILURE,
           payload: `${err.statusText} with response code ${err.status}, ${err}`
         });
       });
     }
 };
 
-export const updateRecipe = (recipe) => async dispatch => {
-  dispatch({ type: UPDATING_RECIPE_START, payload: recipe });
+export const deleteRecipe = (recipe) => async dispatch => {
+  dispatch({ type: t.DELETING_RECIPE_START, payload: recipe });
   if (isDev()) {
-    dispatch({ type: UPDATING_RECIPE_SUCCESS, payload: {resStatus: '200', data: {message: 'updated', id: recipe.id} }});
+    dispatch({ type: t.DELETING_RECIPE_SUCCESS, payload: {resStatus: '200', data: {message: 'deleted', id: recipe.id}} });
   } else {
-    const modifiedRecipe = {title: recipe.title, source: recipe.source,
-      ingredients: recipe.ingredients.join(';'), instructions: recipe.steps.join(';'),
-      category: recipe.tags.join(';')}
     axiosWithAuth()
-      .put(`api/recipes/${recipe.id}`, modifiedRecipe)
+      .delete(`api/recipes/${recipe.id}`)
       .then(res => {
         console.log(res);
-        dispatch({ type: UPDATING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data }});
+        dispatch({ type: t.DELETING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data} });
       })
       .catch(err => {
         dispatch({
-          type: UPDATING_RECIPE_FAILURE,
+          type: t.DELETING_RECIPE_FAILURE,
           payload: `${err.statusText} with response code ${err.status}, ${err}`
         });
       });
     }
 }
 
-export const deleteRecipe = (recipe) => async dispatch => {
-  dispatch({ type: DELETING_RECIPE_START, payload: recipe });
+export const updateRecipe = (recipe) => async dispatch => {
+  dispatch({ type: t.UPDATING_RECIPE_START, payload: recipe });
   if (isDev()) {
-    dispatch({ type: DELETING_RECIPE_SUCCESS, payload: {resStatus: '200', data: {message: 'deleted', id: recipe.id}} });
+    dispatch({ type: t.UPDATING_RECIPE_SUCCESS, payload: {resStatus: '200', data: {message: 'updated', id: recipe.id} }});
   } else {
+    const userId = sessionStorage.getItem("userId");
+    const modifiedRecipe = {id: recipe.id, title: recipe.title, user_id: userId, source: recipe.source,
+      ingredients: recipe.ingredients.join(';'), instructions: recipe.steps.join(';'),
+      category: recipe.tags.join(';')}
     axiosWithAuth()
       .delete(`api/recipes/${recipe.id}`)
       .then(res => {
+        dispatch({ type: t.DELETING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data} });
         console.log(res);
-        dispatch({ type: DELETING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data} });
-      })
+        axiosWithAuth()
+          .post(`api/recipes`, modifiedRecipe)
+          .then(res => {
+            console.log(res);
+            dispatch({ type: t.UPDATING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data }});
+          })
+          .catch(err => {
+            dispatch({
+              type: t.UPDATING_RECIPE_FAILURE,
+              payload: `${err.statusText} with response code ${err.status}, ${err}`
+            });
+          });
+        })
       .catch(err => {
-
         dispatch({
-          type: DELETING_RECIPE_FAILURE,
+          type: t.UPDATING_RECIPE_FAILURE,
           payload: `${err.statusText} with response code ${err.status}, ${err}`
         });
       });
