@@ -27,11 +27,10 @@ function RecipeList(props) {
           <Wrapper className="recipe-list-wrapper">
 
             {props.list.map((object) => {
-              console.log('setRecipeToEdit from RecipeList', props.editRecipe)
+              /* console.log('setRecipeToEdit from RecipeList', props.editRecipe) */
               return (
                 <Recipe
                   {...props}
-                  editRecipe={props.editRecipe}
                   id={object.id}
                   title={object.title}
                   source={object.source}

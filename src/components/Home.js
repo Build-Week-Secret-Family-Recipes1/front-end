@@ -7,7 +7,7 @@ import EditRecipe from './EditRecipe';
 function Home(props) {
     const [recipes, setRecipes] = useState([]);
 
-    const [recipeToEdit, setRecipeToEdit] = useState({
+    /* const [recipeToEdit, setRecipeToEdit] = useState({
         id: null,
         title: '',
         source: '',
@@ -18,15 +18,15 @@ function Home(props) {
 
     const editRecipe = r => {
       setRecipeToEdit(r);
-    }
+    } */
 
     return (
         <div>
             <h1>Secret Family Recipes</h1>
             <div>
-                <RecipeList {...props} recipes={recipes} editRecipe={editRecipe}/>
+                <RecipeList {...props} recipes={recipes}/>
                 <RecipeForm setRecipes={setRecipes}/>
-                <EditRecipe setRecipes={setRecipes}/*  recipeToEdit={recipeToEdit} *//>
+                <EditRecipe setRecipes={setRecipes}/>
                 {/*
                 will show a list of recipes
                 will have button to add a new recipe (will link to RecipeForm)

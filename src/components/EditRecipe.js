@@ -70,7 +70,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
     const inputChange = e => {
         e.persist();
         validate(e);
-        setRecipeState({ [e.target.name]: e.target.value });
+        setRecipeState({ ...recipeState, [e.target.name]: e.target.value });
         console.log(recipeState);
         console.log('Hello from inputChange')
     };
@@ -141,7 +141,6 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                       onChange={inputChange}
                   />
               </label>
-              <p>Previous Title: {recipeState.title}</p>
               {errorState.title.length > 0 ? (<p>{errorState.title}</p>) : null}
               <label htmlFor="newIngredient">
                   New Ingredient
@@ -222,7 +221,6 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                       onChange={inputChange}
                   />
               </label>
-              <p>Previous Source: {recipeState.source}</p>
               <button>Add Recipe</button>
               {props.error!==''?<p>{props.error}</p>:<></>}
           </form>
