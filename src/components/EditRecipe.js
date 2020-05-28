@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useParams } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
 import { postRecipe } from "../actions";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link, useParams } from "react-router-dom";
 import { getRecipe } from "../actions";
 
 const formSchema = yup.object().shape({
@@ -18,6 +18,8 @@ const formSchema = yup.object().shape({
 })
 
 function EditRecipe(props) {
+    const id = useParams();
+
     const [redirect, setRedirect] = useState(null);
     const [submitted, setSubmitted] = useState(false);
 
@@ -77,6 +79,7 @@ function EditRecipe(props) {
             .reach(formSchema, e.target.name)
             .validate(e.target.value)
             .then(valid => {
+                valid &&
                 setErrorState({...errorState, [e.target.name]: ""});
             })
             .catch(err => {
@@ -184,7 +187,7 @@ function EditRecipe(props) {
                   <ul>
                       {props.recipeToEdit.tags.map((tag) => {
                           return (
-                              <li>{tag}</li>
+                                  <li>{tag}</li>
                           )
                       })}
                   </ul>
@@ -201,7 +204,7 @@ function EditRecipe(props) {
                   />
               </label>
               <p>Previous Source: {props.recipeToEdit.source}</p>
-              <button>Add Recipe</button>
+              <button submit={submitForm}>Add Recipe</button>
               {props.error!==''?<p>{props.error}</p>:<></>}
           </form>
       )
