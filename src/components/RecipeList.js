@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {Route, Link} from 'react-router-dom';
 import { getList} from "../actions";
 import { connect } from "react-redux";
 import { testList } from '../tests/TestData';
@@ -29,7 +30,8 @@ function RecipeList(props) {
             {props.list.map((object) => {
               console.log('setRecipeToEdit from RecipeList', props.editRecipe)
               return (
-                <Recipe
+                <Route path='/recipes/:id'>
+                  <Recipe
                   {...props}
                   editRecipe={props.editRecipe}
                   id={object.id}
@@ -39,6 +41,7 @@ function RecipeList(props) {
                   steps={object.steps}
                   tags={object.tags}
                 />
+                </Route>
               )
             })}
               {/*
