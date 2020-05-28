@@ -1,4 +1,5 @@
 import React from 'react';
+import {Route} from 'react-router-dom'
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import axios from 'axios';
 
@@ -60,6 +61,8 @@ function Recipe(props) {
     }
 
     return (
+        <Route path='/recipes/:id'>
+
         <RecipeCard>
             <H3>{props.title}</H3>
             <H5>{props.source}</H5>
@@ -83,7 +86,8 @@ function Recipe(props) {
             <button onClick={getRecipe}>Edit</button>
             <button onClick={deleteRecipe}>Delete</button>
         </RecipeCard>
-    )
+        </Route>
+)
 }
 
 export default Recipe;
