@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import RecipeForm from './RecipeForm';
 import RecipeList from './RecipeList';
 import EditRecipe from './EditRecipe';
+import SearchBar from './SearchBar';
 
 function Home(props) {
     const [recipes, setRecipes] = useState([]);
@@ -24,6 +25,7 @@ function Home(props) {
         <div>
             <h1>Secret Family Recipes</h1>
             <div>
+                <SearchBar recipes={recipes}/>
                 <RecipeList {...props} recipes={recipes}/>
                 <RecipeForm setRecipes={setRecipes}/>
                 <EditRecipe setRecipes={setRecipes}/>
