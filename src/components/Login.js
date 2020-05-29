@@ -14,6 +14,16 @@ const StyledForm = styled.form`
     border-radius: 5px;
 `
 
+const H1 = styled.h1`
+    color: white;
+    font-size: 2.8rem;
+    font-weight: bold;
+    padding: 70px;
+    margin: 0;
+    border-bottom: 2px solid #00CC00;
+    background-color: rgba(106, 216, 86, 0.9);
+`
+
 const H2 = styled.h2`
     font-size: 2.5rem;
 `
@@ -25,8 +35,11 @@ const InputContainer = styled.div`
 `
 
 const Label = styled.label`
+    display: inline-block;
     font-size: 1.1rem;
-    width: 20%;
+    width: 30%;
+    padding: 10px 0;
+    text-align: right;
 `
 
 const Input = styled.input`
@@ -54,7 +67,6 @@ const P = styled.p`
 `
 
 const Span = styled.span`
-  text-decoration: none;
   color: green;
 `
 
@@ -99,6 +111,7 @@ function Login (props) {
   } else {
     return (
       <div className="loginForm">
+        <H1>Secret Family Recipes</H1>
         <StyledForm onSubmit={login}>
           <H2>Please Log In</H2>
           <InputContainer>
@@ -110,7 +123,7 @@ function Login (props) {
               value={credentials.username}
               onChange={handleChange}
               placeholder="Username"
-            /><br />
+            />
           </InputContainer>
           <InputContainer>
             <Label htmlFor="password">Password: </Label>
@@ -121,12 +134,12 @@ function Login (props) {
               value={credentials.password}
               onChange={handleChange}
               placeholder="Password"
-            /><br />
+            />
           </InputContainer>
           {error?<p>{error}</p>:<></>}
           <Button className="loginBtn">Log in</Button>
 
-          <P>Not a member yet? <Link to={'/register'}><Span>Sign Up Here!</Span></Link></P>
+          <P>Not a member yet? <Link to={'/register'} style={{ textDecoration: 'none' }}><Span>Sign Up Here!</Span></Link></P>
         </StyledForm>
       </div>
     );
