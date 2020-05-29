@@ -2,7 +2,7 @@ import React from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import {testList as Recipes} from '../tests/TestData';
 import styled from 'styled-components';
 
 const RecipeCard = styled.div`
@@ -34,6 +34,7 @@ const Step = styled.li`
 
 
 function Recipe(props) {
+
     const deleteRecipe = () => {
         const recipeId = props.id;
         axios.delete(`api-url/${recipeId}`)
@@ -46,13 +47,17 @@ function Recipe(props) {
     }
 
     return (
+        <div className='recipe-card-container'>
+            
+        {Recipes.map(recipes => 
+            (
         <RecipeCard>
-            <H3>{props.title}</H3>
-            <H5>{props.source}</H5>
+            <H3>{recipes.title}</H3>
+            <H5>{recipes.source}</H5>
             <p>Categories:</p>
             <p>Ingredients</p>
             <ul>
-                {props.ingredients.map(ingredient => {
+                {recipes.ingredients.map(ingredient => {
                     return (
                         <li>{ingredient}</li>
                     )
@@ -60,17 +65,20 @@ function Recipe(props) {
             </ul>
             <p>Instructions</p>
             <ol>
-                {props.steps.map(step => {
+                {recipes.steps.map(step => {
                     return (
                         <Step>{step}</Step>
                     )
                 })}
             </ol>
-            <Link to={`/edit/${props.id}`}>
+            <Link to={`/edit/${recipes.id}`}>
                 <button>Edit</button>
             </Link>
             <button onClick={deleteRecipe}>Delete</button>
         </RecipeCard>
+        )
+        )}
+        </div>
     )
 }
 
