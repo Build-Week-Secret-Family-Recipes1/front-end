@@ -6,7 +6,6 @@ export default function (){
     const recipes = {path: '/recipes', name: 'Recipes'};
     const form = {path: '/new', name: 'Add New Recipe'};
     const nav = [home, recipes, form];
-    const {id} = useParams();
 
     return (
         <div className='nav-container'>
