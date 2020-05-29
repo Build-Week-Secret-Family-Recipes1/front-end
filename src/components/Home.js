@@ -37,7 +37,7 @@ function Home(props) {
                 <SearchBar recipes={recipes}/>
                 <RecipeList {...props} recipes={recipes}/>
                 <RecipeForm setRecipes={setRecipes}/>
-                <EditRecipe setRecipes={setRecipes}  recipes={recipes}/>
+                {/* <EditRecipe setRecipes={setRecipes}  recipes={recipes}/> */}
                 {/*
                 will show a list of recipes
                 will have button to add a new recipe (will link to RecipeForm)
