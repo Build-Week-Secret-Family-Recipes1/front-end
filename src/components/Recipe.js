@@ -38,7 +38,6 @@ const Button = styled.button`
     margin: 20px;
     width: 9rem;
     font-size: 1.2rem;
-    font-family: Gill Sans;
     border: none;
     border-radius: 5px;
     background-color: ${props => props.secondary ? '#FE9A76' : '#6AD856'};
