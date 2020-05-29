@@ -9,6 +9,7 @@ import RecipeForm from "./components/RecipeForm";
 import Recipe from "./components/Recipe";
 import Home from "./components/Home";
 import EditRecipe from "./components/EditRecipe";
+import SearchBar from "./components/SearchBar";
 import PrivateRoute from "./components/PrivateRoute";
 import { useSessionStorage } from "./hooks/useSessionStorage";
 import "./styles.scss";
@@ -39,6 +40,7 @@ function App(props) {
           <Route path="/recipes/:id" component={Recipe} />
           <Route path="/edit/:id" component={EditRecipe} />
           <Route path="/new" component={RecipeForm} />
+          <Route path="/search" component={SearchBar} />
           <Route path="/login" render={(props)=> <Login {...props} func={setUser} />}/>
           <Route path="/logout" render={(props)=> <Logout {...props} history={props.history} func={logout} />}/>
           <Route path="/register" render={(props)=> <RegisterUser {...props} func={setUser} />}/>

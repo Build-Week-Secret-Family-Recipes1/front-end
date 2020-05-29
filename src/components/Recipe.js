@@ -57,6 +57,8 @@ function Recipe(props) {
     	steps: props.steps || [],
     	tags: props.tags || []
     });
+    const [toDelete,setToDelete] = useState(false);
+    const [redirect, setRedirect] = useState(false);
     const params = useParams();
 
     useEffect(()=>{
@@ -73,38 +75,52 @@ function Recipe(props) {
 
     const deleteMe = (e) => {
       e.preventDefault();
+      setToDelete(true);
       props.deleteRecipe(recipe.id);
     }
 
-    return (
-        <RecipeCard>
-            <H3>{recipe.title}</H3>
-            <H5>{recipe.source}</H5>
-            <p>Categories:</p>
-            <p>Ingredients</p>
-            <ul>
-                {recipe.ingredients.map(ingredient => {
-                    return (
-                        <li>{ingredient}</li>
-                    )
-                })}
-            </ul>
-            <p>Instructions</p>
-            <ol>
-                {recipe.steps.map(step => {
-                    return (
-                        <Step>{step}</Step>
-                    )
-                })}
-            </ol>
-            <ButtonContainer>
-                <Link to={`/edit/${props.id}`}>
-                    <Button>Edit</Button>
-                </Link>
-                <Button secondary onClick={deleteMe}>Delete</Button>
-            </ButtonContainer>
-        </RecipeCard>
-    )
+    useEffect(()=>{
+      if (toDelete && !props.isPosting && props.resStatus!==null) {
+        setRedirect("/");
+      }
+    },[toDelete, props.isPosting, props.resStatus]);
+
+    if (redirect) {
+      return (<Redirect to={redirect} />);
+    } else if (props.isPosting) {
+      return (<p>Please wait...</p>);
+    } else {
+      return (
+          <RecipeCard>
+              <H3>{recipe.title}</H3>
+              <H5>{recipe.source}</H5>
+              <p>Categories:</p>
+              <p>Ingredients</p>
+              <ul>
+                  {recipe.ingredients.map(ingredient => {
+                      return (
+                          <li>{ingredient}</li>
+                      )
+                  })}
+              </ul>
+              <p>Instructions</p>
+              <ol>
+                  {recipe.steps.map(step => {
+                      return (
+                          <Step>{step}</Step>
+                      )
+                  })}
+              </ol>
+              <ButtonContainer>
+                  <Link to={`/edit/${props.id}`}>
+                      <Button>Edit</Button>
+                  </Link>
+                  <Button secondary onClick={deleteMe}>Delete</Button>
+                  {props.error!==''?<p>{props.error}</p>:<></>}
+              </ButtonContainer>
+          </RecipeCard>
+      )
+    }
 }
 
 // hook up the connect to our store
