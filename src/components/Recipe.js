@@ -60,30 +60,30 @@ function Recipe(props) {
     const params = useParams();
 
     useEffect(()=>{
-      if (props.recipe) {
+      if (props.recipe && props.id===null) {
         setRecipe(props.recipe);
       }
     },[props.recipe]);
 
     useEffect(()=>{
       if (params.id) {
-        getRecipe(parseInt(params.id));
+        props.getRecipe(parseInt(params.id));
       }
     },[params.id]);
 
     const deleteMe = (e) => {
       e.preventDefault();
-      props.deleteRecipe(props.id);
+      props.deleteRecipe(recipe.id);
     }
 
     return (
         <RecipeCard>
-            <H3>{props.title}</H3>
-            <H5>{props.source}</H5>
+            <H3>{recipe.title}</H3>
+            <H5>{recipe.source}</H5>
             <p>Categories:</p>
             <p>Ingredients</p>
             <ul>
-                {props.ingredients.map(ingredient => {
+                {recipe.ingredients.map(ingredient => {
                     return (
                         <li>{ingredient}</li>
                     )
@@ -91,7 +91,7 @@ function Recipe(props) {
             </ul>
             <p>Instructions</p>
             <ol>
-                {props.steps.map(step => {
+                {recipe.steps.map(step => {
                     return (
                         <Step>{step}</Step>
                     )
