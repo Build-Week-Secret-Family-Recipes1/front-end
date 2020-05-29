@@ -153,7 +153,6 @@ function RecipeForm(props) {
 
     const submitForm = e => {
         e.preventDefault();
-        props.setRecipes(recipeState);
         props.postRecipe(recipeState);
         console.log("Submitted!")
         setSubmitted(true);

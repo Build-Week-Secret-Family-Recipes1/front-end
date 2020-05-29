@@ -1,7 +1,7 @@
-import React from 'react';
-import { axiosWithAuth } from '../utils/axiosWithAuth';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import { deleteRecipe, getRecipe } from "../actions";
+import { connect } from "react-redux";
+import { Link, useParams, Redirect } from 'react-router-dom';
 
 import styled from 'styled-components';
 
@@ -48,15 +48,32 @@ const Button = styled.button`
 
 
 function Recipe(props) {
-    const deleteRecipe = () => {
-        const recipeId = props.id;
-        axios.delete(`api-url/${recipeId}`)
-            .then(response => {
-                console.log('Deleted!')
-            })
-            .catch(error => {
-                console.log(error)
-            })
+    const [recipe, setRecipe] = useState({
+      id: props.id || null,
+      user_id: props.user_id || null,
+      title: props.title || '',
+    	source: props.source || '',
+    	ingredients: props.ingredients || [],
+    	steps: props.steps || [],
+    	tags: props.tags || []
+    });
+    const params = useParams();
+
+    useEffect(()=>{
+      if (props.recipe) {
+        setRecipe(props.recipe);
+      }
+    },[props.recipe]);
+
+    useEffect(()=>{
+      if (params.id) {
+        getRecipe(parseInt(params.id));
+      }
+    },[params.id]);
+
+    const deleteMe = (e) => {
+      e.preventDefault();
+      props.deleteRecipe(props.id);
     }
 
     return (
@@ -84,10 +101,24 @@ function Recipe(props) {
                 <Link to={`/edit/${props.id}`}>
                     <Button>Edit</Button>
                 </Link>
-                <Button secondary onClick={deleteRecipe}>Delete</Button>
+                <Button secondary onClick={deleteMe}>Delete</Button>
             </ButtonContainer>
         </RecipeCard>
     )
 }
 
-export default Recipe;
+// hook up the connect to our store
+const mapStateToProps = state => {
+  return {
+    recipe: state.recipe,
+    isFetching: state.isFetching,
+    isPosting: state.isPosting,
+    error: state.error,
+    resStatus: state.resStatus
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { deleteRecipe, getRecipe }
+)(Recipe);
