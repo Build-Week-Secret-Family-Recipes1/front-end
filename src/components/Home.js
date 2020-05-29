@@ -5,6 +5,10 @@ import RecipeList from './RecipeList';
 import EditRecipe from './EditRecipe';
 import SearchBar from './SearchBar';
 
+const Div = styled.div`
+    width: 100%;
+`
+
 const H1 = styled.h1`
     color: white;
     font-size: 2.8rem;
@@ -32,7 +36,7 @@ function Home(props) {
     } */
 
     return (
-        <div>
+        <Div>
             <H1>Secret Family Recipes</H1>
             <div>
                 <SearchBar recipes={recipes}/>
@@ -44,7 +48,7 @@ function Home(props) {
                 will have button to add a new recipe (will link to RecipeForm)
                 */}
             </div>
-        </div>
+        </Div>
     )
 }
 

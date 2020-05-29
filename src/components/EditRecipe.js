@@ -8,7 +8,7 @@ import styled from 'styled-components';
 const StyledForm = styled.form`
     width: 45vw;
     padding: 20px;
-    margin: auto;
+    margin: 20px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,9 +35,9 @@ const SubmitButton = styled(Button)`
 const Label = styled.label`
     display: flex;
     justify-content: space-between;
-    padding: 40px;
+    padding: 20px 0;
     width: 100%;
-    border-bottom: 2px solid green;
+    border-top: ${props => props.primary ? '2px solid rgba(106, 216, 86, 0.4)' : 'none'};
 `
 
 const Input = styled.input`
@@ -46,6 +46,20 @@ const Input = styled.input`
     font-size: 1rem;
     border: 2px solid #6AD856;
     border-radius: 5px;
+`
+
+const Div = styled.div`
+    width: 100%;
+`
+
+const H1 = styled.h1`
+    color: white;
+    font-size: 2.8rem;
+    font-weight: bold;
+    padding: 70px;
+    margin: 0;
+    border-bottom: 2px solid #00CC00;
+    background-color: rgba(106, 216, 86, 0.9);
 `
 
 const H2 = styled.h2`
@@ -60,14 +74,18 @@ const H5 = styled.h5`
 
 const Ul = styled.ul`
     text-align: left;
-    width: 80%;
     margin: auto;
+    padding: 20px 0;
+    line-height: 1.5;
+    list-style: inside;
 `
 
 const Ol = styled.ol`
     text-align: left;
-    width: 80%;
     margin: auto;
+    padding: 20px 0;
+    line-height: 1.5;
+    list-style: inside decimal;
 `
 
 const formSchema = yup.object().shape({
@@ -191,6 +209,8 @@ function EditRecipe({getRecipe, recipe, ...props}) {
       return (<p>Please wait...</p>);
     } else {
       return (
+        <Div>
+          <H1>Secret Family Recipes</H1>
           <StyledForm onSubmit={submitForm}>
               <H2>Edit this Recipe</H2>
               <Label htmlFor="title">
@@ -205,7 +225,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                   />
               </Label>
               {errorState.title.length > 0 ? (<p>{errorState.title}</p>) : null}
-              <Label htmlFor="newIngredient">
+              <Label primary htmlFor="newIngredient">
                   <H5>New Ingredient</H5>
                   <Input
                       type="text"
@@ -229,7 +249,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                       })}
                   </Ul>
               </div>
-              <Label htmlFor="newStep">
+              <Label primary htmlFor="newStep">
                   <H5>New Step</H5>
                   <Input
                       type="text"
@@ -251,7 +271,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                       })}
                   </Ol>
               </div>
-              <Label htmlFor="newTag">
+              <Label primary htmlFor="newTag">
                   <H5>New Category</H5>
                   <Input
                       type="text"
@@ -273,7 +293,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                       })}
                   </Ul>
               </div>
-              <Label htmlFor="source">
+              <Label primary htmlFor="source">
                   <H5>New Source</H5>
                   <Input
                       type="text"
@@ -287,6 +307,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
               <SubmitButton>Update Recipe</SubmitButton>
               {props.error!==''?<p>{props.error}</p>:<></>}
           </StyledForm>
+        </Div>
       )
     }
 }
