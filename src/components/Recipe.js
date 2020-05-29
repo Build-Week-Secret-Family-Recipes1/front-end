@@ -6,10 +6,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const RecipeCard = styled.div`
-    background-color: rgba(255, 226, 209, 0.3);
-    border: 2px solid #55917F;
+    border: 2px solid #32CD32;
     border-radius: 3px;
-    color: #5e4c5a;
     box-sizing: border-box;
     width: 575px;
     margin: 10px;
@@ -39,11 +37,12 @@ const Button = styled.button`
     padding: 10px;
     margin: 20px;
     width: 9rem;
-    border-radius: 3px;
-    border: ${props => props.secondary ? '2px solid firebrick' : '2px solid #55917F'};
-    background-color: ${props => props.secondary ? 'lightcoral' : 'rgba(64, 224, 208, 0.5)'};
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-family: Gill Sans;
+    border: none;
+    border-radius: 5px;
+    background-color: ${props => props.secondary ? '#FE9A76' : '#6AD856'};
+    color: white;
 `
 
 

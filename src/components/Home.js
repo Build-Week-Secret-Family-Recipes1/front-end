@@ -6,12 +6,13 @@ import EditRecipe from './EditRecipe';
 import SearchBar from './SearchBar';
 
 const H1 = styled.h1`
-    color: #5e4c5a;
-    font-size: 2.7rem;
+    color: white;
+    font-size: 2.8rem;
+    font-weight: bold;
     padding: 70px;
     margin: 0;
-    border-bottom: 2px solid #55917F;
-    background-color: rgba(64, 224, 208, 0.5);
+    border-bottom: 2px solid #00CC00;
+    background-color: rgba(106, 216, 86, 0.9);
 `
 
 function Home(props) {
