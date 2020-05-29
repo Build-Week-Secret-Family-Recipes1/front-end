@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
-import { postRecipe } from "../actions";
+import { updateRecipe, getRecipe } from "../actions";
 import { connect } from "react-redux";
 import { Redirect, useParams } from "react-router-dom";
-import { getRecipe } from "../actions";
 import styled from 'styled-components';
 
 const StyledForm = styled.form`
@@ -110,7 +109,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
         console.log('id', id);
 
         getRecipe(parseInt(id));
-        
+
     }, [params.id]);
 
     useEffect(() => {
@@ -177,11 +176,9 @@ function EditRecipe({getRecipe, recipe, ...props}) {
 
     const submitForm = e => {
         e.preventDefault();
-        props.setRecipes(recipeState);
-        props.postRecipe(recipeState);
+        props.updateRecipe(recipeState);
         console.log("Submitted!");
         setSubmitted(true);
-        setRedirect('/');
     }
 
     useEffect(()=>{
@@ -194,7 +191,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
 
     if (redirect !== null) {
       return (<Redirect to={redirect} />);
-    } else if (props.isPosting) {
+    } else if (props.isPosting || props.isFetching) {
       return (<p>Please wait...</p>);
     } else {
       return (
@@ -302,6 +299,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
 const mapStateToProps = state => {
   return {
     recipe: state.recipe,
+    isFetching: state.isFetching,
     isPosting: state.isPosting,
     error: state.error,
     resStatus: state.resStatus
@@ -310,5 +308,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { postRecipe, getRecipe }
+  { updateRecipe, getRecipe }
 )(EditRecipe);
