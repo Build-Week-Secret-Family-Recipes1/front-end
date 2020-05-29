@@ -59,19 +59,19 @@ function Recipe(props) {
     });
     const [toDelete,setToDelete] = useState(false);
     const [redirect, setRedirect] = useState(false);
-    const params = useParams();
+    const {id} = useParams();
 
     useEffect(()=>{
-      if (props.recipe && props.id===null) {
+      if (props.recipe && (props.id===null || id)) {
         setRecipe(props.recipe);
       }
     },[props.recipe]);
 
     useEffect(()=>{
-      if (params.id) {
-        props.getRecipe(parseInt(params.id));
+      if (id) {
+        props.getRecipe(parseInt(id));
       }
-    },[params.id]);
+    },[id]);
 
     const deleteMe = (e) => {
       e.preventDefault();
