@@ -47,17 +47,14 @@ function Recipe(props) {
     }
 
     return (
-        <div className='recipe-card-container'>
             
-        {Recipes.map(recipes => 
-            (
         <RecipeCard>
-            <H3>{recipes.title}</H3>
-            <H5>{recipes.source}</H5>
+            <H3>{props.title}</H3>
+            <H5>{props.source}</H5>
             <p>Categories:</p>
             <p>Ingredients</p>
             <ul>
-                {recipes.ingredients.map(ingredient => {
+                {props.ingredients.map(ingredient => {
                     return (
                         <li>{ingredient}</li>
                     )
@@ -65,20 +62,18 @@ function Recipe(props) {
             </ul>
             <p>Instructions</p>
             <ol>
-                {recipes.steps.map(step => {
+                {props.steps.map(step => {
                     return (
                         <Step>{step}</Step>
                     )
                 })}
             </ol>
-            <Link to={`/edit/${recipes.id}`}>
+            <Link to={`/edit/${props.id}`}>
                 <button>Edit</button>
             </Link>
             <button onClick={deleteRecipe}>Delete</button>
         </RecipeCard>
-        )
-        )}
-        </div>
+       
     )
 }
 
