@@ -48,35 +48,41 @@ const Button = styled.button`
 
 
 function Recipe(props) {
-    const [recipe, setRecipe] = useState({
-      id: props.id || null,
-      user_id: props.user_id || null,
-      title: props.title || '',
-    	source: props.source || '',
-    	ingredients: props.ingredients || [],
-    	steps: props.steps || [],
-    	tags: props.tags || []
+    const [recipeState, setRecipeState] = useState(props.recipe || {
+      id: null,
+      user_id: null,
+      title: 'AAA',
+    	source: '',
+    	ingredients: [],
+    	steps: [],
+    	tags: []
     });
     const [toDelete,setToDelete] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const {id} = useParams();
 
     useEffect(()=>{
-      if (props.recipe && (props.id===null || id)) {
-        setRecipe(props.recipe);
+      if (props.recipe) {
+        setRecipeState(props.recipe)
       }
     },[props.recipe]);
 
     useEffect(()=>{
-      if (id) {
+      if (props.recipeFromProps) {
+        setRecipeState(props.recipeFromProps)
+      }
+    },[props.recipeFromProps]);
+
+    useEffect(()=>{
+      if (parseInt(id)>=0) {
         props.getRecipe(parseInt(id));
       }
-    },[id]);
+    },[id, props.getRecipe]);
 
     const deleteMe = (e) => {
       e.preventDefault();
       setToDelete(true);
-      props.deleteRecipe(recipe.id);
+      props.deleteRecipe(recipeState.id);
     }
 
     useEffect(()=>{
@@ -92,12 +98,12 @@ function Recipe(props) {
     } else {
       return (
           <RecipeCard>
-              <H3>{recipe.title}</H3>
-              <H5>{recipe.source}</H5>
+              <H3>{recipeState.title}</H3>
+              <H5>{recipeState.source}</H5>
               <p>Categories:</p>
               <p>Ingredients</p>
               <ul>
-                  {recipe.ingredients.map(ingredient => {
+                  {recipeState.ingredients.map(ingredient => {
                       return (
                           <li>{ingredient}</li>
                       )
@@ -105,14 +111,14 @@ function Recipe(props) {
               </ul>
               <p>Instructions</p>
               <ol>
-                  {recipe.steps.map(step => {
+                  {recipeState.steps.map(step => {
                       return (
                           <Step>{step}</Step>
                       )
                   })}
               </ol>
               <ButtonContainer>
-                  <Link to={`/edit/${props.id}`}>
+                  <Link to={`/edit/${recipeState.id}`}>
                       <Button>Edit</Button>
                   </Link>
                   <Button secondary onClick={deleteMe}>Delete</Button>

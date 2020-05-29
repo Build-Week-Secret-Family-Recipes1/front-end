@@ -73,7 +73,7 @@ const Button = styled.button`
     font-family: Gill Sans;
 `
 
-function SearchBar(props) {
+function SearchBar({list, ...props}) {
     const [recipes, setRecipes] = useState([]);
     const [searchFilter, setSearchFilter] = useState('');
     const [selectedTag, setSelectedTag] = useState('');
@@ -99,11 +99,11 @@ function SearchBar(props) {
     },[]);
 
     useEffect(()=>{
-      console.log(props.list);
-      setRecipes(props.list);
+      console.log(list);
+      setRecipes(list);
       if (tags.length<=0) {
         const ta = [];
-        props.list.forEach(r=>{
+        list.forEach(r=>{
           r.tags.forEach(t=>{
             if (ta.indexOf(t)===-1) {
               ta.push(t);
@@ -112,7 +112,7 @@ function SearchBar(props) {
         });
         setTags(ta);
       }
-    },[props.list]);
+    },[list]);
 
     const changeSearchFilterHandler = e => {
       e.preventDefault();
@@ -154,17 +154,13 @@ function SearchBar(props) {
           </SearchForm>
           <Wrapper className="recipe-list-wrapper">
 
-            {recipes.map((object) => {
+            {list.map((object) => {
               /* console.log('setRecipeToEdit from RecipeList', props.editRecipe) */
               return (
                 <Recipe
                   {...props}
-                  id={object.id}
-                  title={object.title}
-                  source={object.source}
-                  ingredients={object.ingredients}
-                  steps={object.steps}
-                  tags={object.tags}
+                  recipeFromProps={object}
+                  key={object.id}
                 />
               )
             })}
