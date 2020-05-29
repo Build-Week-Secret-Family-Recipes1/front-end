@@ -2,7 +2,61 @@ import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import {loginUser} from "../actions";
 import {  Redirect, Link } from 'react-router-dom';
+import styled from 'styled-components';
 
+const StyledForm = styled.form`
+    width: 45vw;
+    padding: 20px;
+    margin: 50px 25vw;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #32CD32;
+    border-radius: 5px;
+`
+
+const H2 = styled.h2`
+    font-size: 2.5rem;
+`
+
+const InputContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px 0;
+`
+
+const Label = styled.label`
+    font-size: 1.1rem;
+    width: 20%;
+`
+
+const Input = styled.input`
+    padding: 5px;
+    font-size: 1rem;
+    border: 2px solid #6AD856;
+    border-radius: 5px;
+    width: 40%;
+`
+
+const Button = styled.button`
+    display: inline-block;
+    padding: 10px;
+    margin: 30px auto;
+    width: 9rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    background-color: ${props => props.secondary ? '#FE9A76' : '#6AD856'};
+    color: white;
+`
+
+const P = styled.p`
+  font-size: 1rem;
+`
+
+const Span = styled.span`
+  text-decoration: none;
+  color: black;
+`
 
 function Login (props) {
   const [credentials, setCredentials] = useState({username: '', password: ''});
@@ -45,31 +99,35 @@ function Login (props) {
   } else {
     return (
       <div className="loginForm">
-        <form onSubmit={login}>
-          <h2>Please Log In</h2>
-          <label htmlFor="username">Username: </label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            value={credentials.username}
-            onChange={handleChange}
-            placeholder="Username"
-          /><br />
-          <label htmlFor="password">Password: </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={credentials.password}
-            onChange={handleChange}
-            placeholder="Password"
-          /><br />
+        <StyledForm onSubmit={login}>
+          <H2>Please Log In</H2>
+          <InputContainer>
+            <Label htmlFor="username">Username: </Label>
+            <Input
+              type="text"
+              name="username"
+              id="username"
+              value={credentials.username}
+              onChange={handleChange}
+              placeholder="Username"
+            /><br />
+          </InputContainer>
+          <InputContainer>
+            <Label htmlFor="password">Password: </Label>
+            <Input
+              type="password"
+              name="password"
+              id="password"
+              value={credentials.password}
+              onChange={handleChange}
+              placeholder="Password"
+            /><br />
+          </InputContainer>
           {error?<p>{error}</p>:<></>}
-          <button className="loginBtn">Log in</button>
+          <Button className="loginBtn">Log in</Button>
 
-          <p>Not a member yet? <Link to={'/register'}>Sign Up Here!</Link></p>
-        </form>
+          <P>Not a member yet? <Link to={'/register'}><Span>Sign Up Here!</Span></Link></P>
+        </StyledForm>
       </div>
     );
   }
