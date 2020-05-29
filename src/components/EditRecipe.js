@@ -37,6 +37,7 @@ const Label = styled.label`
     justify-content: space-between;
     padding: 40px;
     width: 100%;
+    border-bottom: 2px solid green;
 `
 
 const Input = styled.input`
@@ -94,7 +95,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
         newIngredient: '',
         ingredients: [],
         newStep: '',
-        steps: ['Test step'],
+        steps: [],
         newTag: '',
         tags: []
     });
@@ -193,7 +194,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
           <StyledForm onSubmit={submitForm}>
               <H2>Edit this Recipe</H2>
               <Label htmlFor="title">
-                  New Title
+                  <H5>New Title</H5>
                   <Input
                       type="text"
                       name="title"
@@ -205,7 +206,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
               </Label>
               {errorState.title.length > 0 ? (<p>{errorState.title}</p>) : null}
               <Label htmlFor="newIngredient">
-                  New Ingredient
+                  <H5>New Ingredient</H5>
                   <Input
                       type="text"
                       name="newIngredient"
@@ -219,7 +220,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
               {/* Need to figure out how to get this ingredients error to show */}
               {errorState.ingredients.length > 0 ? (<p>{errorState.ingredients}</p>) : null}
               <div>
-                  <H5>Ingredients</H5>
+                  <H5>Ingredients:</H5>
                   <Ul>
                       {recipeState.ingredients.map((ingredient) => {
                           return (
@@ -229,7 +230,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                   </Ul>
               </div>
               <Label htmlFor="newStep">
-                  New Steps
+                  <H5>New Step</H5>
                   <Input
                       type="text"
                       name="newStep"
@@ -241,7 +242,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
               </Label>
               <Button onClick={addStep}>Add Step</Button>
               <div>
-                  <H5>Steps</H5>
+                  <H5>Steps:</H5>
                   <Ol>
                       {recipeState.steps.map((step) => {
                           return (
@@ -251,7 +252,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                   </Ol>
               </div>
               <Label htmlFor="newTag">
-                  New Category
+                  <H5>New Category</H5>
                   <Input
                       type="text"
                       name="newTag"
@@ -263,7 +264,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
               </Label>
               <Button onClick={addTag}>Add Category</Button>
               <div>
-                  <H5>Categories</H5>
+                  <H5>Categories:</H5>
                   <Ul>
                       {recipeState.tags.map((tag) => {
                           return (
@@ -273,7 +274,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                   </Ul>
               </div>
               <Label htmlFor="source">
-                  New Source
+                  <H5>New Source</H5>
                   <Input
                       type="text"
                       name="source"

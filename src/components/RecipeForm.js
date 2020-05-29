@@ -35,8 +35,9 @@ const SubmitButton = styled(Button)`
 const Label = styled.label`
     display: flex;
     justify-content: space-between;
-    padding: 40px;
+    padding: 20px 0;
     width: 100%;
+    border-top: ${props => props.primary ? '2px solid green' : 'none'};
 `
 
 const Input = styled.input`
@@ -66,7 +67,10 @@ const Ul = styled.ul`
 const Ol = styled.ol`
     text-align: left;
     width: 80%;
+    max-width: 500px;
+    overflow: hidden;
     margin: auto;
+    border: 1px solid goldenrod;
 `
 
 const formSchema = yup.object().shape({
@@ -183,8 +187,8 @@ function RecipeForm(props) {
                   />
               </Label>
               {errorState.title.length > 0 ? (<p>{errorState.title}</p>) : null}
-              <Label htmlFor="newIngredient">
-                  <H5>Ingredient</H5>
+              <Label primary htmlFor="newIngredient">
+                  <H5>New Ingredient</H5>
                   <Input
                       type="text"
                       name="newIngredient"
@@ -207,8 +211,8 @@ function RecipeForm(props) {
                       })}
                   </Ul>
               </div>
-              <Label htmlFor="newStep">
-                  <H5>Steps</H5>
+              <Label primary htmlFor="newStep">
+                  <H5>New Step</H5>
                   <Input
                       type="text"
                       name="newStep"
@@ -229,8 +233,8 @@ function RecipeForm(props) {
                       })}
                   </Ol>
               </div>
-              <Label htmlFor="newTag">
-                  <H5>Categories</H5>
+              <Label primary htmlFor="newTag">
+                  <H5>New Category</H5>
                   <Input
                       type="text"
                       name="newTag"
@@ -251,7 +255,7 @@ function RecipeForm(props) {
                       })}
                   </Ul>
               </div>
-              <Label htmlFor="source">
+              <Label primary htmlFor="source">
                   <H5>Source</H5>
                   <Input
                       type="text"

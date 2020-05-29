@@ -23,8 +23,10 @@ const H5 = styled.h5`
     font-size: 1.1rem;
     font-style: italic;
 `
-const Step = styled.li`
+
+const Li = styled.li`
     width: 95%;
+    line-height: 1.5;
 `
 
 const ButtonContainer = styled.div`
@@ -66,7 +68,7 @@ function Recipe(props) {
             <ul>
                 {props.ingredients.map(ingredient => {
                     return (
-                        <li>{ingredient}</li>
+                        <Li>{ingredient}</Li>
                     )
                 })}
             </ul>
@@ -74,7 +76,7 @@ function Recipe(props) {
             <ol>
                 {props.steps.map(step => {
                     return (
-                        <Step>{step}</Step>
+                        <Li>{step}</Li>
                     )
                 })}
             </ol>
