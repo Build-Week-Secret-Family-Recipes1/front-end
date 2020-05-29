@@ -37,8 +37,11 @@ export const getListByTagSearch = (searchFilter) => async dispatch => {
   console.log(`Fetching list`);
   if (isDev()) {
     const testListF = filterRecipeListByUserId(testList);
-    const testListF2 = testListF.filter(r=>{
-      return (r.tags.filter(tag=>tagsInclude(tag,searchFilter)));
+    const testListF2 = [];
+    testListF.forEach(r=>{
+      if (r.tags.indexOf(searchFilter)>=0) {
+        testListF2.push(r);
+      }
     });
     dispatch({ type: t.FETCHING_LIST_SUCCESS, payload: {resStatus: '200', list: testListF2 }});
   } else {
@@ -47,8 +50,11 @@ export const getListByTagSearch = (searchFilter) => async dispatch => {
       .then(res => {
         const listF = filterRecipeListByUserId(res.data);
         const modifiedList = listF.map(r=>modifyRecipe(r));
-        const listF2 = modifiedList.filter(r=>{
-          return (r.tags.filter(tag=>tagsInclude(tag,searchFilter)));
+        const listF2 = [];
+        modifiedList.forEach(r=>{
+          if (r.tags.indexOf(searchFilter)>=0) {
+            listF2.push(r);
+          }
         });
         dispatch({ type: t.FETCHING_LIST_SUCCESS, payload: {resStatus: res.status, list: listF2 }});
       })
