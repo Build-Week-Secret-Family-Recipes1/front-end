@@ -55,7 +55,7 @@ const P = styled.p`
 
 const Span = styled.span`
   text-decoration: none;
-  color: black;
+  color: green;
 `
 
 function Login (props) {
