@@ -5,13 +5,18 @@ import RecipeList from './RecipeList';
 import EditRecipe from './EditRecipe';
 import SearchBar from './SearchBar';
 
+const Div = styled.div`
+    width: 100%;
+`
+
 const H1 = styled.h1`
-    color: #5e4c5a;
-    font-size: 2.7rem;
+    color: white;
+    font-size: 2.8rem;
+    font-weight: bold;
     padding: 70px;
     margin: 0;
-    border-bottom: 2px solid #55917F;
-    background-color: rgba(64, 224, 208, 0.5);
+    border-bottom: 2px solid #00CC00;
+    background-color: rgba(106, 216, 86, 0.9);
 `
 
 function Home(props) {
@@ -31,7 +36,7 @@ function Home(props) {
     } */
 
     return (
-        <div>
+        <Div>
             <H1>Secret Family Recipes</H1>
             <div>
                 {/* <SearchBar recipes={recipes}/> */}
@@ -43,7 +48,7 @@ function Home(props) {
                 will have button to add a new recipe (will link to RecipeForm)
                 */}
             </div>
-        </div>
+        </Div>
     )
 }
 

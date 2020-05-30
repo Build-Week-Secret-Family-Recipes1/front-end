@@ -29,15 +29,13 @@ const Input = styled.input`
     width: 10rem;
     padding: 5px;
     font-size: 1rem;
-    border: 2px solid #6bab90;
+    border: 2px solid #00CC00;
     border-radius: 3px;
-    color: #5e4c5a;
 `
 
 const Select = styled.select`
     font-size: 1rem;
-    color: #5e4c5a;
-    border: 2px solid #55917F;
+    border: 2px solid #00CC00;
     border-radius: 3px;
     padding: 5px;
     width: 9rem;
@@ -46,13 +44,11 @@ const Select = styled.select`
 const H4 = styled.h4`
     margin: 0;
     font-size: 1.3rem;
-    color: #5e4c5a;
 `
 
 const H5 = styled.h5`
     margin: 0;
     font-size: 1.1rem;
-    color: #5e4c5a;
 `
 const Wrapper = styled.div`
   display: flex;
@@ -63,14 +59,14 @@ const Wrapper = styled.div`
 
 const Button = styled.button`
     display: inline-block;
-    padding: 5px;
+    padding: 10px;
     margin: 20px;
     width: 9rem;
-    border-radius: 3px;
-    border: 2px solid #55917F;
-    background-color: rgba(64, 224, 208, 0.5);
     font-size: 1.1rem;
-    font-family: Gill Sans;
+    border: none;
+    border-radius: 5px;
+    background-color: #6AD856;
+    color: white;
 `
 
 function SearchBar({list, ...props}) {
