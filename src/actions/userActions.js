@@ -61,19 +61,23 @@ export const loginUser = (credentials) => async dispatch => {
 export const registerUser = (credentials) => async dispatch => {
   dispatch({ type: t.REGISTER_START, payload: credentials.username });
   if (isDev()) {
+    console.log("Login Success");
     dispatch({ type: t.REGISTER_SUCCESS, payload: {resStatus: '200', user: credentials.username }});
     loginUser(credentials);
   } else {
     axiosWithAuth()
       .post("auth/register", {username: credentials.username, password: credentials.password})
       .then(res => {
+        console.log("Login Success");
+        console.log(res.status);
         dispatch({ type: t.REGISTER_SUCCESS, payload: {resStatus: res.status, user: credentials.username }});
         loginUser(credentials);
       })
     .catch(err => {
+      console.log("Login Error");
       dispatch({
         type: t.REGISTER_FAILURE,
-        payload: `${err.statusText} with response code ${err.status}, ${err}`
+        payload: `${err.statusText} with response code ${err.status}`
       });
     });
   }
@@ -82,6 +86,7 @@ export const registerUser = (credentials) => async dispatch => {
 export const logoutUser = (username) => async dispatch => {
   dispatch({ type: t.LOGOUT_START, payload: username });
   if (isDev()) {
+    console.log("Logout Success");
     dispatch({ type: t.LOGOUT_SUCCESS, payload: {resStatus: '200', user: username }});
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("userId");
@@ -89,14 +94,16 @@ export const logoutUser = (username) => async dispatch => {
     axiosWithAuth()
       .post("auth/logout")
       .then(res => {
+        console.log(res.status);
         dispatch({ type: t.LOGOUT_SUCCESS, payload: {resStatus: res.status, user: username }});
         sessionStorage.removeItem("user");
         sessionStorage.removeItem("userId");
       })
     .catch(err => {
+      console.log("Logout Error");
       dispatch({
         type: t.LOGOUT_FAILURE,
-        payload: `${err.statusText} with response code ${err.status}, ${err}`
+        payload: `${err.statusText} with response code ${err.status}`
       });
     });
   }

@@ -85,6 +85,7 @@ function Login (props) {
   const login = (e) => {
     e.preventDefault();
     setSubmitted(true);
+    console.log(credentials);
     loginUser(credentials);
   };
 
@@ -137,7 +138,7 @@ function Login (props) {
             />
           </InputContainer>
           {error?<p>{error}</p>:<></>}
-          <Button className="loginBtn">Log in</Button>
+          <Button className="loginBtn" onClick={login}>Log in</Button>
 
           <P>Not a member yet? <Link to={'/register'} style={{ textDecoration: 'none' }}><Span>Sign Up Here!</Span></Link></P>
         </StyledForm>
