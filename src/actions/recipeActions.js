@@ -94,13 +94,13 @@ export const postRecipe = (recipe) => async dispatch => {
     }
 };
 
-export const deleteRecipe = (recipe) => async dispatch => {
-  dispatch({ type: t.DELETING_RECIPE_START, payload: recipe });
+export const deleteRecipe = (recipeId) => async dispatch => {
+  dispatch({ type: t.DELETING_RECIPE_START, payload: recipeId });
   if (isDev()) {
-    dispatch({ type: t.DELETING_RECIPE_SUCCESS, payload: {resStatus: '200', data: {message: 'deleted', id: recipe.id}} });
+    dispatch({ type: t.DELETING_RECIPE_SUCCESS, payload: {resStatus: '200', data: {message: 'deleted', id: recipeId}} });
   } else {
     axiosWithAuth()
-      .delete(`api/recipes/${recipe.id}`)
+      .delete(`api/recipes/${recipeId}`)
       .then(res => {
         console.log(res);
         dispatch({ type: t.DELETING_RECIPE_SUCCESS, payload: {resStatus: res.status, data: res.data} });

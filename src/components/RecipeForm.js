@@ -8,15 +8,12 @@ import styled from 'styled-components';
 const StyledForm = styled.form`
     width: 45vw;
     padding: 20px;
-    margin: auto;
+    margin: 20px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #5e4c5a;
-    background-color: rgba(255, 226, 209, 0.3);
-
-    border: 2px solid #5e4c5a;
-    border-radius: 3px;
+    border: 2px solid #32CD32;
+    border-radius: 5px;
 `
 
 const Button = styled.button`
@@ -24,27 +21,45 @@ const Button = styled.button`
     padding: 10px;
     margin: 20px;
     width: 9rem;
-    border-radius: 3px;
-    border: 2px solid #55917F;
-    background-color: rgba(64, 224, 208, 0.5);
-    font-size: 0.9rem;
-    font-family: Gill Sans;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: ${props => props.secondary ? '#FE9A76' : '#6AD856'};
+    color: white;
+`
+
+const SubmitButton = styled(Button)`
+    background-color: #32CD32;
 `
 
 const Label = styled.label`
     display: flex;
     justify-content: space-between;
-    padding: 40px;
+    padding: 20px 0;
     width: 100%;
+    border-top: ${props => props.primary ? '2px solid rgba(106, 216, 86, 0.4)' : 'none'};
 `
 
 const Input = styled.input`
     width: 30rem;
     padding: 5px;
     font-size: 1rem;
-    border: 2px solid #6bab90;
-    border-radius: 3px;
-    color: #5e4c5a;
+    border: 2px solid #6AD856;
+    border-radius: 5px;
+`
+
+const Div = styled.div`
+    width: 100%;
+`
+
+const H1 = styled.h1`
+    color: white;
+    font-size: 2.8rem;
+    font-weight: bold;
+    padding: 70px;
+    margin: 0;
+    border-bottom: 2px solid #00CC00;
+    background-color: rgba(106, 216, 86, 0.9);
 `
 
 const H2 = styled.h2`
@@ -59,14 +74,18 @@ const H5 = styled.h5`
 
 const Ul = styled.ul`
     text-align: left;
-    width: 80%;
     margin: auto;
+    padding: 20px 0;
+    line-height: 1.5;
+    list-style: inside;
 `
 
 const Ol = styled.ol`
     text-align: left;
-    width: 80%;
     margin: auto;
+    padding: 20px 0;
+    line-height: 1.5;
+    list-style: inside decimal;
 `
 
 const formSchema = yup.object().shape({
@@ -148,7 +167,6 @@ function RecipeForm(props) {
 
     const submitForm = e => {
         e.preventDefault();
-        props.setRecipes(recipeState);
         props.postRecipe(recipeState);
         console.log("Submitted!")
         setSubmitted(true);
@@ -169,7 +187,10 @@ function RecipeForm(props) {
       return (<p>Please wait...</p>);
     } else {
       return (
+        <Div>
+          <H1>Secret Family Recipes</H1>
           <StyledForm onSubmit={submitForm}>
+              <H2>Add a Recipe</H2>
               <Label htmlFor="title">
                   <H5>Title</H5>
                   <Input
@@ -182,8 +203,8 @@ function RecipeForm(props) {
                   />
               </Label>
               {errorState.title.length > 0 ? (<p>{errorState.title}</p>) : null}
-              <Label htmlFor="newIngredient">
-                  <H5>Ingredient</H5>
+              <Label primary htmlFor="newIngredient">
+                  <H5>New Ingredient</H5>
                   <Input
                       type="text"
                       name="newIngredient"
@@ -193,7 +214,7 @@ function RecipeForm(props) {
                       onChange={inputChange}
                   />
               </Label>
-              <button onClick={addIngredient}>Add Ingredient</button>
+              <Button onClick={addIngredient}>Add Ingredient</Button>
               {/* Need to figure out how to get this ingredients error to show */}
               {errorState.ingredients.length > 0 ? (<p>{errorState.ingredients}</p>) : null}
               <div>
@@ -206,8 +227,8 @@ function RecipeForm(props) {
                       })}
                   </Ul>
               </div>
-              <Label htmlFor="newStep">
-                  <H5>Steps</H5>
+              <Label primary htmlFor="newStep">
+                  <H5>New Step</H5>
                   <Input
                       type="text"
                       name="newStep"
@@ -217,7 +238,7 @@ function RecipeForm(props) {
                       onChange={inputChange}
                   />
               </Label>
-              <button onClick={addStep}>Add Step</button>
+              <Button onClick={addStep}>Add Step</Button>
               <div>
                   <H5 primary>Steps:</H5>
                   <Ol>
@@ -228,8 +249,8 @@ function RecipeForm(props) {
                       })}
                   </Ol>
               </div>
-              <Label htmlFor="newTag">
-                  <H5>Categories</H5>
+              <Label primary htmlFor="newTag">
+                  <H5>New Category</H5>
                   <Input
                       type="text"
                       name="newTag"
@@ -239,7 +260,7 @@ function RecipeForm(props) {
                       onChange={inputChange}
                   />
               </Label>
-              <button onClick={addTag}>Add Category</button>
+              <Button onClick={addTag}>Add Category</Button>
               <div>
                   <H5 primary>Categories:</H5>
                   <Ul>
@@ -250,7 +271,7 @@ function RecipeForm(props) {
                       })}
                   </Ul>
               </div>
-              <Label htmlFor="source">
+              <Label primary htmlFor="source">
                   <H5>Source</H5>
                   <Input
                       type="text"
@@ -261,9 +282,10 @@ function RecipeForm(props) {
                       onChange={inputChange}
                   />
               </Label>
-              <Button>Add Recipe</Button>
+              <SubmitButton>Add Recipe</SubmitButton>
               {props.error!==''?<p>{props.error}</p>:<></>}
           </StyledForm>
+        </Div>
       )
     }
 }
