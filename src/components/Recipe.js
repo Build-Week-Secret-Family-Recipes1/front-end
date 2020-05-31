@@ -105,7 +105,7 @@ function Recipe(props) {
               <ul>
                   {recipeState.ingredients.map(ingredient => {
                       return (
-                          <li>{ingredient}</li>
+                          <li key={`${ingredient+Date.now()}`}>{ingredient}</li>
                       )
                   })}
               </ul>
@@ -113,7 +113,7 @@ function Recipe(props) {
               <ol>
                   {recipeState.steps.map(step => {
                       return (
-                          <Li>{step}</Li>
+                          <Li key={`${step+Date.now()}`}>{step}</Li>
                       )
                   })}
               </ol>
