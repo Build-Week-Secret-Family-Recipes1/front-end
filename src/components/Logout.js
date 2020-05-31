@@ -5,28 +5,31 @@ import { logoutUser } from "../actions";
 
 function Logout(props) {
     const [error, setError] = useState(null);
-    const [redirect, setRedirect] = useState(null);
+    const [redirect, setRedirect] = useState(false);
     const [submitted, setSubmitted] = useState(false);
 
     useEffect(()=>{
-      if (submitted && props.resStatus!==null && props.error==='') {
+      if (submitted && props.resStatus!==null) {
         console.log(props.resStatus);
         props.func(props.user);
+        console.log("Time to go home");
         setRedirect('/home');
       }
     },[submitted, props.resStatus, props.error]);
 
     useEffect(()=>{
-      setError(props.error);
-      setSubmitted(false);
+      if (props.error && props.error !== '') {
+        setError(props.error);
+        setSubmitted(false);
+      }
     },[props.error]);
 
     useEffect(()=>{
-      logoutUser(props.user);
+      props.logoutUser(props.user);
       setSubmitted(true);
     },[]);
 
-    if (redirect !== null) {
+    if (redirect) {
       return (
         <Redirect to={redirect} />
       );
@@ -34,7 +37,7 @@ function Logout(props) {
       return (<p>Logging Out...</p>);
     } else {
       return (
-        <div>{error!==null?{error}:<></>}</div>
+      <>{error!==null?<div>{error}</div>:<></>}</>
       );
     }
   }

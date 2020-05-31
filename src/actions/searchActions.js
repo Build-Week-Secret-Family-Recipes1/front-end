@@ -5,7 +5,7 @@ import * as t from "./types";
 
 export const getListByTitleSearch = (searchFilter) => async dispatch => {
   dispatch({ type: t.FETCHING_LIST_START });
-  console.log(`Fetching list`);
+  console.log(`Fetching list - Title Filter: ${searchFilter}`);
   if (isDev()) {
     const testListF = filterRecipeListByUserId(testList);
     const testListF2 = testListF.filter(r=>r.title.toLowerCase().includes(searchFilter.toLowerCase()));
@@ -34,7 +34,7 @@ const tagsInclude = (tag, searchFilter) => {
 
 export const getListByTagSearch = (searchFilter) => async dispatch => {
   dispatch({ type: t.FETCHING_LIST_START });
-  console.log(`Fetching list`);
+  console.log(`Fetching list - Tag Filter ${searchFilter}`);
   if (isDev()) {
     const testListF = filterRecipeListByUserId(testList);
     const testListF2 = [];
