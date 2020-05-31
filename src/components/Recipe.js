@@ -1,7 +1,7 @@
-import React from 'react';
-import { axiosWithAuth } from '../utils/axiosWithAuth';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import { deleteRecipe, getRecipe } from "../actions";
+import { connect } from "react-redux";
+import { Link, useParams, Redirect } from 'react-router-dom';
 
 import styled from 'styled-components';
 
@@ -48,46 +48,99 @@ const Button = styled.button`
 
 
 function Recipe(props) {
-    const deleteRecipe = () => {
-        const recipeId = props.id;
-        axios.delete(`api-url/${recipeId}`)
-            .then(response => {
-                console.log('Deleted!')
-            })
-            .catch(error => {
-                console.log(error)
-            })
+    const [recipeState, setRecipeState] = useState(props.recipe || {
+      id: null,
+      user_id: null,
+      title: 'AAA',
+    	source: '',
+    	ingredients: [],
+    	steps: [],
+    	tags: []
+    });
+    const [toDelete,setToDelete] = useState(false);
+    const [redirect, setRedirect] = useState(false);
+    const {id} = useParams();
+
+    useEffect(()=>{
+      if (props.recipe) {
+        setRecipeState(props.recipe)
+      }
+    },[props.recipe]);
+
+    useEffect(()=>{
+      if (props.recipeFromProps) {
+        setRecipeState(props.recipeFromProps)
+      }
+    },[props.recipeFromProps]);
+
+    useEffect(()=>{
+      if (parseInt(id)>=0) {
+        props.getRecipe(parseInt(id));
+      }
+    },[id, props.getRecipe]);
+
+    const deleteMe = (e) => {
+      e.preventDefault();
+      setToDelete(true);
+      props.deleteRecipe(recipeState.id);
     }
 
-    return (
-        <RecipeCard>
-            <H3>{props.title}</H3>
-            <H5>{props.source}</H5>
-            <p>Categories:</p>
-            <p>Ingredients</p>
-            <ul>
-                {props.ingredients.map(ingredient => {
-                    return (
-                        <Li>{ingredient}</Li>
-                    )
-                })}
-            </ul>
-            <p>Instructions</p>
-            <ol>
-                {props.steps.map(step => {
-                    return (
-                        <Li>{step}</Li>
-                    )
-                })}
-            </ol>
-            <ButtonContainer>
-                <Link to={`/edit/${props.id}`}>
-                    <Button>Edit</Button>
-                </Link>
-                <Button secondary onClick={deleteRecipe}>Delete</Button>
-            </ButtonContainer>
-        </RecipeCard>
-    )
+    useEffect(()=>{
+      if (toDelete && !props.isPosting && props.resStatus!==null) {
+        setRedirect("/");
+      }
+    },[toDelete, props.isPosting, props.resStatus]);
+
+    if (redirect) {
+      return (<Redirect to={redirect} />);
+    } else if (props.isPosting) {
+      return (<p>Please wait...</p>);
+    } else {
+      return (
+          <RecipeCard>
+              <H3>{recipeState.title}</H3>
+              <H5>{recipeState.source}</H5>
+              <p>Categories:</p>
+              <p>Ingredients</p>
+              <ul>
+                  {recipeState.ingredients.map(ingredient => {
+                      return (
+                          <li>{ingredient}</li>
+                      )
+                  })}
+              </ul>
+              <p>Instructions</p>
+              <ol>
+                  {recipeState.steps.map(step => {
+                      return (
+                          <Step>{step}</Step>
+                      )
+                  })}
+              </ol>
+              <ButtonContainer>
+                  <Link to={`/edit/${recipeState.id}`}>
+                      <Button>Edit</Button>
+                  </Link>
+                  <Button secondary onClick={deleteMe}>Delete</Button>
+                  {props.error!==''?<p>{props.error}</p>:<></>}
+              </ButtonContainer>
+          </RecipeCard>
+      )
+    }
 }
 
-export default Recipe;
+// hook up the connect to our store
+const mapStateToProps = state => {
+  return {
+    recipe: state.recipe,
+    isFetching: state.isFetching,
+    isPosting: state.isPosting,
+    error: state.error,
+    resStatus: state.resStatus
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { deleteRecipe, getRecipe }
+)(Recipe);

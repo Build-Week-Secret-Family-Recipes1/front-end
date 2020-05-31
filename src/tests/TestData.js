@@ -22,7 +22,7 @@ export const testRecipe0 = {
     'Preheat oven to 375 degrees F (190 degrees C). Line baking sheet with parchment paper.',
     'Scoop out rounded tablespoons of dough and place on prepared baking sheet, leaving 4 inches of space between cookies (about 8 per sheet). Bake in preheated oven until cookies are golden brown, about 12 minutes. Slide parchment and cookies onto a cooling rack for a few minutes. Remove parchment and finish cooling the cookies on the rack.'
   ],
-  tags: ['desert','cookies','sweet']
+  tags: ['dessert','cookies','sweet']
 };
 
 export const testRecipe1 = {

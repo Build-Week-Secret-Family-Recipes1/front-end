@@ -136,7 +136,6 @@ export const reducer = (state = initialState, action) => {
         ...state,
         isPosting: false,
         error: "",
-        list: action.payload.data,
         resStatus: action.payload.resStatus,
       };
     case DELETING_RECIPE_FAILURE:

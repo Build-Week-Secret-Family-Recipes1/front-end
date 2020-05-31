@@ -27,17 +27,12 @@ function RecipeList(props) {
       return (
           <Wrapper className="recipe-list-wrapper">
 
-            {props.list.map((object) => {
-              /* console.log('setRecipeToEdit from RecipeList', props.editRecipe) */
+            {props.list.map(recipe => {
               return (
                 <Recipe
                   {...props}
-                  id={object.id}
-                  title={object.title}
-                  source={object.source}
-                  ingredients={object.ingredients}
-                  steps={object.steps}
-                  tags={object.tags}
+                  recipeFromProps={recipe}
+                  key={recipe.id}
                 />
               )
             })}
@@ -46,7 +41,7 @@ function RecipeList(props) {
                   each recipe card will show the title, source, and tags
                   will link to full recipe
               */}
-         
+
 
              {props.error!==''?<p>{props.error}</p>:<></>}
             </Wrapper>

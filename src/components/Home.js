@@ -39,10 +39,10 @@ function Home(props) {
         <Div>
             <H1>Secret Family Recipes</H1>
             <div>
-                <SearchBar recipes={recipes}/>
-                <RecipeList {...props} recipes={recipes}/>
-                <RecipeForm setRecipes={setRecipes}/>
-                <EditRecipe setRecipes={setRecipes}/>
+                {/* <SearchBar recipes={recipes}/> */}
+                <RecipeList {...props} />
+                {/* <RecipeForm setRecipes={setRecipes}/>
+                <EditRecipe setRecipes={setRecipes}/> */}
                 {/*
                 will show a list of recipes
                 will have button to add a new recipe (will link to RecipeForm)
