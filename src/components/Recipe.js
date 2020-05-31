@@ -113,7 +113,7 @@ function Recipe(props) {
               <ol>
                   {recipeState.steps.map(step => {
                       return (
-                          <Step>{step}</Step>
+                          <Li>{step}</Li>
                       )
                   })}
               </ol>
