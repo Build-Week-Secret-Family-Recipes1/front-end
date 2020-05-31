@@ -62,6 +62,7 @@
 ```
 recipe: {
   id: number,
+  user_id: number,
 	title: string,
 	source: string,
 	ingredients: Array<string>,

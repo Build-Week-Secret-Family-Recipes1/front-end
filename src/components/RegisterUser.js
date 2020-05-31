@@ -2,6 +2,73 @@ import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import {registerUser} from "../actions";
 import { Redirect, Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const StyledForm = styled.form`
+    width: 45vw;
+    padding: 20px;
+    margin: 50px 25vw;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #32CD32;
+    border-radius: 5px;
+`
+
+const H1 = styled.h1`
+    color: white;
+    font-size: 2.8rem;
+    font-weight: bold;
+    padding: 70px;
+    margin: 0;
+    border-bottom: 2px solid #00CC00;
+    background-color: rgba(106, 216, 86, 0.9);
+`
+
+const H2 = styled.h2`
+    font-size: 2.5rem;
+`
+
+const InputContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px 0;
+`
+
+const Label = styled.label`
+    display: inline-block;
+    font-size: 1.1rem;
+    width: 30%;
+    padding: 10px 0;
+    text-align: right;
+`
+
+const Input = styled.input`
+    padding: 5px;
+    font-size: 1rem;
+    border: 2px solid #6AD856;
+    border-radius: 5px;
+    width: 40%;
+`
+
+const Button = styled.button`
+    display: inline-block;
+    padding: 10px;
+    margin: 30px auto;
+    width: 9rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    background-color: ${props => props.secondary ? '#FE9A76' : '#6AD856'};
+    color: white;
+`
+
+const P = styled.p`
+  font-size: 1rem;
+`
+
+const Span = styled.span`
+  color: green;
+`
 
 function RegisterUser (props) {
   const [error, setError] = useState('');
@@ -43,39 +110,46 @@ function RegisterUser (props) {
    } else {
     return (
       <div className="loginForm">
-        <form onSubmit={register}>
-          <h2>Register</h2>
-          <label htmlFor="username">Username: </label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            value={credentials.username}
-            onChange={handleChange}
-            placeholder="Username"
-          /><br />
-          <label htmlFor="password">Password: </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={credentials.password}
-            onChange={handleChange}
-            placeholder="Password"
-          /><br />
-          <label htmlFor="passwordConfirm">Confirm Password: </label>
-          <input
-            type="password"
-            name="passwordConfirm"
-            id="passwordConfirm"
-            value={credentials.passwordConfirm}
-            onChange={handleChange}
-            placeholder="Confirm Password"
-          /><br />
+        <H1>Secret Family Recipes</H1>
+        <StyledForm onSubmit={register}>
+          <H2>Register</H2>
+          <InputContainer>
+            <Label htmlFor="username">Username: </Label>
+            <Input
+              type="text"
+              name="username"
+              id="username"
+              value={credentials.username}
+              onChange={handleChange}
+              placeholder="Username"
+            />
+          </InputContainer>
+          <InputContainer>
+            <Label htmlFor="password">Password: </Label>
+            <Input
+              type="password"
+              name="password"
+              id="password"
+              value={credentials.password}
+              onChange={handleChange}
+              placeholder="Password"
+            />
+          </InputContainer>
+          <InputContainer>
+            <Label htmlFor="passwordConfirm">Confirm Password: </Label>
+            <Input
+              type="password"
+              name="passwordConfirm"
+              id="passwordConfirm"
+              value={credentials.passwordConfirm}
+              onChange={handleChange}
+              placeholder="Confirm Password"
+            />
+          </InputContainer>
           {error !== ''?<div><p>{error}</p><br /></div>:<></>}
-          <button className="loginBtn">Register</button>
-          <p>Already registered? <Link to="/login">Log In Here!</Link></p>
-        </form>
+          <Button className="loginBtn">Register</Button>
+          <P>Already registered? <Link to="/login" style={{ textDecoration: 'none' }}><Span>Log In Here!</Span></Link></P>
+        </StyledForm>
       </div>
     );
   }

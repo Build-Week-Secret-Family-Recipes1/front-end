@@ -1,9 +1,92 @@
 import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
-import { postRecipe } from "../actions";
+import { updateRecipe, getRecipe } from "../actions";
 import { connect } from "react-redux";
 import { Redirect, useParams } from "react-router-dom";
-import { getRecipe } from "../actions";
+import styled from 'styled-components';
+
+const StyledForm = styled.form`
+    width: 45vw;
+    padding: 20px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #32CD32;
+    border-radius: 5px;
+`
+
+const Button = styled.button`
+    display: inline-block;
+    padding: 10px;
+    margin: 20px;
+    width: 9rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: ${props => props.secondary ? '#FE9A76' : '#6AD856'};
+    color: white;
+`
+
+const SubmitButton = styled(Button)`
+    background-color: #32CD32;
+`
+
+const Label = styled.label`
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    width: 100%;
+    border-top: ${props => props.primary ? '2px solid rgba(106, 216, 86, 0.4)' : 'none'};
+`
+
+const Input = styled.input`
+    width: 30rem;
+    padding: 5px;
+    font-size: 1rem;
+    border: 2px solid #6AD856;
+    border-radius: 5px;
+`
+
+const Div = styled.div`
+    width: 100%;
+`
+
+const H1 = styled.h1`
+    color: white;
+    font-size: 2.8rem;
+    font-weight: bold;
+    padding: 70px;
+    margin: 0;
+    border-bottom: 2px solid #00CC00;
+    background-color: rgba(106, 216, 86, 0.9);
+`
+
+const H2 = styled.h2`
+    font-size: 2.5rem;
+`
+
+const H5 = styled.h5`
+    padding: ${props => props.primary ? '20px' : '5px'};
+    font-size: 1.1rem;
+    margin: 0;
+`
+
+const Ul = styled.ul`
+    text-align: left;
+    margin: auto;
+    padding: 20px 0;
+    line-height: 1.5;
+    list-style: inside;
+`
+
+const Ol = styled.ol`
+    text-align: left;
+    margin: auto;
+    padding: 20px 0;
+    line-height: 1.5;
+    list-style: inside decimal;
+`
 
 const formSchema = yup.object().shape({
     id: yup.number(),
@@ -30,7 +113,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
         newIngredient: '',
         ingredients: [],
         newStep: '',
-        steps: ['Test step'],
+        steps: [],
         newTag: '',
         tags: []
     });
@@ -40,7 +123,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
         console.log('id', id);
 
         getRecipe(parseInt(id));
-        
+
     }, [params.id]);
 
     useEffect(() => {
@@ -107,11 +190,9 @@ function EditRecipe({getRecipe, recipe, ...props}) {
 
     const submitForm = e => {
         e.preventDefault();
-        props.setRecipes(recipeState);
-        props.postRecipe(recipeState);
+        props.updateRecipe(recipeState);
         console.log("Submitted!");
         setSubmitted(true);
-        setRedirect('/');
     }
 
     useEffect(()=>{
@@ -124,15 +205,17 @@ function EditRecipe({getRecipe, recipe, ...props}) {
 
     if (redirect !== null) {
       return (<Redirect to={redirect} />);
-    } else if (props.isPosting) {
+    } else if (props.isPosting || props.isFetching) {
       return (<p>Please wait...</p>);
     } else {
       return (
-          <form onSubmit={submitForm}>
-              <h2>Edit this Recipe</h2>
-              <label htmlFor="title">
-                  New Title
-                  <input
+        <Div>
+          <H1>Secret Family Recipes</H1>
+          <StyledForm onSubmit={submitForm}>
+              <H2>Edit this Recipe</H2>
+              <Label htmlFor="title">
+                  <H5>New Title</H5>
+                  <Input
                       type="text"
                       name="title"
                       id="title"
@@ -140,11 +223,11 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                       value={recipeState.title}
                       onChange={inputChange}
                   />
-              </label>
+              </Label>
               {errorState.title.length > 0 ? (<p>{errorState.title}</p>) : null}
-              <label htmlFor="newIngredient">
-                  New Ingredient
-                  <input
+              <Label primary htmlFor="newIngredient">
+                  <H5>New Ingredient</H5>
+                  <Input
                       type="text"
                       name="newIngredient"
                       id="newIngredient"
@@ -152,23 +235,23 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                       value={recipeState.newIngredient}
                       onChange={inputChange}
                   />
-              </label>
-              <button onClick={addIngredient}>Add Ingredient</button>
+              </Label>
+              <Button onClick={addIngredient}>Add Ingredient</Button>
               {/* Need to figure out how to get this ingredients error to show */}
               {errorState.ingredients.length > 0 ? (<p>{errorState.ingredients}</p>) : null}
               <div>
-                  <h5>Ingredients</h5>
-                  <ul>
+                  <H5>Ingredients:</H5>
+                  <Ul>
                       {recipeState.ingredients.map((ingredient) => {
                           return (
                               <li>{ingredient}</li>
                           )
                       })}
-                  </ul>
+                  </Ul>
               </div>
-              <label htmlFor="newStep">
-                  New Steps
-                  <input
+              <Label primary htmlFor="newStep">
+                  <H5>New Step</H5>
+                  <Input
                       type="text"
                       name="newStep"
                       id="newStep"
@@ -176,21 +259,21 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                       value={recipeState.newStep}
                       onChange={inputChange}
                   />
-              </label>
-              <button onClick={addStep}>Add Step</button>
+              </Label>
+              <Button onClick={addStep}>Add Step</Button>
               <div>
-                  <h5>Steps</h5>
-                  <ol>
+                  <H5>Steps:</H5>
+                  <Ol>
                       {recipeState.steps.map((step) => {
                           return (
                               <li>{step}</li>
                           )
                       })}
-                  </ol>
+                  </Ol>
               </div>
-              <label htmlFor="newTag">
-                  New Category
-                  <input
+              <Label primary htmlFor="newTag">
+                  <H5>New Category</H5>
+                  <Input
                       type="text"
                       name="newTag"
                       id="newTag"
@@ -198,21 +281,21 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                       value={recipeState.newTag}
                       onChange={inputChange}
                   />
-              </label>
-              <button onClick={addTag}>Add Category</button>
+              </Label>
+              <Button onClick={addTag}>Add Category</Button>
               <div>
-                  <h5>Categories</h5>
-                  <ul>
+                  <H5>Categories:</H5>
+                  <Ul>
                       {recipeState.tags.map((tag) => {
                           return (
                               <li>{tag}</li>
                           )
                       })}
-                  </ul>
+                  </Ul>
               </div>
-              <label htmlFor="source">
-                  New Source
-                  <input
+              <Label primary htmlFor="source">
+                  <H5>New Source</H5>
+                  <Input
                       type="text"
                       name="source"
                       id="source"
@@ -220,10 +303,11 @@ function EditRecipe({getRecipe, recipe, ...props}) {
                       value={recipeState.source}
                       onChange={inputChange}
                   />
-              </label>
-              <button>Add Recipe</button>
+              </Label>
+              <SubmitButton>Update Recipe</SubmitButton>
               {props.error!==''?<p>{props.error}</p>:<></>}
-          </form>
+          </StyledForm>
+        </Div>
       )
     }
 }
@@ -232,6 +316,7 @@ function EditRecipe({getRecipe, recipe, ...props}) {
 const mapStateToProps = state => {
   return {
     recipe: state.recipe,
+    isFetching: state.isFetching,
     isPosting: state.isPosting,
     error: state.error,
     resStatus: state.resStatus
@@ -240,5 +325,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { postRecipe, getRecipe }
+  { updateRecipe, getRecipe }
 )(EditRecipe);

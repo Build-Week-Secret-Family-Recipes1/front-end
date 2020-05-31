@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin: 50px 0;
 `
 
 function RecipeList(props) {
@@ -27,22 +28,26 @@ function RecipeList(props) {
       return (
           <Wrapper className="recipe-list-wrapper">
 
-            {props.list.map((object) => {
-              /* console.log('setRecipeToEdit from RecipeList', props.editRecipe) */
+            {props.list.map(recipe => {
               return (
                 <Recipe
                   {...props}
-                  id={object.id}
-                  title={object.title}
-                  source={object.source}
-                  ingredients={object.ingredients}
-                  steps={object.steps}
-                  tags={object.tags}
+                  recipeFromProps={recipe}
+                  key={recipe.id}
                 />
               )
             })}
+<<<<<<< HEAD
              <Link to='/new'>New Recipe</Link>
          
+=======
+              {/*
+                  will map over data and add a recipe card for each recipe
+                  each recipe card will show the title, source, and tags
+                  will link to full recipe
+              */}
+
+>>>>>>> 70836fe57b2469dce74707140c3f3b4cc0c6f4fe
 
              {props.error!==''?<p>{props.error}</p>:<></>}
             </Wrapper>
