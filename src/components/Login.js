@@ -75,7 +75,7 @@ function Login (props) {
   const login = (e) => {
     e.preventDefault();
     setSubmitted(true);
-    loginUser(credentials);
+    props.loginUser(credentials);
   };
 
   useEffect(()=>{
@@ -87,8 +87,10 @@ function Login (props) {
   },[submitted, props.resStatus, props.error]);
 
   useEffect(()=>{
-    setError(props.error);
-    setSubmitted(false);
+    if (props.error && props.error !== '') {
+      setError(props.error);
+      setSubmitted(false);
+    }
   },[props.error]);
 
 
@@ -126,7 +128,7 @@ function Login (props) {
             />
           </InputContainer>
           {error?<p>{error}</p>:<></>}
-          <Button className="loginBtn">Log in</Button>
+          <Button className="loginBtn" onClick={login}>Log in</Button>
 
           <P>Not a member yet? <Link to={'/register'} style={{ textDecoration: 'none' }}><Span>Sign Up Here!</Span></Link></P>
         </StyledForm>

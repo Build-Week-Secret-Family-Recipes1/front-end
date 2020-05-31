@@ -75,23 +75,28 @@ function RegisterUser (props) {
 
   const register = e => {
     e.preventDefault();
-
-    if (credentials.password === credentials.passwordConfirm){
+    console.log("Register Clicked");
+    if (credentials.password === credentials.passwordConfirm && credentials.password!==''){
       setSubmitted(true);
-      registerUser(credentials);
+      props.registerUser(credentials);
     }
   };
 
    useEffect(()=>{
      if (submitted && !props.isPosting && !props.isFetching && props.resStatus!==null) {
        props.func(credentials.username);
+       console.log("Register Successful");
+       console.log("Time to go home");
        setRedirect("/home");
      }
    },[submitted, props.isPosting, props.resStatus, props.isFetching])
 
    useEffect(()=>{
-     setError(props.error);
-   },[props.error])
+     if (props.error && props.error !== '') {
+       setError(props.error);
+       setSubmitted(false);
+     }
+   },[props.error]);
 
    if (redirect) {
      return (<Redirect to={redirect} />);
@@ -136,7 +141,7 @@ function RegisterUser (props) {
             />
           </InputContainer>
           {error !== ''?<div><p>{error}</p><br /></div>:<></>}
-          <Button className="loginBtn">Register</Button>
+          <Button className="loginBtn" onClick={register}>Register</Button>
           <P>Already registered? <Link to="/login" style={{ textDecoration: 'none' }}><Span>Log In Here!</Span></Link></P>
         </StyledForm>
       </div>
