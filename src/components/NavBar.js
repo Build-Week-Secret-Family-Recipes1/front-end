@@ -11,7 +11,7 @@ export default function (){
     return (
         <div className='nav-container'>
           {nav.map(navItem => (
-              <nav>
+              <nav key={`${navItem.name+Date.now}`}>
                   <Link to={`${navItem.path}`}><button>{`${navItem.name}`}</button></Link>
               </nav>
               
