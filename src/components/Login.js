@@ -85,8 +85,7 @@ function Login (props) {
   const login = (e) => {
     e.preventDefault();
     setSubmitted(true);
-    console.log(credentials);
-    loginUser(credentials);
+    props.loginUser(credentials);
   };
 
   useEffect(()=>{
@@ -98,8 +97,10 @@ function Login (props) {
   },[submitted, props.resStatus, props.error]);
 
   useEffect(()=>{
-    setError(props.error);
-    setSubmitted(false);
+    if (props.error && props.error !== '') {
+      setError(props.error);
+      setSubmitted(false);
+    }
   },[props.error]);
 
 
