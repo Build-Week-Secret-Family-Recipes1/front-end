@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+import NavBar from './components/NavBar';
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import RegisterUser from "./components/RegisterUser";
@@ -34,6 +35,7 @@ function App(props) {
   return (
     <Router history={props.history}>
       <div className="App">
+        <NavBar />
         <Switch>
           <Route exact path="/recipes" component={RecipeList} />
           <Route exact path="/home" component={Home} />
