@@ -7,7 +7,7 @@ export const getUserId = (username) => {
     return 0;
   } else {
     axiosWithAuth()
-      .post("api/users")
+      .get("api/users")
       .then(res=>{
         const filteredUsers = res.data.filter(user=>user.username===username);
         if (filteredUsers.length>=1) {
