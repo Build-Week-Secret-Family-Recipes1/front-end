@@ -13,6 +13,18 @@ const Wrapper = styled.div`
   margin: 50px 0;
 `
 
+const Button = styled.button`
+    display: inline-block;
+    padding: 10px;
+    margin: 20px;
+    width: 9rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #6AD856;
+    color: white;
+`
+
 function RecipeList(props) {
   useEffect(()=>{
     props.getList();
@@ -37,7 +49,7 @@ function RecipeList(props) {
                 />
               )
             })}
-             <Link to='/new'>New Recipe</Link>
+             <Link to='/new'><Button>New Recipe</Button></Link>
 
               {/*
                   will map over data and add a recipe card for each recipe
