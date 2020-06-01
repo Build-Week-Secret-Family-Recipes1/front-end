@@ -20,13 +20,7 @@ export default function (){
         }}
         >
           {nav.map(navItem => (
-              <nav style={{
-                      backgroundColor: 'rgba(106,216,86,0.9)',
-                      color: 'lightgreen',
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'flex-end'
-                  }}>
+              <nav >
                   <Link to={`${navItem.path}`}><button style={{
                       border: '.5px solid white',
                       backgroundColor: 'rgba(111, 211, 86, 0.9)',
