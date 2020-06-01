@@ -8,10 +8,32 @@ export default function (){
     const nav = [home, recipes, form];
 
     return (
-        <div className='nav-container'>
+        <div className='fEKTmX' 
+        style={{
+            backgroundColor: 'rgba(106,216,86,0.9)',
+            borderRadius: '0',
+            display: 'flex',
+            flexDirection: "row",
+            justifyContent: 'space-around',
+            padding: '0',
+            margin: '0',
+        }}
+        >
           {nav.map(navItem => (
-              <nav>
-                  <Link to={`${navItem.path}`}><button>{`${navItem.name}`}</button></Link>
+              <nav style={{
+                      backgroundColor: 'rgba(106,216,86,0.9)',
+                      color: 'lightgreen',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'flex-end'
+                  }}>
+                  <Link to={`${navItem.path}`}><button style={{
+                      border: '.5px solid white',
+                      backgroundColor: 'rgba(111, 211, 86, 0.9)',
+                      color: 'white',
+                      height: '3.5rem',
+                      margin: '1rem'
+                  }}>{`${navItem.name}`}</button></Link>
               </nav>
               
           ))}
