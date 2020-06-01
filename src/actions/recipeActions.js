@@ -23,6 +23,7 @@ export const getRecipe = (recipeId) => async dispatch => {
     axiosWithAuth()
       .get(`api/recipes`)
       .then(res => {
+        console.log(res.data);
         const listF = filterRecipeListByUserId(res.data);
         const filteredList = listF.filter(r=>r.id===recipeId);
         if (filteredList.length>=1) {
@@ -55,6 +56,7 @@ export const getList = () => async dispatch => {
     axiosWithAuth()
       .get(`api/recipes`)
       .then(res => {
+        console.log(res.data);
         const listF = filterRecipeListByUserId(res.data);
         const modifiedList = listF.map(r=>modifyRecipe(r));
         dispatch({ type: t.FETCHING_LIST_SUCCESS, payload: {resStatus: res.status, list: modifiedList }});
