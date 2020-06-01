@@ -7,6 +7,7 @@ export const filterRecipeListByUserId = (list) => {
     return list;
   } else {
     const userId = sessionStorage.getItem("userId");
+    console.log(`Filtering for user id: userId`);
     if (userId!==null && userId !== undefined) {
       return list.filter(r=>r.user_id===userId);
     } else {
