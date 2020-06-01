@@ -131,11 +131,7 @@ function Recipe(props) {
               <ul>
                   {recipeState.ingredients.map(ingredient => {
                       return (
-<<<<<<< HEAD
                           <li key={`${ingredient+Date.now()}`}>{ingredient}</li>
-=======
-                          <Li>{ingredient}</Li>
->>>>>>> master
                       )
                   })}
               </ul>
