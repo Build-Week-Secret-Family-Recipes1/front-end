@@ -222,7 +222,7 @@ function RecipeForm(props) {
                   <Ul>
                       {recipeState.ingredients.map((ingredient) => {
                           return (
-                              <li>{ingredient}</li>
+                              <li key={`${ingredient+Date.now()}`}>{ingredient}</li>
                           )
                       })}
                   </Ul>
