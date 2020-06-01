@@ -28,7 +28,7 @@ function Home(props) {
     return (
         <Div>
             <div>
-                {/* <SearchBar recipes={recipes}/> */}
+                <SearchBar recipes={recipes}/>
                 <RecipeList {...props} />
                 {/* <RecipeForm setRecipes={setRecipes}/>
                 <EditRecipe setRecipes={setRecipes}/> */}
