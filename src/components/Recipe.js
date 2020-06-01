@@ -29,6 +29,12 @@ const Li = styled.li`
     line-height: 1.5;
 `
 
+const TagContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+`
+
 const ButtonContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
@@ -44,6 +50,14 @@ const Button = styled.button`
     border-radius: 5px;
     background-color: ${props => props.secondary ? '#FE9A76' : '#6AD856'};
     color: white;
+`
+
+const Tag = styled.p`
+  background-color: rgba(0, 204, 0, 0.7);
+  color: white;
+  padding: 10px;
+  margin: 0 10px;
+  border-radius: 5px;
 `
 
 
@@ -106,11 +120,22 @@ function Recipe(props) {
               <H3>{recipeState.title}</H3>
               <H5>{recipeState.source}</H5>
               <p>Categories:</p>
+              <TagContainer>
+                  {recipeState.tags.map(tag => {
+                      return (
+                          <Tag>{tag}</Tag>
+                      )
+                  })}
+              </TagContainer>
               <p>Ingredients</p>
               <ul>
                   {recipeState.ingredients.map(ingredient => {
                       return (
+<<<<<<< HEAD
                           <li key={`${ingredient+Date.now()}`}>{ingredient}</li>
+=======
+                          <Li>{ingredient}</Li>
+>>>>>>> master
                       )
                   })}
               </ul>

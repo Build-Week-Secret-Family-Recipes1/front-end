@@ -14,16 +14,6 @@ const StyledForm = styled.form`
     border-radius: 5px;
 `
 
-const H1 = styled.h1`
-    color: white;
-    font-size: 2.8rem;
-    font-weight: bold;
-    padding: 70px;
-    margin: 0;
-    border-bottom: 2px solid #00CC00;
-    background-color: rgba(106, 216, 86, 0.9);
-`
-
 const H2 = styled.h2`
     font-size: 2.5rem;
 `
@@ -85,7 +75,7 @@ function Login (props) {
   const login = (e) => {
     e.preventDefault();
     setSubmitted(true);
-    loginUser(credentials);
+    props.loginUser(credentials);
   };
 
   useEffect(()=>{
@@ -97,8 +87,10 @@ function Login (props) {
   },[submitted, props.resStatus, props.error]);
 
   useEffect(()=>{
-    setError(props.error);
-    setSubmitted(false);
+    if (props.error && props.error !== '') {
+      setError(props.error);
+      setSubmitted(false);
+    }
   },[props.error]);
 
 
@@ -111,7 +103,6 @@ function Login (props) {
   } else {
     return (
       <div className="loginForm">
-        <H1>Secret Family Recipes</H1>
         <StyledForm onSubmit={login}>
           <H2>Please Log In</H2>
           <InputContainer>
@@ -137,7 +128,7 @@ function Login (props) {
             />
           </InputContainer>
           {error?<p>{error}</p>:<></>}
-          <Button className="loginBtn">Log in</Button>
+          <Button className="loginBtn" onClick={login}>Log in</Button>
 
           <P>Not a member yet? <Link to={'/register'} style={{ textDecoration: 'none' }}><Span>Sign Up Here!</Span></Link></P>
         </StyledForm>

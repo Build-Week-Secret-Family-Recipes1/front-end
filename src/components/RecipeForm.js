@@ -52,16 +52,6 @@ const Div = styled.div`
     width: 100%;
 `
 
-const H1 = styled.h1`
-    color: white;
-    font-size: 2.8rem;
-    font-weight: bold;
-    padding: 70px;
-    margin: 0;
-    border-bottom: 2px solid #00CC00;
-    background-color: rgba(106, 216, 86, 0.9);
-`
-
 const H2 = styled.h2`
     font-size: 2.5rem;
 `
@@ -188,7 +178,6 @@ function RecipeForm(props) {
     } else {
       return (
         <Div>
-          <H1>Secret Family Recipes</H1>
           <StyledForm onSubmit={submitForm}>
               <H2>Add a Recipe</H2>
               <Label htmlFor="title">

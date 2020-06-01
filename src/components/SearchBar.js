@@ -148,10 +148,10 @@ function SearchBar({list, ...props}) {
               </Label>
               <Button onClick={submitHandler}>Search</Button>
           </SearchForm>
-          <Wrapper className="recipe-list-wrapper">
+          {/* <Wrapper className="recipe-list-wrapper"> */}
 
-            {list.map((object) => {
-              /* console.log('setRecipeToEdit from RecipeList', props.editRecipe) */
+           {/*  {list.map((object) => {
+              /* console.log('setRecipeToEdit from RecipeList', props.editRecipe) 
               return (
                 <Recipe
                   {...props}
@@ -159,7 +159,7 @@ function SearchBar({list, ...props}) {
                   key={object.id}
                 />
               )
-            })}
+            ) */}
               {/*
                   will map over data and add a recipe card for each recipe
                   each recipe card will show the title, source, and tags
@@ -168,7 +168,7 @@ function SearchBar({list, ...props}) {
 
 
              {props.error!==''?<p>{props.error}</p>:<></>}
-            </Wrapper>
+            {/* </Wrapper> */}
           </div>
       )
 
