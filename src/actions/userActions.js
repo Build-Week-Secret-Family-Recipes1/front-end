@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {axiosWithAuth, isDev} from "../utils";
 import * as t from "./types";
 
@@ -6,15 +7,16 @@ export const getUserId = (username) => {
     console.log("Dev - getUserId");
     return 0;
   } else {
-    axiosWithAuth()
-      .get("api/users")
+    axios
+      .get("api/users", {withCredentials: true})
       .then(res=>{
         const filteredUsers = res.data.filter(user=>user.username===username);
         if (filteredUsers.length>=1) {
           console.log(`User found (${username}, id:${filteredUsers[0].id})`);
+          sessionStorage.setItem("userId",filteredUsers[0].id);
           return filteredUsers[0].id;
         } else {
-          console.log(`User ${username} not found.`);
+          console.log(`Error retrieving user_id of ${username}`);
           return -1;
         }
       })
@@ -30,36 +32,18 @@ export const loginUser = (credentials) => async dispatch => {
   dispatch({ type: t.LOGIN_START, payload: credentials.username });
   if (isDev()) {
     const userId = getUserId(credentials.username);
-    if (userId>=0) {
-      console.log("Login Success");
-      console.log(`Welcome, ${credentials.username}!`);
-      dispatch({ type: t.LOGIN_SUCCESS, payload: {resStatus: '200', user: credentials.username, userId: userId }});
-      sessionStorage.setItem("user", credentials.username);
-      sessionStorage.setItem("userId", userId);
-    } else {
-      console.log(`Login Failure - No such user (${credentials.username})`);
-      dispatch({
-        type: t.LOGIN_FAILURE,
-        payload: `User ${credentials.username} not found`
-      });
-    }
+    console.log("Login Success");
+    console.log(`Welcome, ${credentials.username}!`);
+    dispatch({ type: t.LOGIN_SUCCESS, payload: {resStatus: '200', user: credentials.username, userId: userId }});
+    sessionStorage.setItem("user", credentials.username);
   } else {
     axiosWithAuth()
       .post("/auth/login", {username: credentials.username, password: credentials.password})
       .then(res => {
         const userId = getUserId(credentials.username);
-        if (userId>=0) {
-          console.log("Login Success");
-          dispatch({ type: t.LOGIN_SUCCESS, payload: {resStatus: res.status, user: credentials.username, userId: userId }});
-          sessionStorage.setItem("user", credentials.username);
-          sessionStorage.setItem("userId", userId);
-        } else {
-          console.log(`Login Failure - No such user (${credentials.username})`);
-          dispatch({
-            type: t.LOGIN_FAILURE,
-            payload: `User ${credentials.username} not found`
-          });
-        }
+        console.log("Login Success");
+        dispatch({ type: t.LOGIN_SUCCESS, payload: {resStatus: res.status, user: credentials.username, userId: userId }});
+        sessionStorage.setItem("user", credentials.username);
       })
     .catch(err => {
       console.log("Login Error");
