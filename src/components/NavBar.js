@@ -1,12 +1,11 @@
 import React from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 export default function (){
     const home = {path: '/', name: 'Home'};
     const recipes = {path: '/recipes', name: 'Recipes'};
     const form = {path: '/new', name: 'Add New Recipe'};
     const nav = [home, recipes, form];
-    const {id} = useParams();
 
     return (
         <div className='nav-container'>
