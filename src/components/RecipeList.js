@@ -49,17 +49,6 @@ function RecipeList(props) {
                 />
               )
             })}
-<<<<<<< HEAD
-=======
-             <Link to='/new'><Button>New Recipe</Button></Link>
->>>>>>> master
-
-              {/*
-                  will map over data and add a recipe card for each recipe
-                  each recipe card will show the title, source, and tags
-                  will link to full recipe
-              */}
-
 
              {props.error!==''?<p>{props.error}</p>:<></>}
             </Wrapper>
