@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import styled from 'styled-components';
 
 import NavBar from './components/NavBar';
 import Login from "./components/Login";
@@ -15,6 +16,20 @@ import PrivateRoute from "./components/PrivateRoute";
 import { useSessionStorage } from "./hooks/useSessionStorage";
 import "./styles.scss";
 
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const H1 = styled.h1`
+    color: white;
+    font-size: 2.8rem;
+    font-weight: bold;
+    padding: 70px;
+    margin: 0;
+    border-bottom: 2px solid #00CC00;
+    background-color: rgba(106, 216, 86, 0.9);
+`
 
 function App(props) {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -30,8 +45,9 @@ function App(props) {
 
   return (
     <Router history={props.history}>
-      <div className="App">
+      <AppContainer className="App">
         <NavBar />
+        <H1>Secret Family Recipes</H1>
         <Switch>
           <PrivateRoute exact path="/recipes" component={RecipeList} />
           <PrivateRoute exact path="/home" component={Home} />
@@ -44,7 +60,7 @@ function App(props) {
           <Route path="/register" render={(props)=> <RegisterUser {...props} func={login} />}/>
           {!loggedIn?<Route render={(props)=> <Login {...props} func={login} />}/>:<PrivateRoute component={Home} />}
         </Switch>
-      </div>
+      </AppContainer>
     </Router>
   );
 }

@@ -14,16 +14,6 @@ const StyledForm = styled.form`
     border-radius: 5px;
 `
 
-const H1 = styled.h1`
-    color: white;
-    font-size: 2.8rem;
-    font-weight: bold;
-    padding: 70px;
-    margin: 0;
-    border-bottom: 2px solid #00CC00;
-    background-color: rgba(106, 216, 86, 0.9);
-`
-
 const H2 = styled.h2`
     font-size: 2.5rem;
 `
@@ -113,7 +103,6 @@ function Login (props) {
   } else {
     return (
       <div className="loginForm">
-        <H1>Secret Family Recipes</H1>
         <StyledForm onSubmit={login}>
           <H2>Please Log In</H2>
           <InputContainer>
