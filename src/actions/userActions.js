@@ -5,6 +5,7 @@ import * as t from "./types";
 export const getUserId = (username) => {
   if (isDev()) {
     console.log("Dev - getUserId");
+    sessionStorage.setItem("userId",0);
     return 0;
   } else {
     axios
