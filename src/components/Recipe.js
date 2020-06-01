@@ -91,6 +91,11 @@ function Recipe(props) {
       }
     },[toDelete, props.isPosting, props.resStatus]);
 
+
+    console.log('recipeState in Recipe.js: ', recipeState)
+    console.log('...')
+    console.log('recipeState ingredients in Recipe.js: ', recipeState.ingredients)
+    
     if (redirect) {
       return (<Redirect to={redirect} />);
     } else if (props.isPosting) {
