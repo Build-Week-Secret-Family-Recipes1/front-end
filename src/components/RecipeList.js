@@ -37,7 +37,6 @@ function RecipeList(props) {
                 />
               )
             })}
-             <Link to='/new'>New Recipe</Link>
 
               {/*
                   will map over data and add a recipe card for each recipe
